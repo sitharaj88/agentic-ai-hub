@@ -13,9 +13,12 @@
     "type": "git",
     "url": "git+https://github.com/sitharaj88/agentic-ai-hub.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["ai-agents", "agentic-ai", "llm", "frameworks", "langchain", "langgraph", "crewai", "mcp"],
+  "author": {
+    "name": "Sitharaj Seenivasan",
+    "url": "https://sitharaj.in"
+  },
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/sitharaj88/agentic-ai-hub/issues"
   },

@@ -161,7 +161,9 @@ export default function HomePage() {
                   </p>
                 </div>
                 <div className="mt-auto flex items-center gap-3 text-xs" style={{ color: "var(--text-muted)" }}>
-                  <span className="rounded-full bg-[var(--bg-tertiary)] px-2 py-0.5">{path.difficulty}</span>
+                  <span className={`badge-${path.difficulty.toLowerCase()} rounded-full px-2 py-0.5 font-medium`}>
+                    {path.difficulty}
+                  </span>
                   <span>{path.time}</span>
                 </div>
               </Link>
@@ -297,7 +299,7 @@ export default function HomePage() {
                 <p className="mt-1 text-sm" style={{ color: "var(--text-secondary)" }}>
                   {guide.desc}
                 </p>
-                <span className="mt-3 inline-block rounded-full bg-[var(--bg-tertiary)] px-2 py-0.5 text-xs" style={{ color: "var(--text-muted)" }}>
+                <span className={`badge-${guide.badge.toLowerCase()} mt-3 inline-block rounded-full px-2 py-0.5 text-xs font-medium`}>
                   {guide.badge}
                 </span>
               </Link>

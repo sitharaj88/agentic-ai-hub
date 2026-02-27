@@ -11,14 +11,14 @@ export function CategoryBadge({ category }: { category: Category }) {
 }
 
 export function DifficultyBadge({ level }: { level: Difficulty }) {
-  const colors = {
-    beginner: "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400",
-    intermediate: "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400",
-    advanced: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400",
+  const cls = {
+    beginner: "badge-beginner",
+    intermediate: "badge-intermediate",
+    advanced: "badge-advanced",
   };
 
   return (
-    <span className={`${colors[level]} inline-block rounded-full px-2.5 py-0.5 text-xs font-medium capitalize`}>
+    <span className={`${cls[level]} inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold capitalize`}>
       {level}
     </span>
   );
@@ -26,10 +26,7 @@ export function DifficultyBadge({ level }: { level: Difficulty }) {
 
 export function LanguageBadge({ language }: { language: string }) {
   return (
-    <span
-      className="inline-block rounded-full px-2.5 py-0.5 text-xs font-medium"
-      style={{ backgroundColor: "var(--bg-tertiary)", color: "var(--text-secondary)" }}
-    >
+    <span className="badge-neutral inline-block rounded-full px-2.5 py-0.5 text-xs font-medium">
       {language}
     </span>
   );

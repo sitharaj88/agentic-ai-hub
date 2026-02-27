@@ -232,11 +232,25 @@ body {
 .tag-enterprise { background: #ede9fe; color: #4c1d95; }
 .tag-protocol { background: #fee2e2; color: #991b1b; }
 
-.dark .tag-big-tech { background: #451a03; color: #fcd34d; }
-.dark .tag-open-source { background: #052e16; color: #6ee7b7; }
-.dark .tag-typescript { background: #1e3a5f; color: #93c5fd; }
-.dark .tag-enterprise { background: #2d1b69; color: #c4b5fd; }
-.dark .tag-protocol { background: #450a0a; color: #fca5a5; }
+/* Dark mode: tinted backgrounds with bright text for clear visibility */
+.dark .tag-big-tech    { background: rgba(245, 158,  11, 0.18); color: #fcd34d; }
+.dark .tag-open-source { background: rgba( 16, 185, 129, 0.18); color: #6ee7b7; }
+.dark .tag-typescript  { background: rgba( 59, 130, 246, 0.18); color: #93c5fd; }
+.dark .tag-enterprise  { background: rgba(139,  92, 246, 0.18); color: #c4b5fd; }
+.dark .tag-protocol    { background: rgba(239,  68,  68, 0.18); color: #fca5a5; }
+
+/* ============================================================
+   Component: Difficulty & Language Badges
+   ============================================================ */
+.badge-beginner     { background: #d1fae5; color: #065f46; }
+.badge-intermediate { background: #fef3c7; color: #92400e; }
+.badge-advanced     { background: #fee2e2; color: #991b1b; }
+.badge-neutral      { background: #f1f5f9; color: #334155; }
+
+.dark .badge-beginner     { background: rgba( 16, 185, 129, 0.18); color: #6ee7b7; }
+.dark .badge-intermediate { background: rgba(245, 158,  11, 0.18); color: #fcd34d; }
+.dark .badge-advanced     { background: rgba(239,  68,  68, 0.18); color: #fca5a5; }
+.dark .badge-neutral      { background: rgba(148, 163, 184, 0.18); color: #cbd5e1; }
 
 /* ============================================================
    Component: Callout Boxes
