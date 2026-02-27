@@ -36,7 +36,7 @@ const paths: LearningPath[] = [
     difficulty: "intermediate",
     estimatedTime: "2.5 hours",
     steps: [
-      { title: "Getting Started with Agents", href: "/guides/getting-started", time: "15 min", description: "Review the fundamentals before diving in." },
+      { title: "Getting Started (Python)", href: "/guides/getting-started-python", time: "15 min", description: "Agent fundamentals, Python setup, and your first hello-world agent." },
       { title: "LangGraph Deep Dive", href: "/frameworks/langgraph", time: "20 min", description: "Master graph-based stateful agents." },
       { title: "CrewAI Deep Dive", href: "/frameworks/crewai", time: "20 min", description: "Build role-based agent teams." },
       { title: "PydanticAI Deep Dive", href: "/frameworks/pydantic-ai", time: "15 min", description: "Type-safe agents with Pydantic." },
@@ -52,8 +52,8 @@ const paths: LearningPath[] = [
     difficulty: "intermediate",
     estimatedTime: "2 hours",
     steps: [
-      { title: "Getting Started with Agents", href: "/guides/getting-started", time: "15 min", description: "Review agent fundamentals." },
-      { title: "Vercel AI SDK Deep Dive", href: "/frameworks/vercel-ai-sdk", time: "20 min", description: "Build AI-powered web apps." },
+      { title: "Getting Started (TypeScript)", href: "/guides/getting-started-typescript", time: "15 min", description: "Agent fundamentals, TypeScript setup with Vercel AI SDK, and your first agent." },
+      { title: "Vercel AI SDK Deep Dive", href: "/frameworks/vercel-ai-sdk", time: "20 min", description: "Build AI-powered web apps with TypeScript." },
       { title: "Mastra Deep Dive", href: "/frameworks/mastra", time: "15 min", description: "TypeScript-first agent framework." },
       { title: "CopilotKit Deep Dive", href: "/frameworks/copilotkit", time: "15 min", description: "React components for AI copilots." },
       { title: "Prompt Engineering", href: "/guides/prompt-engineering", time: "15 min", description: "Craft effective agent prompts." },

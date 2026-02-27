@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, BookOpen, Rocket, Code, Shield, Eye, TestTube, Zap, Brain, Plug, Layers } from "lucide-react";
+import { ArrowRight, BookOpen, Rocket, Code, Shield, Eye, TestTube, Zap, Brain, Plug, Layers, Terminal, FileCode } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -9,6 +9,8 @@ export const metadata: Metadata = {
 
 const guides = [
   { title: "Getting Started with Agents", description: "Your first steps into the world of AI agent development.", href: "/guides/getting-started", icon: BookOpen, difficulty: "Beginner", time: "15 min" },
+  { title: "Getting Started (Python)", description: "Python-focused guide: set up your environment and build your first agent.", href: "/guides/getting-started-python", icon: Terminal, difficulty: "Beginner", time: "15 min" },
+  { title: "Getting Started (TypeScript)", description: "TypeScript-focused guide: set up your environment and build your first agent.", href: "/guides/getting-started-typescript", icon: FileCode, difficulty: "Beginner", time: "15 min" },
   { title: "Your First Agent in 5 Minutes", description: "Build a working AI agent from scratch in under 5 minutes.", href: "/guides/first-agent", icon: Rocket, difficulty: "Beginner", time: "5 min" },
   { title: "Choosing Your Stack", description: "Pick the right framework and tools for your specific use case.", href: "/guides/choosing-your-stack", icon: Layers, difficulty: "Beginner", time: "10 min" },
   { title: "Multi-Agent Architecture", description: "Design and build systems with multiple collaborating agents.", href: "/guides/multi-agent-architecture", icon: Brain, difficulty: "Intermediate", time: "20 min" },

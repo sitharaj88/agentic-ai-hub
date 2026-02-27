@@ -259,6 +259,356 @@ console.log(text);
   },
 
   // ──────────────────────────────────────────────────────────────
+  // 1b. Getting Started — Python
+  // ──────────────────────────────────────────────────────────────
+  {
+    slug: "getting-started-python",
+    title: "Getting Started with Agents (Python)",
+    description:
+      "Build your first AI agent with Python. Learn agent fundamentals, set up your environment, and write a working agent with tools.",
+    difficulty: "beginner",
+    time: "15 min",
+    prerequisites: [
+      "Basic Python knowledge",
+      "Python 3.10+ installed",
+      "An API key from OpenAI or Anthropic",
+    ],
+    whatYoullLearn: [
+      "What an AI agent is and how it differs from a chatbot",
+      "The core agent loop: Perceive, Reason, Act",
+      "How to set up a Python project for agent development",
+      "How to build a hello-world agent and add tools",
+    ],
+    sections: [
+      {
+        title: "What Is an AI Agent?",
+        content: `<p>An <strong>AI agent</strong> is a software system that uses a large language model (LLM) as its reasoning engine to autonomously perceive its environment, make decisions, and take actions to achieve a goal. Unlike a simple chatbot that responds to a single prompt, an agent operates in a <strong>loop</strong> — it observes, thinks, acts, and then observes again until the task is done.</p>
+
+<p>Here is the simplest mental model:</p>
+
+<pre><code>while not done:
+    observation = perceive(environment)
+    thought     = reason(observation, memory)
+    action      = decide(thought, available_tools)
+    result      = execute(action)
+    memory.update(result)
+</code></pre>
+
+<p>This loop is the beating heart of every agent framework. Whether you use LangGraph, CrewAI, or the OpenAI Agents SDK, the underlying principle is identical.</p>`,
+      },
+      {
+        title: "Agents vs Chatbots",
+        content: `<p>It is important to understand the distinction between a chatbot and an agent:</p>
+
+<table>
+<thead><tr><th>Feature</th><th>Chatbot</th><th>Agent</th></tr></thead>
+<tbody>
+<tr><td>Interaction</td><td>Single turn or multi-turn conversation</td><td>Autonomous multi-step execution</td></tr>
+<tr><td>Tool Use</td><td>Rarely uses external tools</td><td>Actively calls APIs, databases, code interpreters</td></tr>
+<tr><td>Memory</td><td>Limited to context window</td><td>Can persist state across sessions</td></tr>
+<tr><td>Goal-Directed</td><td>Responds to user messages</td><td>Works toward completing a defined objective</td></tr>
+<tr><td>Autonomy</td><td>Low — waits for user input</td><td>High — decides its own next steps</td></tr>
+</tbody>
+</table>
+
+<p>An agent can call tools, search the web, write and execute code, read files, and make decisions about what to do next without waiting for human input at every step.</p>`,
+      },
+      {
+        title: "Choosing a Framework",
+        content: `<p>For your first Python agent, we recommend starting with one of these beginner-friendly options:</p>
+
+<ul>
+<li><strong>OpenAI Agents SDK</strong> — Best if you are already using OpenAI models. Minimal setup, well-documented.</li>
+<li><strong>Anthropic SDK</strong> — Deep MCP integration, strong safety features. Build agent loops with the Messages API.</li>
+<li><strong>Smolagents (Hugging Face)</strong> — Ultra-minimal, perfect for learning. Your agent writes and executes Python code to achieve goals.</li>
+</ul>
+
+<p>For a detailed comparison, see the <a href="/guides/choosing-your-stack">Choosing Your Stack</a> guide.</p>`,
+      },
+      {
+        title: "Installing Dependencies",
+        content: `<p>Set up a Python project with the OpenAI Agents SDK. You will need Python 3.10 or later.</p>
+
+<pre><code># Create a project directory
+mkdir my-first-agent && cd my-first-agent
+
+# Create and activate a virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\\Scripts\\activate
+
+# Install the OpenAI Agents SDK
+pip install openai-agents
+
+# Set your API key
+export OPENAI_API_KEY="sk-..."
+</code></pre>
+
+<p>Alternatively, if you prefer Anthropic:</p>
+
+<pre><code>pip install anthropic
+export ANTHROPIC_API_KEY="sk-ant-..."
+</code></pre>`,
+      },
+      {
+        title: "Hello World Agent",
+        content: `<p>Here is a minimal agent using the OpenAI Agents SDK. It creates an agent with a system prompt and runs it with a single task:</p>
+
+<pre><code>from agents import Agent, Runner
+
+agent = Agent(
+    name="Greeter",
+    instructions="You are a helpful assistant. Answer concisely.",
+)
+
+result = Runner.run_sync(
+    agent,
+    "What are the three laws of robotics?"
+)
+
+print(result.final_output)
+</code></pre>
+
+<p>Run it:</p>
+
+<pre><code>python agent.py
+</code></pre>
+
+<p>You should see the agent respond with Asimov's three laws. Congratulations — you have just built your first AI agent!</p>
+
+<p>The key insight is that <code>Runner.run_sync</code> manages the agent loop for you. Under the hood it sends the prompt to the model, collects the response, checks if any tool calls are needed, executes them, and loops until the agent signals it is done.</p>`,
+      },
+      {
+        title: "Adding a Tool",
+        content: `<p>Agents become powerful when they can use tools. Let us give our agent a simple calculator:</p>
+
+<pre><code>from agents import Agent, Runner, function_tool
+
+@function_tool
+def calculate(expression: str) -> str:
+    """Evaluate a math expression and return the result."""
+    try:
+        return str(eval(expression))
+    except Exception as e:
+        return f"Error: {e}"
+
+agent = Agent(
+    name="MathAgent",
+    instructions="You are a helpful math assistant. Use the calculate tool for arithmetic.",
+    tools=[calculate],
+)
+
+result = Runner.run_sync(agent, "What is 247 * 38 + 19?")
+print(result.final_output)
+</code></pre>
+
+<p>When the agent encounters an arithmetic question, it will call the <code>calculate</code> tool rather than attempting mental math. This is the essence of tool-augmented generation.</p>`,
+      },
+      {
+        title: "Next Steps",
+        content: `<p>You now understand the agent loop and have a working Python agent with tool use. From here, you can:</p>
+
+<ul>
+<li>Speed-run a more complete agent in the <a href="/guides/first-agent">Your First Agent in 5 Minutes</a> guide</li>
+<li>Learn how to pick the right framework in <a href="/guides/choosing-your-stack">Choosing Your Stack</a></li>
+<li>Deep dive into <a href="/frameworks/langgraph">LangGraph</a>, <a href="/frameworks/crewai">CrewAI</a>, or <a href="/frameworks/pydantic-ai">PydanticAI</a></li>
+<li>Explore the <a href="/frameworks">Frameworks</a> catalog to compare all Python options</li>
+</ul>`,
+      },
+    ],
+    commonMistakes: [
+      "Forgetting to set the API key environment variable before running the agent",
+      "Giving the agent too broad of instructions — be specific about what it should and should not do",
+      "Not handling tool errors — always return meaningful error messages from tools",
+      "Using Python older than 3.10 which lacks required syntax features",
+    ],
+    nextSteps: [
+      { title: "Your First Agent in 5 Minutes", href: "/guides/first-agent" },
+      { title: "LangGraph Deep Dive", href: "/frameworks/langgraph" },
+      { title: "Choosing Your Stack", href: "/guides/choosing-your-stack" },
+    ],
+  },
+
+  // ──────────────────────────────────────────────────────────────
+  // 1c. Getting Started — TypeScript
+  // ──────────────────────────────────────────────────────────────
+  {
+    slug: "getting-started-typescript",
+    title: "Getting Started with Agents (TypeScript)",
+    description:
+      "Build your first AI agent with TypeScript. Learn agent fundamentals, set up your environment, and write a working agent with tools.",
+    difficulty: "beginner",
+    time: "15 min",
+    prerequisites: [
+      "Basic TypeScript / JavaScript knowledge",
+      "Node.js 18+ installed",
+      "An API key from Anthropic or OpenAI",
+    ],
+    whatYoullLearn: [
+      "What an AI agent is and how it differs from a chatbot",
+      "The core agent loop: Perceive, Reason, Act",
+      "How to set up a TypeScript project for agent development",
+      "How to build a hello-world agent and add tools using the Vercel AI SDK",
+    ],
+    sections: [
+      {
+        title: "What Is an AI Agent?",
+        content: `<p>An <strong>AI agent</strong> is a software system that uses a large language model (LLM) as its reasoning engine to autonomously perceive its environment, make decisions, and take actions to achieve a goal. Unlike a simple chatbot that responds to a single prompt, an agent operates in a <strong>loop</strong> — it observes, thinks, acts, and then observes again until the task is done.</p>
+
+<p>Here is the simplest mental model:</p>
+
+<pre><code>while (!done) {
+  const observation = perceive(environment);
+  const thought = reason(observation, memory);
+  const action = decide(thought, availableTools);
+  const result = await execute(action);
+  memory.update(result);
+}
+</code></pre>
+
+<p>This loop is the beating heart of every agent framework. Whether you use the Vercel AI SDK, Mastra, or CopilotKit, the underlying principle is identical.</p>`,
+      },
+      {
+        title: "Agents vs Chatbots",
+        content: `<p>It is important to understand the distinction between a chatbot and an agent:</p>
+
+<table>
+<thead><tr><th>Feature</th><th>Chatbot</th><th>Agent</th></tr></thead>
+<tbody>
+<tr><td>Interaction</td><td>Single turn or multi-turn conversation</td><td>Autonomous multi-step execution</td></tr>
+<tr><td>Tool Use</td><td>Rarely uses external tools</td><td>Actively calls APIs, databases, code interpreters</td></tr>
+<tr><td>Memory</td><td>Limited to context window</td><td>Can persist state across sessions</td></tr>
+<tr><td>Goal-Directed</td><td>Responds to user messages</td><td>Works toward completing a defined objective</td></tr>
+<tr><td>Autonomy</td><td>Low — waits for user input</td><td>High — decides its own next steps</td></tr>
+</tbody>
+</table>
+
+<p>An agent can call tools, search the web, write and execute code, read files, and make decisions about what to do next without waiting for human input at every step.</p>`,
+      },
+      {
+        title: "Choosing a Framework",
+        content: `<p>For your first TypeScript agent, we recommend starting with one of these options:</p>
+
+<ul>
+<li><strong>Vercel AI SDK</strong> — The most popular way to build AI into web apps. Supports multiple providers (Anthropic, OpenAI, Google), streaming, and tool use out of the box.</li>
+<li><strong>Mastra</strong> — TypeScript-first agent framework with built-in workflows, RAG, and evaluation tools.</li>
+<li><strong>CopilotKit</strong> — React components for building AI copilot experiences with in-app chat and context awareness.</li>
+</ul>
+
+<p>For a detailed comparison, see the <a href="/guides/choosing-your-stack">Choosing Your Stack</a> guide.</p>`,
+      },
+      {
+        title: "Installing Dependencies",
+        content: `<p>Set up a TypeScript project with the Vercel AI SDK. You will need Node.js 18 or later.</p>
+
+<pre><code># Create a project directory
+mkdir my-first-agent && cd my-first-agent
+
+# Initialize the project
+npm init -y
+
+# Install TypeScript and ts runner
+npm install -D typescript tsx
+
+# Install the Vercel AI SDK with Anthropic provider
+npm install ai @ai-sdk/anthropic zod
+
+# Set your API key
+export ANTHROPIC_API_KEY="sk-ant-..."
+</code></pre>
+
+<p>Alternatively, if you prefer OpenAI:</p>
+
+<pre><code>npm install ai @ai-sdk/openai zod
+export OPENAI_API_KEY="sk-..."
+</code></pre>`,
+      },
+      {
+        title: "Hello World Agent",
+        content: `<p>Here is a minimal agent using the Vercel AI SDK with Anthropic. Create a file called <code>agent.ts</code>:</p>
+
+<pre><code>import { generateText } from "ai";
+import { anthropic } from "@ai-sdk/anthropic";
+
+const { text } = await generateText({
+  model: anthropic("claude-sonnet-4-20250514"),
+  system: "You are a helpful assistant. Answer concisely.",
+  prompt: "What are the three laws of robotics?",
+});
+
+console.log(text);
+</code></pre>
+
+<p>Run it:</p>
+
+<pre><code>npx tsx agent.ts
+</code></pre>
+
+<p>You should see the agent respond with Asimov's three laws. Congratulations — you have just built your first AI agent!</p>
+
+<p>The key insight is that <code>generateText</code> manages the agent loop for you when combined with tools and <code>maxSteps</code>. Under the hood it sends the prompt to the model, collects the response, checks if any tool calls are needed, executes them, and loops until the model signals it is done.</p>`,
+      },
+      {
+        title: "Adding a Tool",
+        content: `<p>Agents become powerful when they can use tools. Let us give our agent a simple calculator:</p>
+
+<pre><code>import { generateText, tool } from "ai";
+import { anthropic } from "@ai-sdk/anthropic";
+import { z } from "zod";
+
+const { text } = await generateText({
+  model: anthropic("claude-sonnet-4-20250514"),
+  system: "You are a helpful math assistant. Use the calculate tool for arithmetic.",
+  prompt: "What is 247 * 38 + 19?",
+  tools: {
+    calculate: tool({
+      description: "Evaluate a math expression and return the result",
+      parameters: z.object({
+        expression: z.string().describe("The math expression to evaluate"),
+      }),
+      execute: async ({ expression }) => {
+        try {
+          return String(eval(expression));
+        } catch {
+          return "Error: invalid expression";
+        }
+      },
+    }),
+  },
+  maxSteps: 5,
+});
+
+console.log(text);
+</code></pre>
+
+<p>The <code>maxSteps: 5</code> parameter tells the SDK to loop up to 5 times, allowing the agent to call tools and observe results before producing a final answer. When the agent encounters an arithmetic question, it will call the <code>calculate</code> tool rather than attempting mental math.</p>`,
+      },
+      {
+        title: "Next Steps",
+        content: `<p>You now understand the agent loop and have a working TypeScript agent with tool use. From here, you can:</p>
+
+<ul>
+<li>Deep dive into the <a href="/frameworks/vercel-ai-sdk">Vercel AI SDK</a> for streaming, chat UIs, and multi-model support</li>
+<li>Explore <a href="/frameworks/mastra">Mastra</a> for workflows and RAG pipelines</li>
+<li>Build React copilots with <a href="/frameworks/copilotkit">CopilotKit</a></li>
+<li>Learn about <a href="/guides/prompt-engineering">Prompt Engineering</a> for more reliable agents</li>
+<li>Explore the <a href="/frameworks">Frameworks</a> catalog to compare all TypeScript options</li>
+</ul>`,
+      },
+    ],
+    commonMistakes: [
+      "Forgetting to set the API key environment variable before running the agent",
+      "Giving the agent too broad of instructions — be specific about what it should and should not do",
+      "Not setting maxSteps — without it the SDK won't loop through tool calls",
+      "Forgetting to install tsx or ts-node for running TypeScript files directly",
+    ],
+    nextSteps: [
+      { title: "Vercel AI SDK Deep Dive", href: "/frameworks/vercel-ai-sdk" },
+      { title: "Prompt Engineering", href: "/guides/prompt-engineering" },
+      { title: "Choosing Your Stack", href: "/guides/choosing-your-stack" },
+    ],
+  },
+
+  // ──────────────────────────────────────────────────────────────
   // 2. Your First Agent in 5 Minutes
   // ──────────────────────────────────────────────────────────────
   {
