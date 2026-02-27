@@ -14,10 +14,13 @@ function highlightCode(code: string): string {
   let html = code;
 
   const placeholders: string[] = [];
+  // Use X…X wrapper so the index digit is flanked by word-chars on both sides.
+  // This prevents the number regex (\b\d+\b) from matching the index digit inside
+  // a placeholder, which was causing strings like "type", "name" to render as numbers.
   function placeholder(match: string, className: string): string {
     const idx = placeholders.length;
     placeholders.push(`<span class="${className}">${match}</span>`);
-    return `\x00${idx}\x00`;
+    return `\x00X${idx}X\x00`;
   }
 
   // Multi-line comments (/* ... */)
@@ -59,7 +62,7 @@ function highlightCode(code: string): string {
   });
 
   // Restore placeholders
-  html = html.replace(/\x00(\d+)\x00/g, (_, idx) => placeholders[Number(idx)]);
+  html = html.replace(/\x00X(\d+)X\x00/g, (_, idx) => placeholders[Number(idx)]);
 
   return html;
 }
@@ -187,5 +190,5 @@ export function ProseCodeBlocks({ children }: { children: React.ReactNode }) {
     });
   }, []);
 
-  return <div ref={containerRef}>{children}</div>;
+  return <div ref={containerRef} className="min-w-0 overflow-hidden">{children}</div>;
 }

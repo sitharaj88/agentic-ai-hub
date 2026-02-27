@@ -1,0 +1,71 @@
+<svg viewBox="0 0 520 380" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RAG Pipeline: Query to Embed to Retrieve to Augment to Generate">
+  <defs>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="112%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="520" height="380" rx="16" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="260" y="28" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="11" font-weight="700" letter-spacing="2.5" fill="#94a3b8">RAG PIPELINE</text>
+
+  <!-- Row 1 -->
+  <!-- Step 1: User Query -->
+  <rect x="18" y="50" width="142" height="90" rx="12" fill="#ede9fe" stroke="#6366f1" stroke-width="1.8" filter="url(#shadow)"/>
+  <text x="89" y="82" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="13" font-weight="700" fill="#4f46e5">USER QUERY</text>
+  <text x="89" y="100" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="9.5" fill="#6366f1" opacity="0.8">"Who founded…"</text>
+  <circle cx="89" cy="124" r="11" fill="#ede9fe" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="89" y="128.5" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="10" font-weight="700" fill="#4f46e5">1</text>
+
+  <!-- Arrow 1→2 -->
+  <path d="M160,95 L182,95" fill="none" stroke="#6366f1" stroke-width="2.5" stroke-linecap="round"/>
+  <polygon points="196,95 182,88 182,102" fill="#6366f1"/>
+
+  <!-- Step 2: Embed -->
+  <rect x="200" y="50" width="120" height="90" rx="12" fill="#f3e8ff" stroke="#8b5cf6" stroke-width="1.8" filter="url(#shadow)"/>
+  <text x="260" y="82" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="13" font-weight="700" fill="#7c3aed">EMBED</text>
+  <text x="260" y="100" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="9.5" fill="#8b5cf6" opacity="0.8">text-embedding-3</text>
+  <circle cx="260" cy="124" r="11" fill="#f3e8ff" stroke="#8b5cf6" stroke-width="1.5"/>
+  <text x="260" y="128.5" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="10" font-weight="700" fill="#7c3aed">2</text>
+
+  <!-- Arrow 2→3 -->
+  <path d="M320,95 L342,95" fill="none" stroke="#8b5cf6" stroke-width="2.5" stroke-linecap="round"/>
+  <polygon points="356,95 342,88 342,102" fill="#8b5cf6"/>
+
+  <!-- Step 3: Vector Search -->
+  <rect x="360" y="50" width="142" height="90" rx="12" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.8" filter="url(#shadow)"/>
+  <text x="431" y="76" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="13" font-weight="700" fill="#2563eb">VECTOR</text>
+  <text x="431" y="92" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="13" font-weight="700" fill="#2563eb">SEARCH</text>
+  <text x="431" y="110" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="9.5" fill="#3b82f6" opacity="0.8">top-k similar chunks</text>
+  <circle cx="431" cy="124" r="11" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="431" y="128.5" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="10" font-weight="700" fill="#2563eb">3</text>
+
+  <!-- Curved L-arrow: Step 3 ↓ → Step 4 (smooth rounded corner) -->
+  <path d="M431,140 L431,178 Q431,192 417,192 L336,192" fill="none" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"/>
+  <polygon points="322,192 336,185 336,199" fill="#3b82f6"/>
+
+  <!-- Row 2 -->
+  <!-- Step 4: Augment -->
+  <rect x="200" y="168" width="120" height="90" rx="12" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.8" filter="url(#shadow)"/>
+  <text x="260" y="202" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="13" font-weight="700" fill="#d97706">AUGMENT</text>
+  <text x="260" y="220" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="9.5" fill="#f59e0b" opacity="0.8">context + question</text>
+  <circle cx="260" cy="242" r="11" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="260" y="246.5" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="10" font-weight="700" fill="#d97706">4</text>
+
+  <!-- Arrow 4→5 -->
+  <path d="M200,213 L178,213" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round"/>
+  <polygon points="164,213 178,206 178,220" fill="#f59e0b"/>
+
+  <!-- Step 5: Generate -->
+  <rect x="18" y="168" width="142" height="90" rx="12" fill="#d1fae5" stroke="#10b981" stroke-width="1.8" filter="url(#shadow)"/>
+  <text x="89" y="200" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="13" font-weight="700" fill="#059669">GENERATE</text>
+  <text x="89" y="218" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="9.5" fill="#10b981" opacity="0.8">LLM produces</text>
+  <text x="89" y="232" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="9.5" fill="#10b981" opacity="0.8">grounded answer</text>
+  <circle cx="89" cy="242" r="11" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="89" y="246.5" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="10" font-weight="700" fill="#059669">5</text>
+
+  <!-- Offline indexing note -->
+  <rect x="18" y="290" width="484" height="68" rx="12" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1.2"/>
+  <text x="260" y="316" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="11.5" font-weight="600" fill="#64748b">Offline Indexing (runs once / on update)</text>
+  <text x="260" y="338" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="10" fill="#94a3b8">Documents → Chunk → Embed → Store in Vector DB</text>
+</svg>

@@ -1,0 +1,54 @@
+<svg viewBox="0 0 540 160" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tool Use flow: LLM outputs tool call, app executes, result feeds back to LLM">
+  <defs>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="112%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="540" height="160" rx="14" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+
+  <!-- LLM box -->
+  <rect x="20" y="20" width="120" height="68" rx="10" fill="#ede9fe" stroke="#6366f1" stroke-width="1.8" filter="url(#shadow)"/>
+  <text x="80" y="50" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="15" font-weight="700" fill="#4f46e5">LLM</text>
+  <text x="80" y="68" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="9.5" fill="#6366f1" opacity="0.8">Reasons &amp; decides</text>
+
+  <!-- APP box -->
+  <rect x="210" y="20" width="120" height="68" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.8" filter="url(#shadow)"/>
+  <text x="270" y="50" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="15" font-weight="700" fill="#d97706">APP</text>
+  <text x="270" y="68" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="9.5" fill="#f59e0b" opacity="0.8">Intercepts &amp; executes</text>
+
+  <!-- TOOL box -->
+  <rect x="400" y="20" width="120" height="68" rx="10" fill="#d1fae5" stroke="#10b981" stroke-width="1.8" filter="url(#shadow)"/>
+  <text x="460" y="50" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="15" font-weight="700" fill="#059669">TOOL</text>
+  <text x="460" y="68" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="9.5" fill="#10b981" opacity="0.8">API / DB / Function</text>
+
+  <!-- REQUEST: LLM → APP -->
+  <path d="M140,42 L196,42" fill="none" stroke="#6366f1" stroke-width="2.5" stroke-linecap="round"/>
+  <polygon points="206,42 194,36 194,48" fill="#6366f1"/>
+  <text x="170" y="36" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="8.5" font-weight="600" fill="#4f46e5">tool_call</text>
+
+  <!-- REQUEST: APP → TOOL -->
+  <path d="M330,42 L386,42" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round"/>
+  <polygon points="396,42 384,36 384,48" fill="#f59e0b"/>
+  <text x="360" y="36" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="8.5" font-weight="600" fill="#d97706">request</text>
+
+  <!-- RETURN: TOOL → APP -->
+  <path d="M400,68 L344,68" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 4"/>
+  <polygon points="334,68 346,62 346,74" fill="#10b981"/>
+  <text x="370" y="82" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="8.5" font-weight="600" fill="#059669">result</text>
+
+  <!-- RETURN: APP → LLM -->
+  <path d="M210,68 L154,68" fill="none" stroke="#8b5cf6" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 4"/>
+  <polygon points="144,68 156,62 156,74" fill="#8b5cf6"/>
+  <text x="180" y="82" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="8.5" font-weight="600" fill="#7c3aed">tool_result</text>
+
+  <!-- Legend -->
+  <line x1="130" y1="126" x2="168" y2="126" stroke="#6366f1" stroke-width="2.5" stroke-linecap="round"/>
+  <polygon points="174,126 166,122 166,130" fill="#6366f1"/>
+  <text x="186" y="130" font-family="ui-sans-serif,system-ui,sans-serif" font-size="9" fill="#64748b">Request flow</text>
+
+  <line x1="306" y1="126" x2="344" y2="126" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 4"/>
+  <polygon points="350,126 342,122 342,130" fill="#10b981"/>
+  <text x="362" y="130" font-family="ui-sans-serif,system-ui,sans-serif" font-size="9" fill="#64748b">Return flow</text>
+</svg>

@@ -1,4 +1,5 @@
 import type { Difficulty } from "@/lib/constants";
+import { basePath } from "@/lib/basepath";
 
 export interface ConceptContent {
   id: string;
@@ -56,6 +57,12 @@ export const conceptContents: ConceptContent[] = [
   <li><strong>Act</strong> &mdash; The agent executes a concrete action: calling a tool, writing to a database, sending an API request, or generating a final response to the user. The result of this action feeds back into the Perceive step, and the loop continues.</li>
   <li><strong>Memory</strong> &mdash; The agent stores important results and context in memory (short-term context window and optionally long-term storage) so it can reference past observations and actions in future iterations. Memory is what allows agents to build on previous steps rather than starting from scratch each time.</li>
 </ol>
+
+<figure style="margin:2rem 0">
+<img class="diagram-light" src="${basePath}/images/diagrams/agent-loop-light.svg" alt="The Agent Loop: Perceive, Reason, Act, Observe cycle" />
+<img class="diagram-dark" src="${basePath}/images/diagrams/agent-loop-dark.svg" alt="The Agent Loop: Perceive, Reason, Act, Observe cycle" />
+<figcaption style="text-align:center;font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem">Fig 1. The four-phase agent loop that underpins all agentic systems</figcaption>
+</figure>
 
 <pre><code>goal = get_user_request()
 previous_results = []
@@ -179,6 +186,12 @@ while not task_complete:
   <li><strong>Model decision</strong> &mdash; When the model determines it needs external information or needs to take an action, it outputs a tool call instead of plain text. This is a structured JSON object like <code>{"name": "get_weather", "arguments": {"city": "Tokyo"}}</code>. The exact format varies by provider — Anthropic uses <code>{"type": "tool_use", "name": "...", "input": {...}}</code> while OpenAI uses a <code>tool_calls</code> array with <code>function.arguments</code>.</li>
   <li><strong>Execution and feedback</strong> &mdash; Your application intercepts this tool call, executes the actual function (calling the weather API), and returns the result to the model. The model then incorporates the result into its response.</li>
 </ol>
+
+<figure style="margin:2rem 0">
+<img class="diagram-light" src="${basePath}/images/diagrams/tool-use-flow-light.svg" alt="Tool Use flow: LLM outputs tool call, app executes, result feeds back to LLM" />
+<img class="diagram-dark" src="${basePath}/images/diagrams/tool-use-flow-dark.svg" alt="Tool Use flow: LLM outputs tool call, app executes, result feeds back to LLM" />
+<figcaption style="text-align:center;font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem">Fig 2. The three-stage tool calling cycle. Top arrows show request flow; bottom arrows show return flow.</figcaption>
+</figure>
 
 <pre><code>// The tool calling cycle
 User: "What's the weather in Tokyo?"
@@ -1012,20 +1025,11 @@ def debate_to_consensus(question, agents, judge, max_rounds=3):
 
 <p><strong>MCP Server</strong> &mdash; A lightweight program that exposes specific capabilities (tools, data sources, prompts) through the standardized MCP protocol. Servers can be local processes or remote services.</p>
 
-<pre><code>┌─────────────────────────────────────────┐
-│           MCP Host (AI App)             │
-│                                         │
-│  ┌─────────────┐  ┌─────────────┐       │
-│  │ MCP Client  │  │ MCP Client  │       │
-│  │     (1:1)   │  │     (1:1)   │       │
-│  └──────┬──────┘  └──────┬──────┘       │
-│         │                │              │
-└─────────┼────────────────┼──────────────┘
-          │                │
-    ┌─────┴─────┐    ┌────┴──────┐
-    │MCP Server │    │MCP Server │
-    │(Database) │    │  (GitHub) │
-    └───────────┘    └───────────┘</code></pre>
+<figure style="margin:2rem 0">
+<img class="diagram-light" src="${basePath}/images/diagrams/mcp-architecture-light.svg" alt="MCP Client-Server Architecture" />
+<img class="diagram-dark" src="${basePath}/images/diagrams/mcp-architecture-dark.svg" alt="MCP Client-Server Architecture" />
+<figcaption style="text-align:center;font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem">Fig. MCP client-server architecture — one host, many clients, each with a dedicated 1:1 server connection over JSON-RPC 2.0</figcaption>
+</figure>
 
 <p>This architecture allows a single AI application to connect to multiple specialized servers simultaneously. Claude Desktop, for example, can connect to a database server, a GitHub server, a Slack server, and a file system server &mdash; all at once, each through its own MCP client-server connection.</p>
 
@@ -1217,6 +1221,12 @@ await server.connect(transport);</code></pre>
   <li><strong>Retrieval</strong> &mdash; When a user asks a question, the query is embedded and used to find the most semantically similar document chunks in the vector store.</li>
   <li><strong>Generation</strong> &mdash; The retrieved chunks are injected into the LLM's prompt alongside the user's question. The model generates a response grounded in the retrieved context.</li>
 </ol>
+
+<figure style="margin:2rem 0">
+<img class="diagram-light" src="${basePath}/images/diagrams/rag-pipeline-light.svg" alt="RAG Pipeline: Query to Embed to Retrieve to Augment to Generate" />
+<img class="diagram-dark" src="${basePath}/images/diagrams/rag-pipeline-dark.svg" alt="RAG Pipeline: Query to Embed to Retrieve to Augment to Generate" />
+<figcaption style="text-align:center;font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem">Fig. The five-step RAG pipeline. Steps ①–⑤ run at query time; the vector DB is pre-populated offline.</figcaption>
+</figure>
 
 <pre><code># Basic RAG pipeline
 def rag_query(question, vector_store, llm):

@@ -1,0 +1,64 @@
+<svg viewBox="0 0 520 310" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The Agent Loop: Perceive, Reason, Act, Observe cycle">
+  <defs>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="112%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="520" height="310" rx="16" fill="#1a1d23" stroke="#2d3139" stroke-width="1.5"/>
+  <text x="260" y="28" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="11" font-weight="700" letter-spacing="2.5" fill="#64748b">THE AGENT LOOP</text>
+
+  <!-- PERCEIVE top-left -->
+  <rect x="30" y="50" width="190" height="72" rx="12" fill="rgba(99,102,241,0.1)" stroke="#818cf8" stroke-width="1.8" filter="url(#shadow)"/>
+  <text x="125" y="80" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="15" font-weight="700" fill="#a5b4fc">PERCEIVE</text>
+  <text x="125" y="102" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="10.5" fill="#a5b4fc" opacity="0.8">Sense environment &amp; results</text>
+
+  <!-- REASON top-right -->
+  <rect x="300" y="50" width="190" height="72" rx="12" fill="rgba(139,92,246,0.1)" stroke="#a78bfa" stroke-width="1.8" filter="url(#shadow)"/>
+  <text x="395" y="80" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="15" font-weight="700" fill="#c4b5fd">REASON</text>
+  <text x="395" y="102" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="10.5" fill="#c4b5fd" opacity="0.8">LLM plans next action</text>
+
+  <!-- ACT bottom-right -->
+  <rect x="300" y="186" width="190" height="72" rx="12" fill="rgba(16,185,129,0.1)" stroke="#34d399" stroke-width="1.8" filter="url(#shadow)"/>
+  <text x="395" y="216" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="15" font-weight="700" fill="#6ee7b7">ACT</text>
+  <text x="395" y="238" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="10.5" fill="#6ee7b7" opacity="0.8">Execute tool or respond</text>
+
+  <!-- OBSERVE bottom-left -->
+  <rect x="30" y="186" width="190" height="72" rx="12" fill="rgba(245,158,11,0.1)" stroke="#fbbf24" stroke-width="1.8" filter="url(#shadow)"/>
+  <text x="125" y="216" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="15" font-weight="700" fill="#fcd34d">OBSERVE</text>
+  <text x="125" y="238" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="10.5" fill="#fcd34d" opacity="0.8">Record result in memory</text>
+
+  <!-- Arrow: PERCEIVE → REASON -->
+  <path d="M220,86 C248,86 252,86 280,86" fill="none" stroke="#818cf8" stroke-width="2.5" stroke-linecap="round"/>
+  <polygon points="296,86 280,79 280,93" fill="#818cf8"/>
+
+  <!-- Arrow: REASON → ACT -->
+  <path d="M395,122 C395,140 395,148 395,168" fill="none" stroke="#a78bfa" stroke-width="2.5" stroke-linecap="round"/>
+  <polygon points="395,184 388,168 402,168" fill="#a78bfa"/>
+
+  <!-- Arrow: ACT → OBSERVE -->
+  <path d="M300,222 C272,222 268,222 240,222" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round"/>
+  <polygon points="224,222 240,215 240,229" fill="#34d399"/>
+
+  <!-- Arrow: OBSERVE → PERCEIVE -->
+  <path d="M125,186 C125,168 125,160 125,140" fill="none" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round"/>
+  <polygon points="125,124 118,140 132,140" fill="#fbbf24"/>
+
+  <!-- Center badge -->
+  <rect x="196" y="140" width="128" height="30" rx="15" fill="#22252b" stroke="#2d3139" stroke-width="1.2"/>
+  <text x="260" y="160" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="11" font-weight="600" fill="#94a3b8">Goal + Memory</text>
+
+  <!-- Arrow labels -->
+  <rect x="237" y="70" width="46" height="18" rx="4" fill="#1a1d23" stroke="#2d3139" stroke-width="0.8"/>
+  <text x="260" y="83" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="8.5" font-weight="600" fill="#818cf8">plan</text>
+
+  <rect x="404" y="144" width="46" height="18" rx="4" fill="#1a1d23" stroke="#2d3139" stroke-width="0.8"/>
+  <text x="427" y="157" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="8.5" font-weight="600" fill="#a78bfa">execute</text>
+
+  <rect x="237" y="206" width="46" height="18" rx="4" fill="#1a1d23" stroke="#2d3139" stroke-width="0.8"/>
+  <text x="260" y="219" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="8.5" font-weight="600" fill="#34d399">result</text>
+
+  <rect x="70" y="144" width="46" height="18" rx="4" fill="#1a1d23" stroke="#2d3139" stroke-width="0.8"/>
+  <text x="93" y="157" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="8.5" font-weight="600" fill="#fbbf24">update</text>
+</svg>
