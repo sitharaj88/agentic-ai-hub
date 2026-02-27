@@ -231,7 +231,9 @@ const { text } = await generateText({
 console.log(text);
 </code></pre>
 
-<p>When the agent encounters an arithmetic question, it will call the <code>calculate</code> tool rather than attempting mental math. This is the essence of tool-augmented generation.</p>`,
+<p>When the agent encounters an arithmetic question, it will call the <code>calculate</code> tool rather than attempting mental math. This is the essence of tool-augmented generation.</p>
+
+<p><strong>Security note:</strong> The <code>eval()</code> function is used here for simplicity. <strong>Never use <code>eval()</code> with untrusted input in production</strong> — it can execute arbitrary code. For production math evaluation, use a safe library like <a href="https://pypi.org/project/simpleeval/">simpleeval</a> (Python) or <a href="https://www.npmjs.com/package/mathjs">mathjs</a> (JavaScript).</p>`,
       },
       {
         title: "Next Steps",
@@ -401,7 +403,9 @@ result = Runner.run_sync(agent, "What is 247 * 38 + 19?")
 print(result.final_output)
 </code></pre>
 
-<p>When the agent encounters an arithmetic question, it will call the <code>calculate</code> tool rather than attempting mental math. This is the essence of tool-augmented generation.</p>`,
+<p>When the agent encounters an arithmetic question, it will call the <code>calculate</code> tool rather than attempting mental math. This is the essence of tool-augmented generation.</p>
+
+<p><strong>Security note:</strong> The <code>eval()</code> function is used here for simplicity. <strong>Never use <code>eval()</code> with untrusted input in production</strong> — it can execute arbitrary code. For production math evaluation, use a safe library like <a href="https://pypi.org/project/simpleeval/">simpleeval</a>.</p>`,
       },
       {
         title: "Next Steps",
@@ -580,7 +584,11 @@ const { text } = await generateText({
 console.log(text);
 </code></pre>
 
-<p>The <code>maxSteps: 5</code> parameter tells the SDK to loop up to 5 times, allowing the agent to call tools and observe results before producing a final answer. When the agent encounters an arithmetic question, it will call the <code>calculate</code> tool rather than attempting mental math.</p>`,
+<p>The <code>maxSteps: 5</code> parameter tells the SDK to loop up to 5 times, allowing the agent to call tools and observe results before producing a final answer. When the agent encounters an arithmetic question, it will call the <code>calculate</code> tool rather than attempting mental math.</p>
+
+<p><strong>Security note:</strong> The <code>eval()</code> function is used here for simplicity. <strong>Never use <code>eval()</code> with untrusted input in production</strong> — it can execute arbitrary code. For production math evaluation, use a safe library like <a href="https://www.npmjs.com/package/mathjs">mathjs</a>.</p>
+
+<p><strong>Tip:</strong> The top-level <code>await</code> syntax requires running via <code>tsx</code> (which handles this automatically) or setting <code>"type": "module"</code> in your <code>package.json</code>.</p>`,
       },
       {
         title: "Next Steps",
@@ -659,9 +667,14 @@ def get_weather(city: str) -> str:
 
 @function_tool
 def get_time(timezone: str) -> str:
-    """Get the current time in a timezone."""
-    from datetime import datetime, timezone as tz
-    return datetime.now(tz.utc).isoformat()
+    """Get the current time in a timezone (e.g. 'Asia/Tokyo', 'US/Eastern')."""
+    from datetime import datetime
+    from zoneinfo import ZoneInfo
+    try:
+        now = datetime.now(ZoneInfo(timezone))
+        return now.strftime("%Y-%m-%d %H:%M:%S %Z")
+    except KeyError:
+        return f"Unknown timezone: {timezone}. Use format like 'Asia/Tokyo'."
 
 agent = Agent(
     name="TravelHelper",
@@ -996,7 +1009,7 @@ print(result.final_output)
         content: `<p>In the <strong>peer collaboration pattern</strong>, agents communicate directly without a central orchestrator. This works well for creative brainstorming, debate, or review workflows.</p>
 
 <pre><code># Peer collaboration with CrewAI
-from crewai import Agent, Task, Crew
+from crewai import Agent, Task, Crew, Process
 
 researcher = Agent(
     role="Senior Researcher",
@@ -1051,7 +1064,7 @@ print(result)
         title: "Shared State with LangGraph",
         content: `<p>LangGraph gives you fine-grained control over shared state using a graph-based architecture. Each node is a function that reads and writes to a shared <code>TypedDict</code> state.</p>
 
-<pre><code>from typing import TypedDict, Annotated
+<pre><code>from typing import TypedDict
 from langgraph.graph import StateGraph, START, END
 from langchain_openai import ChatOpenAI
 
@@ -1411,6 +1424,8 @@ You have access to a SQL database and a charting tool.
 <li><strong>Set the tone</strong> — "You communicate in a professional but friendly manner. You use technical terms when appropriate but always explain them."</li>
 </ul>
 
+<h3>Python</h3>
+
 <pre><code># Bad: Too vague
 agent = Agent(
     instructions="You are a helpful assistant.",
@@ -1424,6 +1439,27 @@ agent = Agent(
     Always verify the customer's account before making changes.
     Never share internal pricing or roadmap information.""",
 )
+</code></pre>
+
+<h3>TypeScript</h3>
+
+<pre><code>// Bad: Too vague
+const { text } = await generateText({
+  model: anthropic("claude-sonnet-4-20250514"),
+  system: "You are a helpful assistant.",
+  prompt: userMessage,
+});
+
+// Good: Specific role with clear boundaries
+const { text } = await generateText({
+  model: anthropic("claude-sonnet-4-20250514"),
+  system: \`You are a customer support agent for Acme Corp.
+    You handle billing, account, and product questions.
+    For technical issues, escalate to the engineering team.
+    Always verify the customer's account before making changes.
+    Never share internal pricing or roadmap information.\`,
+  prompt: userMessage,
+});
 </code></pre>`,
       },
       {
@@ -1490,6 +1526,8 @@ If no issues are found, say "No issues found" and give a score of 10/10.
 
 <p>For agents that need to return structured data to another system, combine prompt formatting with SDK features:</p>
 
+<h3>Python (Pydantic + OpenAI Agents SDK)</h3>
+
 <pre><code>from pydantic import BaseModel
 from agents import Agent, Runner
 
@@ -1507,7 +1545,34 @@ agent = Agent(
 result = Runner.run_sync(agent, "Review this Python function: ...")
 review = result.final_output_as(ReviewResult)
 print(f"Score: {review.score}/10")
-</code></pre>`,
+</code></pre>
+
+<h3>TypeScript (Zod + Vercel AI SDK)</h3>
+
+<pre><code>import { generateObject } from "ai";
+import { anthropic } from "@ai-sdk/anthropic";
+import { z } from "zod";
+
+const { object: review } = await generateObject({
+  model: anthropic("claude-sonnet-4-20250514"),
+  schema: z.object({
+    summary: z.string().describe("One paragraph overview"),
+    issues: z.array(z.object({
+      severity: z.enum(["critical", "warning", "info"]),
+      line: z.string(),
+      issue: z.string(),
+      fix: z.string(),
+    })),
+    score: z.number().min(0).max(10),
+  }),
+  prompt: "Review this TypeScript function: ...",
+});
+
+console.log(\`Score: \${review.score}/10\`);
+console.log(\`Issues: \${review.issues.length}\`);
+</code></pre>
+
+<p>The Zod schema approach gives you compile-time type safety and runtime validation — the SDK enforces that the LLM output matches your schema exactly.</p>`,
       },
       {
         title: "Few-Shot Examples",
@@ -1889,7 +1954,7 @@ app = graph.compile(
 
 <pre><code>import logging
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 
 class AgentLogger:
     def __init__(self, agent_name: str):
@@ -1898,7 +1963,7 @@ class AgentLogger:
 
     def log_event(self, event_type: str, data: dict):
         event = {
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "agent": self.agent_name,
             "event": event_type,
             **data,
@@ -2459,7 +2524,7 @@ USER agent
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --retries=3 \\
-  CMD python -c "import requests; requests.get('http://localhost:8000/health')"
+  CMD curl -f http://localhost:8000/health || exit 1
 
 EXPOSE 8000
 CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]
@@ -2504,6 +2569,65 @@ async def get_status(task_id: str):
 @app.get("/health")
 async def health():
     return {"status": "healthy"}
+</code></pre>
+
+<h3>TypeScript Alternative (Next.js + Vercel AI SDK)</h3>
+
+<p>For TypeScript agents, a common deployment pattern uses Next.js API routes with the Vercel AI SDK:</p>
+
+<pre><code>// app/api/agent/route.ts (Next.js App Router)
+import { streamText, tool } from "ai";
+import { anthropic } from "@ai-sdk/anthropic";
+import { z } from "zod";
+
+export async function POST(req: Request) {
+  const { message } = await req.json();
+
+  const result = streamText({
+    model: anthropic("claude-sonnet-4-20250514"),
+    system: "You are a helpful assistant.",
+    prompt: message,
+    tools: {
+      search: tool({
+        description: "Search for information",
+        parameters: z.object({
+          query: z.string(),
+        }),
+        execute: async ({ query }) => {
+          // Call your search API
+          return \`Results for: \${query}\`;
+        },
+      }),
+    },
+    maxSteps: 5,
+  });
+
+  return result.toDataStreamResponse();
+}
+</code></pre>
+
+<p>TypeScript Dockerfile for non-Vercel deployments:</p>
+
+<pre><code># Dockerfile (TypeScript/Node.js)
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+FROM node:20-alpine
+WORKDIR /app
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./
+
+USER node
+HEALTHCHECK --interval=30s --timeout=10s --retries=3 \\
+  CMD wget -qO- http://localhost:3000/health || exit 1
+
+EXPOSE 3000
+CMD ["node", "dist/index.js"]
 </code></pre>`,
       },
       {
@@ -2577,6 +2701,21 @@ def worker_loop():
         "complex": "claude-sonnet-4-20250514",  # For hardest tasks
     }
     return model_map.get(task_complexity, "gpt-4o-mini")
+</code></pre>
+
+<p>TypeScript equivalent using the Vercel AI SDK:</p>
+
+<pre><code>import { openai } from "@ai-sdk/openai";
+import { anthropic } from "@ai-sdk/anthropic";
+
+function selectModel(complexity: "simple" | "moderate" | "complex") {
+  const models = {
+    simple: openai("gpt-4o-mini"),
+    moderate: openai("gpt-4o"),
+    complex: anthropic("claude-sonnet-4-20250514"),
+  };
+  return models[complexity];
+}
 </code></pre>
 
 <ul>

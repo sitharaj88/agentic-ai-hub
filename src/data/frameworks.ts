@@ -424,25 +424,33 @@ print(response)`,
     code_example: `from typing import Annotated, TypedDict
 from langgraph.graph import StateGraph, START, END
 from langgraph.graph.message import add_messages
+from langgraph.prebuilt import ToolNode, tools_condition
 from langchain_openai import ChatOpenAI
+from langchain_core.tools import tool
+
+@tool
+def get_weather(city: str) -> str:
+    """Get the current weather for a city."""
+    return f"Sunny, 72°F in {city}"
 
 class State(TypedDict):
     messages: Annotated[list, add_messages]
 
-llm = ChatOpenAI(model="gpt-4o")
+llm = ChatOpenAI(model="gpt-4o").bind_tools([get_weather])
 
 def chatbot(state: State):
     return {"messages": [llm.invoke(state["messages"])]}
 
-# Build the graph
+# Build the graph with conditional tool routing
 graph = StateGraph(State)
 graph.add_node("chatbot", chatbot)
+graph.add_node("tools", ToolNode([get_weather]))
 graph.add_edge(START, "chatbot")
-graph.add_edge("chatbot", END)
+graph.add_conditional_edges("chatbot", tools_condition)
+graph.add_edge("tools", "chatbot")
 
-# Compile and run
 app = graph.compile()
-result = app.invoke({"messages": [{"role": "user", "content": "Hello!"}]})
+result = app.invoke({"messages": [{"role": "user", "content": "What's the weather in Tokyo?"}]})
 print(result["messages"][-1].content)`,
     code_language: "python",
     stars_approx: "8k+",
@@ -486,11 +494,12 @@ print(result["messages"][-1].content)`,
     ],
     code_example: `from crewai import Agent, Task, Crew, Process
 
-# Create agents with roles
+# Create agents with roles and explicit LLM
 researcher = Agent(
     role="Senior Research Analyst",
     goal="Find and analyze the latest AI trends",
     backstory="You are an expert analyst with deep knowledge of the AI industry.",
+    llm="openai/gpt-4o",
     verbose=True,
 )
 
@@ -498,10 +507,11 @@ writer = Agent(
     role="Tech Content Writer",
     goal="Write engaging articles about AI discoveries",
     backstory="You are a skilled writer who translates complex tech into clear content.",
+    llm="openai/gpt-4o",
     verbose=True,
 )
 
-# Define tasks
+# Define tasks with context chaining
 research_task = Task(
     description="Research the latest developments in AI agents for 2025.",
     expected_output="A detailed summary of the top 5 AI agent trends.",
@@ -512,6 +522,7 @@ writing_task = Task(
     description="Write a blog post based on the research findings.",
     expected_output="A polished blog post of approximately 500 words.",
     agent=writer,
+    context=[research_task],  # Receives output from research_task
 )
 
 # Assemble the crew
@@ -753,26 +764,33 @@ print(result)`,
       "No built-in multi-agent orchestration",
       "Focused on single-agent patterns (use LangGraph for complex workflows)",
     ],
-    code_example: `from pydantic import BaseModel
-from pydantic_ai import Agent
+    code_example: `from dataclasses import dataclass
+from pydantic_ai import Agent, RunContext
 
-class CityInfo(BaseModel):
-    name: str
-    country: str
-    population: int
-    fun_fact: str
+# Define dependencies (injected at runtime)
+@dataclass
+class WeatherDeps:
+    api_key: str
+    units: str = "celsius"
 
 agent = Agent(
     "openai:gpt-4o",
-    result_type=CityInfo,
-    system_prompt="You are a geography expert. Provide accurate city information.",
+    deps_type=WeatherDeps,
+    system_prompt="You are a helpful weather assistant.",
 )
 
-result = agent.run_sync("Tell me about Tokyo")
-print(f"City: {result.data.name}")
-print(f"Country: {result.data.country}")
-print(f"Population: {result.data.population:,}")
-print(f"Fun fact: {result.data.fun_fact}")`,
+@agent.tool
+def get_weather(ctx: RunContext[WeatherDeps], city: str) -> str:
+    """Get the current weather for a city."""
+    # ctx.deps gives access to injected dependencies
+    return f"72°F in {city} (using key: {ctx.deps.api_key[:8]}...)"
+
+# Run with injected dependencies
+result = agent.run_sync(
+    "What's the weather in Tokyo?",
+    deps=WeatherDeps(api_key="wk-abc123def456"),
+)
+print(result.data)`,
     code_language: "python",
     stars_approx: "6k+",
     mcp_support: true,
@@ -939,11 +957,12 @@ print(result["llm"]["replies"][0].text)`,
       "Fewer pre-built tools compared to LangChain ecosystem",
     ],
     code_example: `import { Agent } from "@mastra/core/agent";
+import { createTool } from "@mastra/core/tools";
 import { openai } from "@ai-sdk/openai";
 import { z } from "zod";
 
-const weatherTool = {
-  id: "get_weather",
+const weatherTool = createTool({
+  id: "get-weather",
   description: "Get the current weather for a location",
   inputSchema: z.object({
     location: z.string().describe("The city name"),
@@ -952,16 +971,17 @@ const weatherTool = {
     temperature: z.number(),
     condition: z.string(),
   }),
-  execute: async ({ location }: { location: string }) => {
-    return { temperature: 72, condition: "Sunny" };
+  execute: async ({ context }) => {
+    // context.location comes from the input schema
+    return { temperature: 72, condition: "Sunny in " + context.location };
   },
-};
+});
 
 const agent = new Agent({
   name: "Weather Agent",
   instructions: "You are a helpful weather assistant.",
   model: openai("gpt-4o"),
-  tools: { get_weather: weatherTool },
+  tools: { "get-weather": weatherTool },
 });
 
 const response = await agent.generate(
@@ -1072,8 +1092,8 @@ print(result)`,
     ],
     weaknesses: [
       "Web-focused design is less suited for backend-only agents",
-      "Agent loop patterns require manual implementation",
       "No built-in multi-agent orchestration",
+      "Ecosystem is Vercel-centric, tighter coupling with Next.js",
     ],
     code_example: `import { generateText, tool } from "ai";
 import { openai } from "@ai-sdk/openai";
@@ -1101,7 +1121,7 @@ const result = await generateText({
 console.log(result.text);`,
     code_language: "typescript",
     stars_approx: "12k+",
-    mcp_support: false,
+    mcp_support: true,
     multi_agent: false,
     featured: true,
     notable_users: ["Vercel", "Perplexity", "Hashnode", "Cal.com"],
@@ -1135,12 +1155,13 @@ console.log(result.text);`,
       "Supports both chat and inline AI experiences",
     ],
     weaknesses: [
-      "React-only (no Vue, Svelte, or Angular support)",
+      "Limited framework support (React and Angular; no Vue or Svelte)",
       "Frontend-focused; requires separate backend agent setup",
       "Less suited for non-web or headless agent applications",
     ],
     code_example: `import { CopilotKit } from "@copilotkit/react-core";
-import { CopilotSidebar, useCopilotReadable, useCopilotAction } from "@copilotkit/react-ui";
+import { CopilotSidebar } from "@copilotkit/react-ui";
+import { useCopilotReadable, useCopilotAction } from "@copilotkit/react-core";
 
 function App() {
   return (
@@ -1153,7 +1174,7 @@ function App() {
 }
 
 function TodoApp() {
-  const [todos, setTodos] = useState<string[]>([]);
+  const [todos, setTodos] = React.useState<string[]>([]);
 
   // Expose app state to the AI
   useCopilotReadable({

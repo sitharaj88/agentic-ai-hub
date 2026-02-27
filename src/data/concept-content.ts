@@ -64,19 +64,21 @@ export const conceptContents: ConceptContent[] = [
 <figcaption style="text-align:center;font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem">Fig 1. The four-phase agent loop that underpins all agentic systems</figcaption>
 </figure>
 
+<p>Think of a chef preparing a complex dish: they look at the recipe and ingredients (<em>Perceive</em>), decide what to cook next (<em>Reason</em>), chop vegetables or adjust heat (<em>Act</em>), and remember what they already prepared so they do not repeat it (<em>Memory</em>). Each iteration brings the dish closer to completion.</p>
+
 <pre><code>goal = get_user_request()
-previous_results = []
+memory = Memory()
 task_complete = False
 
 while not task_complete:
-    observation = perceive(environment, previous_results)
+    observation = perceive(environment, memory)
     thought     = reason(observation, goal)
     result      = act(thought)
-    previous_results.append(result)
+    memory.store(result)          # 4th phase: persist for future steps
     if is_final_answer(result):
         task_complete = True</code></pre>
 
-<p>This loop is deceptively simple, but it is the foundation of all agentic behavior. The quality of an agent is determined by how well it performs each phase &mdash; how accurately it perceives, how intelligently it reasons, and how reliably it acts.</p>
+<p>This loop is deceptively simple, but it is the foundation of all agentic behavior. The quality of an agent is determined by how well it performs each phase &mdash; how accurately it perceives, how intelligently it reasons, how reliably it acts, and how effectively it uses memory.</p>
 `,
       },
       {
