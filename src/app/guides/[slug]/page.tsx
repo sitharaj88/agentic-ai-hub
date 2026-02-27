@@ -12,6 +12,13 @@ import {
   ListChecks,
 } from "lucide-react";
 import { DifficultyBadge } from "@/components/ui/Badge";
+import { MobileToC } from "@/components/content/MobileToC";
+import { ProseCodeBlocks } from "@/components/content/ProseCodeBlocks";
+import { RelatedContent } from "@/components/content/RelatedContent";
+import { EditOnGithub } from "@/components/content/EditOnGithub";
+import { LastUpdated } from "@/components/content/LastUpdated";
+import { KeyboardNav } from "@/components/ui/KeyboardNav";
+import { ArticleJsonLd, BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 import { guideContents, type GuideContent } from "@/data/guide-content";
 import type { Metadata } from "next";
 
@@ -295,6 +302,20 @@ export default async function GuidePage({
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+      <ArticleJsonLd
+        title={guide.title}
+        description={guide.description}
+        slug={slug}
+        section="guides"
+      />
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", href: "/" },
+          { name: "Guides", href: "/guides/" },
+          { name: guide.title, href: `/guides/${slug}/` },
+        ]}
+      />
+
       {/* Breadcrumb */}
       <nav
         className="mb-6 flex items-center gap-2 text-sm"
@@ -316,6 +337,7 @@ export default async function GuidePage({
       {/* Layout: Content + Sidebar */}
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_260px] lg:gap-12">
         {/* Main Content */}
+        <ProseCodeBlocks>
         <article className="prose max-w-none min-w-0">
           {/* Guide header */}
           <div className="not-prose mb-6">
@@ -334,6 +356,7 @@ export default async function GuidePage({
               >
                 Guide {idx + 1} of {guideContents.length}
               </span>
+              <LastUpdated type="guide" slug={slug} />
             </div>
           </div>
 
@@ -344,6 +367,17 @@ export default async function GuidePage({
           >
             {guide.description}
           </p>
+
+          <MobileToC
+            items={[
+              ...guide.sections.map((s) => ({
+                id: slugify(s.title),
+                title: s.title,
+              })),
+              { id: "common-mistakes", title: "Common Mistakes" },
+              { id: "next-steps", title: "Next Steps" },
+            ]}
+          />
 
           {/* Prerequisites */}
           <PrerequisitesBox items={guide.prerequisites} />
@@ -367,9 +401,23 @@ export default async function GuidePage({
           {/* Next Steps */}
           <NextStepsBox items={guide.nextSteps} />
 
+          {/* Related Content (cross-section) */}
+          <RelatedContent type="guide" slug={slug} />
+
           {/* Prev/Next Navigation */}
           <PrevNextNavigation prev={prev} next={next} />
+
+          {/* Edit on GitHub */}
+          <div className="not-prose mt-4 flex justify-end">
+            <EditOnGithub filePath={`src/app/guides/[slug]/page.tsx`} />
+          </div>
         </article>
+        </ProseCodeBlocks>
+
+        <KeyboardNav
+          prevHref={prev ? `/guides/${prev.slug}` : null}
+          nextHref={next ? `/guides/${next.slug}` : null}
+        />
 
         {/* Sidebar: Table of Contents */}
         <aside className="hidden lg:block">

@@ -15,6 +15,13 @@ import { patterns } from "@/data/patterns";
 import { patternContent, getPatternContent } from "@/data/pattern-content";
 import { frameworks } from "@/data/frameworks";
 import { DifficultyBadge } from "@/components/ui/Badge";
+import { MobileToC } from "@/components/content/MobileToC";
+import { ProseCodeBlocks } from "@/components/content/ProseCodeBlocks";
+import { RelatedContent } from "@/components/content/RelatedContent";
+import { EditOnGithub } from "@/components/content/EditOnGithub";
+import { LastUpdated } from "@/components/content/LastUpdated";
+import { KeyboardNav } from "@/components/ui/KeyboardNav";
+import { ArticleJsonLd, BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 import type { Metadata } from "next";
 
 export function generateStaticParams() {
@@ -78,6 +85,20 @@ export default async function PatternPage({
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+      <ArticleJsonLd
+        title={content.title}
+        description={content.description}
+        slug={slug}
+        section="patterns"
+      />
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", href: "/" },
+          { name: "Patterns", href: "/patterns/" },
+          { name: content.title, href: `/patterns/${slug}/` },
+        ]}
+      />
+
       {/* Breadcrumb */}
       <nav
         className="mb-6 flex items-center gap-2 text-sm"
@@ -101,14 +122,16 @@ export default async function PatternPage({
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_260px] lg:gap-12">
         {/* Main Content */}
+        <ProseCodeBlocks>
         <article className="prose max-w-none min-w-0">
           {/* Header */}
           <div className="mb-8">
-            <div className="mb-3 flex items-center gap-3">
+            <div className="mb-3 flex flex-wrap items-center gap-3">
               <DifficultyBadge level={content.difficulty} />
               <span className="text-sm" style={{ color: "var(--text-muted)" }}>
                 {content.sections.length} sections
               </span>
+              <LastUpdated type="pattern" slug={slug} />
             </div>
             <h1
               className="text-3xl font-extrabold sm:text-4xl"
@@ -123,6 +146,8 @@ export default async function PatternPage({
               {content.description}
             </p>
           </div>
+
+          <MobileToC items={tocItems} />
 
           {/* Pseudocode / Algorithm Box */}
           <div
@@ -365,6 +390,9 @@ export default async function PatternPage({
             </div>
           )}
 
+          {/* Related Content (cross-section) */}
+          <RelatedContent type="pattern" slug={slug} />
+
           {/* Previous / Next Navigation */}
           <div
             className="mt-12 grid grid-cols-2 gap-4 border-t pt-6"
@@ -423,7 +451,18 @@ export default async function PatternPage({
               <div />
             )}
           </div>
+
+          {/* Edit on GitHub */}
+          <div className="not-prose mt-4 flex justify-end">
+            <EditOnGithub filePath={`src/app/patterns/[slug]/page.tsx`} />
+          </div>
         </article>
+        </ProseCodeBlocks>
+
+        <KeyboardNav
+          prevHref={prev ? `/patterns/${prev.id}` : null}
+          nextHref={next ? `/patterns/${next.id}` : null}
+        />
 
         {/* Sidebar: Table of Contents */}
         <aside className="hidden lg:block">

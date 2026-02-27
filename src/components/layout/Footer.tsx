@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Github } from "lucide-react";
+import { Github, Keyboard } from "lucide-react";
 
 const footerNav = [
   {
@@ -121,9 +121,27 @@ export function Footer() {
         className="border-t"
         style={{ borderColor: "var(--border)" }}
       >
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
+        <div className="mx-auto flex max-w-7xl flex-col items-center gap-2 px-4 py-4 sm:flex-row sm:justify-between sm:px-6">
           <p className="text-xs" style={{ color: "var(--text-muted)" }}>
             &copy; 2026 Agentic AI Hub. Open source under MIT License.
+          </p>
+          <p
+            className="flex items-center gap-1.5 text-xs"
+            style={{ color: "var(--text-muted)" }}
+          >
+            <Keyboard size={12} />
+            Keyboard shortcuts: Press{" "}
+            <kbd
+              className="inline-flex items-center rounded border px-1.5 py-0.5 font-mono text-[10px] font-semibold"
+              style={{
+                borderColor: "var(--border)",
+                backgroundColor: "var(--bg-primary)",
+                color: "var(--text-secondary)",
+              }}
+            >
+              ?
+            </kbd>{" "}
+            for help
           </p>
           <p className="text-xs" style={{ color: "var(--text-muted)" }}>
             Last updated: February 2026

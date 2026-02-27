@@ -1,9 +1,15 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ExternalLink, ArrowLeft, ArrowRight, Check, X, Building, Code, Copy } from "lucide-react";
+import { ExternalLink, ArrowLeft, ArrowRight, Check, X, Building, Code } from "lucide-react";
 import { frameworks, getFramework } from "@/data/frameworks";
 import { CategoryBadge, LanguageBadge } from "@/components/ui/Badge";
 import { CopyButton } from "@/components/ui/CopyButton";
+import { MobileToC } from "@/components/content/MobileToC";
+import { RelatedContent } from "@/components/content/RelatedContent";
+import { EditOnGithub } from "@/components/content/EditOnGithub";
+import { LastUpdated } from "@/components/content/LastUpdated";
+import { KeyboardNav } from "@/components/ui/KeyboardNav";
+import { TechArticleJsonLd, BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 import type { Metadata } from "next";
 
 export function generateStaticParams() {
@@ -39,6 +45,21 @@ export default async function FrameworkPage({
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+      <TechArticleJsonLd
+        title={fw.name}
+        description={fw.description}
+        slug={slug}
+        developer={fw.developer}
+        languages={fw.language}
+      />
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", href: "/" },
+          { name: "Frameworks", href: "/frameworks/" },
+          { name: fw.name, href: `/frameworks/${slug}/` },
+        ]}
+      />
+
       {/* Breadcrumb */}
       <nav className="mb-6 flex items-center gap-2 text-sm" style={{ color: "var(--text-muted)" }}>
         <Link href="/" className="hover:text-accent">Home</Link>
@@ -62,13 +83,28 @@ export default async function FrameworkPage({
             <h1 className="text-3xl font-extrabold sm:text-4xl" style={{ color: "var(--text-primary)" }}>
               {fw.name}
             </h1>
-            <p className="mt-1 text-sm font-medium" style={{ color: "var(--text-muted)" }}>
-              by {fw.developer}
-            </p>
+            <div className="mt-1 flex flex-wrap items-center gap-3">
+              <span className="text-sm font-medium" style={{ color: "var(--text-muted)" }}>
+                by {fw.developer}
+              </span>
+              <LastUpdated type="framework" slug={slug} />
+            </div>
             <p className="mt-4 text-lg leading-relaxed" style={{ color: "var(--text-secondary)" }}>
               {fw.description}
             </p>
           </div>
+
+          <MobileToC
+            items={[
+              { id: "architecture-overview", title: "Architecture Overview" },
+              { id: "when-to-use", title: "When to Use" },
+              { id: "strengths-weaknesses", title: "Strengths & Weaknesses" },
+              { id: "quick-start", title: "Quick Start" },
+              { id: "features-at-a-glance", title: "Features at a Glance" },
+              { id: "notable-users", title: "Notable Users" },
+              { id: "resources", title: "Resources" },
+            ]}
+          />
 
           {/* Architecture Overview */}
           {"architecture" in fw && fw.architecture && (
@@ -128,24 +164,15 @@ export default async function FrameworkPage({
             <>
               <h2>Quick Start</h2>
               <div className="not-prose relative">
-                <div
-                  className="overflow-hidden rounded-xl border"
-                  style={{ borderColor: "var(--border)" }}
-                >
-                  <div
-                    className="flex items-center justify-between border-b px-4 py-2"
-                    style={{ backgroundColor: "var(--bg-tertiary)", borderColor: "var(--border)" }}
-                  >
-                    <span className="flex items-center gap-2 text-xs font-medium" style={{ color: "var(--text-muted)" }}>
+                <div className="code-block-wrapper" style={{ margin: 0 }}>
+                  <div className="code-block-header">
+                    <span className="code-block-lang">
                       <Code size={14} />
                       {"code_language" in fw ? fw.code_language : "python"}
                     </span>
                     <CopyButton text={fw.code_example} />
                   </div>
-                  <pre
-                    className="overflow-x-auto p-4 text-sm leading-relaxed"
-                    style={{ backgroundColor: "var(--bg-code)", color: "var(--text-primary)" }}
-                  >
+                  <pre className="code-block-pre">
                     <code>{fw.code_example}</code>
                   </pre>
                 </div>
@@ -246,6 +273,9 @@ export default async function FrameworkPage({
             </a>
           </div>
 
+          {/* Related Content (cross-section) */}
+          <RelatedContent type="framework" slug={slug} />
+
           {/* Prev/Next Navigation */}
           <div className="not-prose mt-12 grid gap-4 border-t pt-6 sm:grid-cols-2" style={{ borderColor: "var(--border)" }}>
             {prev ? (
@@ -273,7 +303,17 @@ export default async function FrameworkPage({
               </Link>
             ) : <div />}
           </div>
+
+          {/* Edit on GitHub */}
+          <div className="not-prose mt-4 flex justify-end">
+            <EditOnGithub filePath={`src/app/frameworks/[slug]/page.tsx`} />
+          </div>
         </article>
+
+        <KeyboardNav
+          prevHref={prev ? `/frameworks/${prev.id}` : null}
+          nextHref={next ? `/frameworks/${next.id}` : null}
+        />
 
         {/* ===== Sidebar ===== */}
         <aside className="hidden lg:block">

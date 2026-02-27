@@ -1,0 +1,7 @@
+# Agentic AI Hub — https://sitharaj88.github.io/agentic-ai-hub
+User-agent: *
+Allow: /
+
+Disallow: /agentic-ai-hub/_next/static/
+
+Sitemap: https://sitharaj88.github.io/agentic-ai-hub/sitemap.xml

@@ -6,6 +6,7 @@ import { PatternCard } from "@/components/content/PatternCard";
 import { getFeaturedFrameworks } from "@/data/frameworks";
 import { concepts } from "@/data/concepts";
 import { patterns } from "@/data/patterns";
+import { WebSiteJsonLd } from "@/components/seo/JsonLd";
 
 const learningPaths = [
   {
@@ -62,6 +63,8 @@ export default function HomePage() {
 
   return (
     <>
+      <WebSiteJsonLd />
+
       {/* ===== HERO ===== */}
       <section
         className="border-b"

@@ -7,6 +7,13 @@ import { frameworks } from "@/data/frameworks";
 import { patterns } from "@/data/patterns";
 import { DifficultyBadge } from "@/components/ui/Badge";
 import { TableOfContents } from "@/components/content/TableOfContents";
+import { MobileToC } from "@/components/content/MobileToC";
+import { ProseCodeBlocks } from "@/components/content/ProseCodeBlocks";
+import { ArticleJsonLd, BreadcrumbJsonLd } from "@/components/seo/JsonLd";
+import { RelatedContent } from "@/components/content/RelatedContent";
+import { EditOnGithub } from "@/components/content/EditOnGithub";
+import { LastUpdated } from "@/components/content/LastUpdated";
+import { KeyboardNav } from "@/components/ui/KeyboardNav";
 import type { Metadata } from "next";
 
 export function generateStaticParams() {
@@ -69,6 +76,20 @@ export default async function ConceptPage({
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+      <ArticleJsonLd
+        title={concept.title}
+        description={concept.description}
+        slug={slug}
+        section="concepts"
+      />
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", href: "/" },
+          { name: "Concepts", href: "/concepts/" },
+          { name: concept.title, href: `/concepts/${slug}/` },
+        ]}
+      />
+
       {/* Breadcrumb */}
       <nav
         className="mb-6 flex items-center gap-2 text-sm"
@@ -92,8 +113,9 @@ export default async function ConceptPage({
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_260px] lg:gap-12">
         {/* Main content */}
+        <ProseCodeBlocks>
         <article className="prose max-w-none min-w-0">
-          <div className="not-prose mb-6 flex items-center gap-3">
+          <div className="not-prose mb-6 flex flex-wrap items-center gap-3">
             <DifficultyBadge level={concept.difficulty} />
             <span
               className="text-sm"
@@ -103,6 +125,7 @@ export default async function ConceptPage({
                 ? `${content.sections.length} sections`
                 : ""}
             </span>
+            <LastUpdated type="concept" slug={slug} />
           </div>
 
           <h1>{concept.title}</h1>
@@ -112,6 +135,8 @@ export default async function ConceptPage({
           >
             {concept.description}
           </p>
+
+          {tocItems.length > 0 && <MobileToC items={tocItems} />}
 
           {content ? (
             <>
@@ -277,6 +302,9 @@ export default async function ConceptPage({
             </>
           )}
 
+          {/* Related Content (cross-section) */}
+          <RelatedContent type="concept" slug={slug} />
+
           {/* Prev/Next Navigation */}
           <div
             className="not-prose mt-12 flex items-center justify-between border-t pt-6"
@@ -345,7 +373,18 @@ export default async function ConceptPage({
               <div />
             )}
           </div>
+
+          {/* Edit on GitHub */}
+          <div className="not-prose mt-4 flex justify-end">
+            <EditOnGithub filePath={`src/app/concepts/[slug]/page.tsx`} />
+          </div>
         </article>
+        </ProseCodeBlocks>
+
+        <KeyboardNav
+          prevHref={prev ? `/concepts/${prev.id}` : null}
+          nextHref={next ? `/concepts/${next.id}` : null}
+        />
 
         {/* Sticky Table of Contents sidebar */}
         {content && tocItems.length > 0 && (
