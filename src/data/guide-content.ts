@@ -86,7 +86,8 @@ export const guideContents: GuideContent[] = [
       },
       {
         title: "Installing Dependencies",
-        content: `<p>Let us set up a Python project with the OpenAI Agents SDK. You will need Python 3.10 or later.</p>
+        content: `<h3>Python Setup</h3>
+<p>Set up a Python project with the OpenAI Agents SDK. You will need Python 3.10 or later.</p>
 
 <pre><code># Create a project directory
 mkdir my-first-agent && cd my-first-agent
@@ -106,11 +107,28 @@ export OPENAI_API_KEY="sk-..."
 
 <pre><code>pip install anthropic
 export ANTHROPIC_API_KEY="sk-ant-..."
+</code></pre>
+
+<h3>TypeScript Setup</h3>
+<p>Prefer TypeScript? Set up a Node.js project with the Vercel AI SDK.</p>
+
+<pre><code># Create a project directory
+mkdir my-first-agent && cd my-first-agent
+
+# Initialize the project
+npm init -y
+
+# Install the Vercel AI SDK with Anthropic provider
+npm install ai @ai-sdk/anthropic zod
+
+# Set your API key
+export ANTHROPIC_API_KEY="sk-ant-..."
 </code></pre>`,
       },
       {
         title: "Hello World Agent",
-        content: `<p>Here is a minimal agent using the OpenAI Agents SDK. It creates an agent with a system prompt and runs it with a single task:</p>
+        content: `<h3>Python</h3>
+<p>Here is a minimal agent using the OpenAI Agents SDK. It creates an agent with a system prompt and runs it with a single task:</p>
 
 <pre><code>from agents import Agent, Runner
 
@@ -132,13 +150,35 @@ print(result.final_output)
 <pre><code>python agent.py
 </code></pre>
 
+<h3>TypeScript</h3>
+<p>Here is the same agent using the Vercel AI SDK with Anthropic:</p>
+
+<pre><code>import { generateText } from "ai";
+import { anthropic } from "@ai-sdk/anthropic";
+
+const { text } = await generateText({
+  model: anthropic("claude-sonnet-4-20250514"),
+  system: "You are a helpful assistant. Answer concisely.",
+  prompt: "What are the three laws of robotics?",
+});
+
+console.log(text);
+</code></pre>
+
+<p>Run it:</p>
+
+<pre><code>npx tsx agent.ts
+</code></pre>
+
 <p>You should see the agent respond with Asimov's three laws. Congratulations — you have just built your first AI agent!</p>
 
-<p>The key insight is that <code>Runner.run_sync</code> manages the agent loop for you. Under the hood it sends the prompt to the model, collects the response, checks if any tool calls are needed, executes them, and loops until the agent signals it is done.</p>`,
+<p>Both approaches manage the agent loop for you. Under the hood they send the prompt to the model, collect the response, check if any tool calls are needed, execute them, and loop until done.</p>`,
       },
       {
         title: "Adding a Tool",
-        content: `<p>Agents become powerful when they can use tools. Let us give our agent a simple calculator:</p>
+        content: `<p>Agents become powerful when they can use tools. Let us give our agent a simple calculator.</p>
+
+<h3>Python</h3>
 
 <pre><code>from agents import Agent, Runner, function_tool
 
@@ -158,6 +198,37 @@ agent = Agent(
 
 result = Runner.run_sync(agent, "What is 247 * 38 + 19?")
 print(result.final_output)
+</code></pre>
+
+<h3>TypeScript</h3>
+
+<pre><code>import { generateText, tool } from "ai";
+import { anthropic } from "@ai-sdk/anthropic";
+import { z } from "zod";
+
+const { text } = await generateText({
+  model: anthropic("claude-sonnet-4-20250514"),
+  system: "You are a helpful math assistant. Use the calculate tool for arithmetic.",
+  prompt: "What is 247 * 38 + 19?",
+  tools: {
+    calculate: tool({
+      description: "Evaluate a math expression and return the result",
+      parameters: z.object({
+        expression: z.string().describe("The math expression to evaluate"),
+      }),
+      execute: async ({ expression }) => {
+        try {
+          return String(eval(expression));
+        } catch (e) {
+          return "Error: invalid expression";
+        }
+      },
+    }),
+  },
+  maxSteps: 5,
+});
+
+console.log(text);
 </code></pre>
 
 <p>When the agent encounters an arithmetic question, it will call the <code>calculate</code> tool rather than attempting mental math. This is the essence of tool-augmented generation.</p>`,
@@ -1548,19 +1619,18 @@ with trace("full_agent_run", project_name="my-agent") as rt:
         title: "Tracing with Langfuse",
         content: `<p>Langfuse is an open-source alternative to LangSmith. It can be self-hosted or used as a managed service:</p>
 
-<pre><code>from langfuse import Langfuse
-from langfuse.decorators import observe, langfuse_context
+<pre><code>from langfuse import observe, get_client
 
-langfuse = Langfuse(
-    public_key="pk-...",
-    secret_key="sk-...",
-    host="https://cloud.langfuse.com",  # or your self-hosted URL
-)
+# Configure via environment variables:
+# LANGFUSE_PUBLIC_KEY="pk-..."
+# LANGFUSE_SECRET_KEY="sk-..."
+# LANGFUSE_HOST="https://cloud.langfuse.com"
 
 @observe()
 def run_agent(user_message: str) -> str:
     # Update the current trace with metadata
-    langfuse_context.update_current_trace(
+    langfuse = get_client()
+    langfuse.update_current_trace(
         user_id="user-123",
         metadata={"source": "api"},
     )
@@ -1574,7 +1644,8 @@ def run_agent(user_message: str) -> str:
 def do_research(query: str) -> str:
     # This creates a child span
     result = llm.invoke(query)
-    langfuse_context.update_current_observation(
+    langfuse = get_client()
+    langfuse.update_current_observation(
         metadata={"tokens": result.usage.total_tokens}
     )
     return result.content

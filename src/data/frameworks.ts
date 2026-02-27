@@ -37,7 +37,7 @@ export const frameworks: Framework[] = [
     language: ["Python", "TypeScript"],
     license: "MIT",
     github_url: "https://github.com/anthropics/anthropic-sdk-python",
-    docs_url: "https://docs.anthropic.com/en/docs/agents-and-tools/agent-sdk",
+    docs_url: "https://docs.anthropic.com/en/docs/agents-and-tools/agent-loop",
     description:
       "Anthropic's production-grade agent runtime with deep MCP integration, computer use capabilities, and a developer-first design philosophy. It provides an agentic loop that automatically handles tool calls, supports multi-turn conversations, and includes built-in guardrails for safe agent behavior.",
     architecture:
@@ -240,7 +240,7 @@ for event in response:
     if event.is_final_response():
         print(event.content.parts[0].text)`,
     code_language: "python",
-    stars_approx: "5k+",
+    stars_approx: "18k+",
     mcp_support: true,
     multi_agent: true,
     featured: true,
@@ -1139,12 +1139,8 @@ console.log(result.text);`,
       "Frontend-focused; requires separate backend agent setup",
       "Less suited for non-web or headless agent applications",
     ],
-    code_example: `import {
-  CopilotKit,
-  CopilotSidebar,
-  useCopilotReadable,
-  useCopilotAction,
-} from "@copilotkit/react";
+    code_example: `import { CopilotKit } from "@copilotkit/react-core";
+import { CopilotSidebar, useCopilotReadable, useCopilotAction } from "@copilotkit/react-ui";
 
 function App() {
   return (
@@ -1253,7 +1249,7 @@ response = requests.post(
 data = response.json()
 print(data["answer"])`,
     code_language: "python",
-    stars_approx: "60k+",
+    stars_approx: "130k+",
     mcp_support: true,
     multi_agent: false,
     featured: false,

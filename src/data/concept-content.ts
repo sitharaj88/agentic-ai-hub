@@ -1287,7 +1287,7 @@ Answer:"""
 <p>Common choices include:</p>
 <ul>
   <li><strong>OpenAI text-embedding-3-large</strong> &mdash; High quality, widely used, API-based.</li>
-  <li><strong>Cohere embed-v3.0 / embed-v4.0</strong> &mdash; Strong multilingual support, document-optimized.</li>
+  <li><strong>Cohere embed-english-v3.0 / embed-v4.0</strong> &mdash; Strong multilingual support, document-optimized.</li>
   <li><strong>BGE-M3 / GTE-large</strong> &mdash; Open-source models that rival commercial options. Can be self-hosted.</li>
   <li><strong>Voyage AI</strong> &mdash; Domain-specific models for code, legal, finance.</li>
 </ul>

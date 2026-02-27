@@ -34,7 +34,7 @@ const paths: LearningPath[] = [
     title: "Python Developer Path",
     description: "Build powerful agents with Python frameworks like LangGraph, CrewAI, and PydanticAI.",
     difficulty: "intermediate",
-    estimatedTime: "3 hours",
+    estimatedTime: "2.5 hours",
     steps: [
       { title: "Getting Started with Agents", href: "/guides/getting-started", time: "15 min", description: "Review the fundamentals before diving in." },
       { title: "LangGraph Deep Dive", href: "/frameworks/langgraph", time: "20 min", description: "Master graph-based stateful agents." },
@@ -50,7 +50,7 @@ const paths: LearningPath[] = [
     title: "TypeScript Developer Path",
     description: "Agent development in the TypeScript ecosystem with Vercel AI SDK, Mastra, and CopilotKit.",
     difficulty: "intermediate",
-    estimatedTime: "2.5 hours",
+    estimatedTime: "2 hours",
     steps: [
       { title: "Getting Started with Agents", href: "/guides/getting-started", time: "15 min", description: "Review agent fundamentals." },
       { title: "Vercel AI SDK Deep Dive", href: "/frameworks/vercel-ai-sdk", time: "20 min", description: "Build AI-powered web apps." },
@@ -65,7 +65,7 @@ const paths: LearningPath[] = [
     title: "Production Engineer Path",
     description: "Ship, monitor, and scale AI agents in production environments.",
     difficulty: "advanced",
-    estimatedTime: "4 hours",
+    estimatedTime: "2.5 hours",
     steps: [
       { title: "Guardrails & Safety", href: "/guides/guardrails", time: "20 min", description: "Implement safety measures and validation." },
       { title: "Observability & Monitoring", href: "/guides/observability", time: "20 min", description: "Monitor agent behavior in production." },
