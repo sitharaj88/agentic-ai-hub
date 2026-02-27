@@ -623,7 +623,7 @@ export default function GlossaryPage() {
   const activeLetters = new Set(grouped.map(([l]) => l));
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6">
+    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
       {/* Header */}
       <div className="mb-8">
         <h1

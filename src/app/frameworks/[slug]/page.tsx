@@ -48,7 +48,7 @@ export default async function FrameworkPage({
         <span style={{ color: "var(--text-primary)" }} className="font-medium">{fw.name}</span>
       </nav>
 
-      <div className="grid gap-8 lg:grid-cols-[1fr_300px]">
+      <div className="grid gap-8 lg:grid-cols-[1fr_280px] lg:gap-12">
         {/* ===== Main Content ===== */}
         <article className="prose min-w-0">
           {/* Header */}

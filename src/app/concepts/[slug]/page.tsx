@@ -90,7 +90,7 @@ export default async function ConceptPage({
         </span>
       </nav>
 
-      <div className="flex gap-10">
+      <div className="flex gap-8 lg:gap-12">
         {/* Main content */}
         <article className="prose min-w-0 flex-1">
           <div className="not-prose mb-6 flex items-center gap-3">

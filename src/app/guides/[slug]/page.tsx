@@ -55,7 +55,7 @@ function slugify(text: string): string {
 function TableOfContents({ guide }: { guide: GuideContent }) {
   return (
     <nav
-      className="hidden xl:block sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto"
+      className="hidden lg:block sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto"
       aria-label="Table of contents"
     >
       <div
@@ -314,7 +314,7 @@ export default async function GuidePage({
       </nav>
 
       {/* Layout: Content + Sidebar */}
-      <div className="flex gap-10">
+      <div className="flex gap-8 lg:gap-12">
         {/* Main Content */}
         <article className="prose min-w-0 flex-1">
           {/* Guide header */}
@@ -372,7 +372,7 @@ export default async function GuidePage({
         </article>
 
         {/* Sidebar: Table of Contents */}
-        <aside className="hidden xl:block w-64 shrink-0">
+        <aside className="hidden lg:block w-64 shrink-0">
           <TableOfContents guide={guide} />
         </aside>
       </div>
