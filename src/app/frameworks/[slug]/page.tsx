@@ -50,7 +50,7 @@ export default async function FrameworkPage({
 
       <div className="grid gap-8 lg:grid-cols-[1fr_280px] lg:gap-12">
         {/* ===== Main Content ===== */}
-        <article className="prose min-w-0">
+        <article className="prose max-w-none min-w-0">
           {/* Header */}
           <div className="not-prose mb-8">
             <div className="mb-3 flex flex-wrap items-center gap-2">

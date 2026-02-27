@@ -90,9 +90,9 @@ export default async function ConceptPage({
         </span>
       </nav>
 
-      <div className="flex gap-8 lg:gap-12">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_260px] lg:gap-12">
         {/* Main content */}
-        <article className="prose min-w-0 flex-1">
+        <article className="prose max-w-none min-w-0">
           <div className="not-prose mb-6 flex items-center gap-3">
             <DifficultyBadge level={concept.difficulty} />
             <span
@@ -349,8 +349,8 @@ export default async function ConceptPage({
 
         {/* Sticky Table of Contents sidebar */}
         {content && tocItems.length > 0 && (
-          <aside className="hidden w-64 flex-shrink-0 lg:block">
-            <div className="sticky top-24">
+          <aside className="hidden lg:block">
+            <div className="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto">
               <TableOfContents items={tocItems} />
 
               {/* Back to all concepts link */}

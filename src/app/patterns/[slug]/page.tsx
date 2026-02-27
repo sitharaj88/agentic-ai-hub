@@ -99,9 +99,9 @@ export default async function PatternPage({
         </span>
       </nav>
 
-      <div className="flex gap-8 lg:gap-12">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_260px] lg:gap-12">
         {/* Main Content */}
-        <article className="min-w-0 flex-1">
+        <article className="prose max-w-none min-w-0">
           {/* Header */}
           <div className="mb-8">
             <div className="mb-3 flex items-center gap-3">
@@ -251,18 +251,16 @@ export default async function PatternPage({
           </div>
 
           {/* Content Sections */}
-          <div className="prose mb-10">
-            {content.sections.map((section, i) => (
-              <section key={i} id={slugify(section.title)} className="scroll-mt-20">
-                <h2>
-                  <a href={`#${slugify(section.title)}`}>{section.title}</a>
-                </h2>
-                <div
-                  dangerouslySetInnerHTML={{ __html: section.content }}
-                />
-              </section>
-            ))}
-          </div>
+          {content.sections.map((section, i) => (
+            <section key={i} id={slugify(section.title)} className="scroll-mt-20">
+              <h2>
+                <a href={`#${slugify(section.title)}`}>{section.title}</a>
+              </h2>
+              <div
+                dangerouslySetInnerHTML={{ __html: section.content }}
+              />
+            </section>
+          ))}
 
           {/* Implemented By — Framework Links */}
           {implementedByFrameworks.length > 0 && (
@@ -428,7 +426,7 @@ export default async function PatternPage({
         </article>
 
         {/* Sidebar: Table of Contents */}
-        <aside className="hidden lg:block w-64 shrink-0">
+        <aside className="hidden lg:block">
           <div className="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto">
             <div
               className="rounded-xl border p-5"

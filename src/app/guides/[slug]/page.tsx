@@ -314,9 +314,9 @@ export default async function GuidePage({
       </nav>
 
       {/* Layout: Content + Sidebar */}
-      <div className="flex gap-8 lg:gap-12">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_260px] lg:gap-12">
         {/* Main Content */}
-        <article className="prose min-w-0 flex-1">
+        <article className="prose max-w-none min-w-0">
           {/* Guide header */}
           <div className="not-prose mb-6">
             <div className="mb-3 flex flex-wrap items-center gap-3">
@@ -372,7 +372,7 @@ export default async function GuidePage({
         </article>
 
         {/* Sidebar: Table of Contents */}
-        <aside className="hidden lg:block w-64 shrink-0">
+        <aside className="hidden lg:block">
           <TableOfContents guide={guide} />
         </aside>
       </div>

@@ -103,7 +103,7 @@ body {
 .prose {
   color: var(--text-secondary);
   line-height: 1.75;
-  max-width: none;
+  max-width: none !important;
 }
 
 .prose h1,
