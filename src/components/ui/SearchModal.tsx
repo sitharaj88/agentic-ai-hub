@@ -149,7 +149,7 @@ export function SearchModal({ open, onClose }: SearchModalProps) {
   let flatIndex = 0;
 
   return (
-    <div className="search-modal-backdrop" onClick={onClose}>
+    <div className="search-modal-backdrop" onClick={onClose} role="dialog" aria-modal="true" aria-label="Search">
       <div
         className="search-modal animate-fade-in"
         onClick={(e) => e.stopPropagation()}
