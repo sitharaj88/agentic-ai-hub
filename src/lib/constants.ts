@@ -4,7 +4,10 @@ export const SITE_CONFIG = {
     "The definitive open-source guide to every framework, pattern, and tool for AI agent development.",
   url: "https://sitharaj88.github.io/agentic-ai-hub",
   github: "https://github.com/sitharaj88/agentic-ai-hub",
-  author: "Agentic AI Hub",
+  author: "Sitharaj Seenivasan",
+  authorWebsite: "https://sitharaj.in",
+  authorLinkedIn: "https://linkedin.com/in/sitharaj08",
+  authorBuyMeACoffee: "https://buymeacoffee.com/sitharaj88",
 } as const;
 
 export const NAV_LINKS = [

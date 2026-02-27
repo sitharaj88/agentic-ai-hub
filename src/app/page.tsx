@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowRight, BookOpen, Code, Rocket, Shield, Github } from "lucide-react";
+import { ArrowRight, BookOpen, Code, Rocket, Shield, Github, Coffee } from "lucide-react";
+import { SITE_CONFIG } from "@/lib/constants";
 import { FrameworkCard } from "@/components/content/FrameworkCard";
 import { ConceptCard } from "@/components/content/ConceptCard";
 import { PatternCard } from "@/components/content/PatternCard";
@@ -316,12 +317,20 @@ export default function HomePage() {
         <div className="mx-auto max-w-3xl px-4">
           <h2 className="text-3xl font-bold">Open Source & Community Driven</h2>
           <p className="mt-4 text-lg text-white/85">
-            This guide is free, open source, and built for the developer community.
-            Star us on GitHub and help us grow.
+            Built by{" "}
+            <a
+              href={SITE_CONFIG.authorWebsite}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold underline decoration-white/40 hover:decoration-white"
+            >
+              {SITE_CONFIG.author}
+            </a>
+            . This guide is free, open source, and built for the developer community.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <a
-              href="https://github.com/sitharaj88/agentic-ai-hub"
+              href={SITE_CONFIG.github}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 font-semibold text-accent transition-colors hover:bg-white/90"
@@ -330,7 +339,16 @@ export default function HomePage() {
               Star on GitHub
             </a>
             <a
-              href="https://github.com/sitharaj88/agentic-ai-hub/issues"
+              href={SITE_CONFIG.authorBuyMeACoffee}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-lg bg-[#FFDD00] px-6 py-3 font-semibold text-[#000000] transition-colors hover:bg-[#FFDD00]/90"
+            >
+              <Coffee size={18} />
+              Buy Me a Coffee
+            </a>
+            <a
+              href={`${SITE_CONFIG.github}/issues`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-lg border border-white/30 px-6 py-3 font-semibold text-white transition-colors hover:bg-white/10"

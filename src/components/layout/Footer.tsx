@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Github, Keyboard } from "lucide-react";
+import { Github, Keyboard, Globe, Linkedin, Coffee } from "lucide-react";
+import { SITE_CONFIG } from "@/lib/constants";
 
 const footerNav = [
   {
@@ -66,16 +67,59 @@ export function Footer() {
           <p className="mt-2 text-sm" style={{ color: "var(--text-muted)" }}>
             The open-source guide to AI agent development. Built for developers.
           </p>
-          <a
-            href="https://github.com/sitharaj88/agentic-ai-hub"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-3 inline-flex items-center gap-1.5 text-sm"
-            style={{ color: "var(--text-secondary)" }}
-          >
-            <Github size={16} />
-            Star on GitHub
-          </a>
+          <p className="mt-3 text-sm" style={{ color: "var(--text-secondary)" }}>
+            Created by{" "}
+            <a
+              href={SITE_CONFIG.authorWebsite}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-accent hover:underline"
+            >
+              {SITE_CONFIG.author}
+            </a>
+          </p>
+          <div className="mt-3 flex items-center gap-3">
+            <a
+              href={SITE_CONFIG.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-colors hover:text-accent"
+              style={{ color: "var(--text-secondary)" }}
+              aria-label="GitHub"
+            >
+              <Github size={18} />
+            </a>
+            <a
+              href={SITE_CONFIG.authorLinkedIn}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-colors hover:text-accent"
+              style={{ color: "var(--text-secondary)" }}
+              aria-label="LinkedIn"
+            >
+              <Linkedin size={18} />
+            </a>
+            <a
+              href={SITE_CONFIG.authorWebsite}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-colors hover:text-accent"
+              style={{ color: "var(--text-secondary)" }}
+              aria-label="Website"
+            >
+              <Globe size={18} />
+            </a>
+            <a
+              href={SITE_CONFIG.authorBuyMeACoffee}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-colors hover:text-accent"
+              style={{ color: "var(--text-secondary)" }}
+              aria-label="Buy Me a Coffee"
+            >
+              <Coffee size={18} />
+            </a>
+          </div>
         </div>
 
         {/* Nav Columns */}
@@ -123,7 +167,16 @@ export function Footer() {
       >
         <div className="mx-auto flex max-w-7xl flex-col items-center gap-2 px-4 py-4 sm:flex-row sm:justify-between sm:px-6">
           <p className="text-xs" style={{ color: "var(--text-muted)" }}>
-            &copy; 2026 Agentic AI Hub. Open source under MIT License.
+            &copy; 2026{" "}
+            <a
+              href={SITE_CONFIG.authorWebsite}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-accent"
+            >
+              {SITE_CONFIG.author}
+            </a>
+            . Open source under MIT License.
           </p>
           <p
             className="flex items-center gap-1.5 text-xs"
