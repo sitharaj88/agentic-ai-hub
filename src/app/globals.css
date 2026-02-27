@@ -1,0 +1,325 @@
+@import "tailwindcss";
+
+/* ============================================================
+   AGENTIC AI HUB — Design System
+   Target: World-class developer documentation quality
+   ============================================================ */
+
+@theme {
+  /* Brand */
+  --color-accent: #6366f1;
+  --color-accent-hover: #4f46e5;
+  --color-accent-light: #eef2ff;
+  --color-accent-dark: #3730a3;
+  --color-accent-subtle: #c7d2fe;
+
+  /* Category Colors */
+  --color-cat-big-tech: #f59e0b;
+  --color-cat-open-source: #10b981;
+  --color-cat-typescript: #3b82f6;
+  --color-cat-enterprise: #8b5cf6;
+  --color-cat-protocol: #ef4444;
+
+  /* Difficulty */
+  --color-beginner: #10b981;
+  --color-intermediate: #f59e0b;
+  --color-advanced: #ef4444;
+}
+
+/* ============================================================
+   Light & Dark Theme Variables
+   ============================================================ */
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-tertiary: #f1f5f9;
+  --bg-card: #ffffff;
+  --bg-code: #f8fafc;
+  --bg-elevated: #ffffff;
+
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
+
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  --callout-info-bg: #eff6ff;
+  --callout-info-border: #3b82f6;
+  --callout-tip-bg: #f0fdf4;
+  --callout-tip-border: #10b981;
+  --callout-warning-bg: #fffbeb;
+  --callout-warning-border: #f59e0b;
+  --callout-danger-bg: #fef2f2;
+  --callout-danger-border: #ef4444;
+}
+
+.dark {
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
+  --bg-card: #1e293b;
+  --bg-code: #0f172a;
+  --bg-elevated: #1e293b;
+
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+
+  --border: #334155;
+  --border-strong: #475569;
+
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.3);
+
+  --callout-info-bg: #1e3a5f;
+  --callout-tip-bg: #14532d;
+  --callout-warning-bg: #451a03;
+  --callout-danger-bg: #450a0a;
+}
+
+/* ============================================================
+   Base Reset & Typography
+   ============================================================ */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* ============================================================
+   Prose Styles for MDX Content
+   ============================================================ */
+.prose {
+  color: var(--text-secondary);
+  line-height: 1.75;
+  max-width: 65ch;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+  color: var(--text-primary);
+  font-weight: 700;
+  line-height: 1.3;
+  scroll-margin-top: 80px;
+}
+
+.prose h1 { font-size: 2.25rem; margin-top: 0; margin-bottom: 1rem; }
+.prose h2 { font-size: 1.75rem; margin-top: 2.5rem; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+.prose h3 { font-size: 1.375rem; margin-top: 2rem; margin-bottom: 0.5rem; }
+.prose h4 { font-size: 1.125rem; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+
+.prose p { margin-bottom: 1.25em; }
+
+.prose a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.15s ease;
+}
+.prose a:hover { color: var(--color-accent-hover); }
+
+.prose ul, .prose ol { margin-bottom: 1.25em; padding-left: 1.5em; }
+.prose li { margin-bottom: 0.25em; }
+.prose li::marker { color: var(--text-muted); }
+
+.prose strong { color: var(--text-primary); font-weight: 600; }
+
+.prose blockquote {
+  border-left: 3px solid var(--color-accent);
+  padding: 0.5rem 1rem;
+  margin: 1.5rem 0;
+  background: var(--bg-secondary);
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+.prose blockquote p { margin-bottom: 0; }
+
+.prose code {
+  font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", "SF Mono", monospace;
+  font-size: 0.875em;
+  background: var(--bg-tertiary);
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+
+.prose pre {
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  border-radius: 0.625rem;
+  padding: 1.25rem;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  position: relative;
+}
+
+.prose pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+}
+
+.prose th {
+  background: var(--bg-secondary);
+  font-weight: 600;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-bottom: 2px solid var(--border-strong);
+  color: var(--text-primary);
+}
+
+.prose td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.prose tr:last-child td { border-bottom: none; }
+
+.prose img {
+  max-width: 100%;
+  border-radius: 0.625rem;
+  border: 1px solid var(--border);
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2rem 0;
+}
+
+/* Autolinked headings */
+.prose h2 a,
+.prose h3 a,
+.prose h4 a {
+  color: inherit;
+  text-decoration: none;
+}
+.prose h2 a:hover::after,
+.prose h3 a:hover::after,
+.prose h4 a:hover::after {
+  content: " #";
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+/* ============================================================
+   Component: Category Tags
+   ============================================================ */
+.tag-big-tech { background: #fef3c7; color: #92400e; }
+.tag-open-source { background: #d1fae5; color: #065f46; }
+.tag-typescript { background: #dbeafe; color: #1e40af; }
+.tag-enterprise { background: #ede9fe; color: #4c1d95; }
+.tag-protocol { background: #fee2e2; color: #991b1b; }
+
+.dark .tag-big-tech { background: #451a03; color: #fcd34d; }
+.dark .tag-open-source { background: #052e16; color: #6ee7b7; }
+.dark .tag-typescript { background: #1e3a5f; color: #93c5fd; }
+.dark .tag-enterprise { background: #2d1b69; color: #c4b5fd; }
+.dark .tag-protocol { background: #450a0a; color: #fca5a5; }
+
+/* ============================================================
+   Component: Callout Boxes
+   ============================================================ */
+.callout {
+  border-radius: 0.625rem;
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  border-left: 4px solid;
+  display: flex;
+  gap: 0.75rem;
+}
+.callout p:last-child { margin-bottom: 0; }
+
+.callout-info { background: var(--callout-info-bg); border-color: var(--callout-info-border); }
+.callout-tip { background: var(--callout-tip-bg); border-color: var(--callout-tip-border); }
+.callout-warning { background: var(--callout-warning-bg); border-color: var(--callout-warning-border); }
+.callout-danger { background: var(--callout-danger-bg); border-color: var(--callout-danger-border); }
+
+/* ============================================================
+   Component: Search Modal
+   ============================================================ */
+.search-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 200;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 20vh;
+}
+
+.search-modal {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  width: 90%;
+  max-width: 600px;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+/* ============================================================
+   Animation Utilities
+   ============================================================ */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.4s ease-out;
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.5s ease-out;
+}
+
+/* Stagger children animations */
+.stagger-children > * {
+  opacity: 0;
+  animation: fade-in-up 0.4s ease-out forwards;
+}
+.stagger-children > *:nth-child(1) { animation-delay: 0.05s; }
+.stagger-children > *:nth-child(2) { animation-delay: 0.1s; }
+.stagger-children > *:nth-child(3) { animation-delay: 0.15s; }
+.stagger-children > *:nth-child(4) { animation-delay: 0.2s; }
+.stagger-children > *:nth-child(5) { animation-delay: 0.25s; }
+.stagger-children > *:nth-child(6) { animation-delay: 0.3s; }
+.stagger-children > *:nth-child(7) { animation-delay: 0.35s; }
+.stagger-children > *:nth-child(8) { animation-delay: 0.4s; }
+
+/* ============================================================
+   Scrollbar Styling
+   ============================================================ */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
