@@ -1,32 +1,26 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Clock,
+  CheckCircle2,
+  Lightbulb,
+  AlertTriangle,
+  BookOpen,
+  ChevronRight,
+  ListChecks,
+} from "lucide-react";
 import { DifficultyBadge } from "@/components/ui/Badge";
+import { guideContents, type GuideContent } from "@/data/guide-content";
 import type { Metadata } from "next";
 
-interface Guide {
-  slug: string;
-  title: string;
-  description: string;
-  difficulty: "beginner" | "intermediate" | "advanced";
-  time: string;
-}
-
-const guides: Guide[] = [
-  { slug: "getting-started", title: "Getting Started with Agents", description: "Your first steps into the world of AI agent development.", difficulty: "beginner", time: "15 min" },
-  { slug: "first-agent", title: "Your First Agent in 5 Minutes", description: "Build a working AI agent from scratch in under 5 minutes.", difficulty: "beginner", time: "5 min" },
-  { slug: "choosing-your-stack", title: "Choosing Your Stack", description: "Pick the right framework and tools for your specific use case.", difficulty: "beginner", time: "10 min" },
-  { slug: "multi-agent-architecture", title: "Multi-Agent Architecture", description: "Design and build systems with multiple collaborating agents.", difficulty: "intermediate", time: "20 min" },
-  { slug: "building-mcp-servers", title: "Building MCP Servers", description: "Create Model Context Protocol servers for your tools and data.", difficulty: "intermediate", time: "25 min" },
-  { slug: "prompt-engineering", title: "Prompt Engineering for Agents", description: "Craft prompts that make your agents more reliable and capable.", difficulty: "intermediate", time: "15 min" },
-  { slug: "guardrails", title: "Guardrails & Safety", description: "Implement safety measures, input validation, and output filters.", difficulty: "advanced", time: "20 min" },
-  { slug: "observability", title: "Observability & Monitoring", description: "Monitor agent behavior, trace execution, and debug issues in production.", difficulty: "advanced", time: "20 min" },
-  { slug: "evaluation", title: "Evaluation & Testing", description: "Test agent performance with benchmarks and regression suites.", difficulty: "advanced", time: "20 min" },
-  { slug: "production-deployment", title: "Production Deployment", description: "Ship agents to production with scaling, reliability, and cost control.", difficulty: "advanced", time: "25 min" },
-];
+/* ────────────────────────────────────────────
+   Static generation helpers
+   ──────────────────────────────────────────── */
 
 export function generateStaticParams() {
-  return guides.map((g) => ({ slug: g.slug }));
+  return guideContents.map((g) => ({ slug: g.slug }));
 }
 
 export async function generateMetadata({
@@ -35,7 +29,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const guide = guides.find((g) => g.slug === slug);
+  const guide = guideContents.find((g) => g.slug === slug);
   if (!guide) return { title: "Not Found" };
   return {
     title: `${guide.title} — Guide`,
@@ -43,82 +37,345 @@ export async function generateMetadata({
   };
 }
 
+/* ────────────────────────────────────────────
+   Helper: generate heading id from title
+   ──────────────────────────────────────────── */
+
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+/* ────────────────────────────────────────────
+   Sub-components
+   ──────────────────────────────────────────── */
+
+function TableOfContents({ guide }: { guide: GuideContent }) {
+  return (
+    <nav
+      className="hidden xl:block sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto"
+      aria-label="Table of contents"
+    >
+      <div
+        className="rounded-xl border p-5"
+        style={{ backgroundColor: "var(--bg-card)", borderColor: "var(--border)" }}
+      >
+        <h4
+          className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-wider"
+          style={{ color: "var(--text-muted)" }}
+        >
+          <ListChecks size={14} />
+          On this page
+        </h4>
+        <ul className="space-y-1.5 text-sm">
+          {guide.sections.map((section) => (
+            <li key={slugify(section.title)}>
+              <a
+                href={`#${slugify(section.title)}`}
+                className="block rounded-md px-2 py-1 transition-colors hover:text-accent"
+                style={{ color: "var(--text-secondary)" }}
+              >
+                {section.title}
+              </a>
+            </li>
+          ))}
+          <li>
+            <a
+              href="#common-mistakes"
+              className="block rounded-md px-2 py-1 transition-colors hover:text-accent"
+              style={{ color: "var(--text-secondary)" }}
+            >
+              Common Mistakes
+            </a>
+          </li>
+          <li>
+            <a
+              href="#next-steps"
+              className="block rounded-md px-2 py-1 transition-colors hover:text-accent"
+              style={{ color: "var(--text-secondary)" }}
+            >
+              Next Steps
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  );
+}
+
+function PrerequisitesBox({ items }: { items: string[] }) {
+  return (
+    <div
+      className="not-prose rounded-xl border p-5 mb-8"
+      style={{ backgroundColor: "var(--bg-card)", borderColor: "var(--border)" }}
+    >
+      <h3
+        className="mb-3 flex items-center gap-2 text-sm font-bold uppercase tracking-wider"
+        style={{ color: "var(--text-muted)" }}
+      >
+        <CheckCircle2 size={16} className="text-emerald-500" />
+        Prerequisites
+      </h3>
+      <ul className="space-y-2">
+        {items.map((item, i) => (
+          <li key={i} className="flex items-start gap-2.5 text-sm" style={{ color: "var(--text-secondary)" }}>
+            <span
+              className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md text-xs font-bold"
+              style={{ backgroundColor: "var(--bg-tertiary)", color: "var(--text-muted)" }}
+            >
+              {i + 1}
+            </span>
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function WhatYoullLearnBox({ items }: { items: string[] }) {
+  return (
+    <div
+      className="not-prose rounded-xl border-l-4 p-5 mb-8"
+      style={{
+        backgroundColor: "var(--callout-info-bg)",
+        borderColor: "var(--callout-info-border)",
+      }}
+    >
+      <h3
+        className="mb-3 flex items-center gap-2 text-sm font-bold uppercase tracking-wider"
+        style={{ color: "var(--callout-info-border)" }}
+      >
+        <Lightbulb size={16} />
+        What you will learn
+      </h3>
+      <ul className="space-y-2">
+        {items.map((item, i) => (
+          <li key={i} className="flex items-start gap-2.5 text-sm" style={{ color: "var(--text-secondary)" }}>
+            <ChevronRight size={14} className="mt-0.5 shrink-0 text-accent" />
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function CommonMistakesBox({ items }: { items: string[] }) {
+  return (
+    <div
+      id="common-mistakes"
+      className="not-prose rounded-xl border-l-4 p-5 mt-10 mb-8 scroll-mt-20"
+      style={{
+        backgroundColor: "var(--callout-warning-bg)",
+        borderColor: "var(--callout-warning-border)",
+      }}
+    >
+      <h3
+        className="mb-3 flex items-center gap-2 font-bold"
+        style={{ color: "var(--text-primary)" }}
+      >
+        <AlertTriangle size={18} className="text-amber-500" />
+        Common Mistakes to Avoid
+      </h3>
+      <ul className="space-y-2.5">
+        {items.map((item, i) => (
+          <li key={i} className="flex items-start gap-2.5 text-sm" style={{ color: "var(--text-secondary)" }}>
+            <span className="mt-0.5 shrink-0 text-amber-500 font-bold text-xs">!</span>
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function NextStepsBox({ items }: { items: { title: string; href: string }[] }) {
+  return (
+    <div
+      id="next-steps"
+      className="not-prose rounded-xl border p-5 mt-8 mb-8 scroll-mt-20"
+      style={{ backgroundColor: "var(--bg-card)", borderColor: "var(--border)" }}
+    >
+      <h3
+        className="mb-3 flex items-center gap-2 font-bold"
+        style={{ color: "var(--text-primary)" }}
+      >
+        <BookOpen size={18} className="text-accent" />
+        Recommended Next Steps
+      </h3>
+      <div className="space-y-2">
+        {items.map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            className="flex items-center justify-between rounded-lg px-4 py-3 transition-all hover:shadow-sm group"
+            style={{ backgroundColor: "var(--bg-secondary)", color: "var(--text-primary)" }}
+          >
+            <span className="text-sm font-medium">{item.title}</span>
+            <ArrowRight
+              size={14}
+              className="text-accent opacity-0 transition-opacity group-hover:opacity-100"
+            />
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function PrevNextNavigation({
+  prev,
+  next,
+}: {
+  prev: GuideContent | null;
+  next: GuideContent | null;
+}) {
+  return (
+    <div
+      className="not-prose mt-12 grid grid-cols-2 gap-4 border-t pt-6"
+      style={{ borderColor: "var(--border)" }}
+    >
+      {prev ? (
+        <Link
+          href={`/guides/${prev.slug}`}
+          className="group flex flex-col rounded-xl border p-4 transition-all hover:border-accent hover:shadow-md"
+          style={{ backgroundColor: "var(--bg-card)", borderColor: "var(--border)" }}
+        >
+          <span className="mb-1 flex items-center gap-1 text-xs" style={{ color: "var(--text-muted)" }}>
+            <ArrowLeft size={12} />
+            Previous
+          </span>
+          <span className="text-sm font-bold" style={{ color: "var(--text-primary)" }}>
+            {prev.title}
+          </span>
+        </Link>
+      ) : (
+        <div />
+      )}
+      {next ? (
+        <Link
+          href={`/guides/${next.slug}`}
+          className="group flex flex-col items-end rounded-xl border p-4 text-right transition-all hover:border-accent hover:shadow-md"
+          style={{ backgroundColor: "var(--bg-card)", borderColor: "var(--border)" }}
+        >
+          <span className="mb-1 flex items-center gap-1 text-xs" style={{ color: "var(--text-muted)" }}>
+            Next
+            <ArrowRight size={12} />
+          </span>
+          <span className="text-sm font-bold" style={{ color: "var(--text-primary)" }}>
+            {next.title}
+          </span>
+        </Link>
+      ) : (
+        <div />
+      )}
+    </div>
+  );
+}
+
+/* ────────────────────────────────────────────
+   Main Page Component
+   ──────────────────────────────────────────── */
+
 export default async function GuidePage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const guide = guides.find((g) => g.slug === slug);
+  const guide = guideContents.find((g) => g.slug === slug);
   if (!guide) notFound();
 
-  const idx = guides.findIndex((g) => g.slug === slug);
-  const prev = idx > 0 ? guides[idx - 1] : null;
-  const next = idx < guides.length - 1 ? guides[idx + 1] : null;
+  const idx = guideContents.findIndex((g) => g.slug === slug);
+  const prev = idx > 0 ? guideContents[idx - 1] : null;
+  const next = idx < guideContents.length - 1 ? guideContents[idx + 1] : null;
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6">
-      <nav className="mb-6 flex items-center gap-2 text-sm" style={{ color: "var(--text-muted)" }}>
-        <Link href="/" className="hover:text-accent">Home</Link>
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+      {/* Breadcrumb */}
+      <nav
+        className="mb-6 flex items-center gap-2 text-sm"
+        style={{ color: "var(--text-muted)" }}
+      >
+        <Link href="/" className="hover:text-accent">
+          Home
+        </Link>
         <span>/</span>
-        <Link href="/guides" className="hover:text-accent">Guides</Link>
+        <Link href="/guides" className="hover:text-accent">
+          Guides
+        </Link>
         <span>/</span>
-        <span style={{ color: "var(--text-primary)" }} className="font-medium">{guide.title}</span>
+        <span style={{ color: "var(--text-primary)" }} className="font-medium">
+          {guide.title}
+        </span>
       </nav>
 
-      <article className="prose">
-        <div className="not-prose mb-4 flex items-center gap-3">
-          <DifficultyBadge level={guide.difficulty} />
-          <span className="text-sm" style={{ color: "var(--text-muted)" }}>{guide.time} read</span>
-        </div>
+      {/* Layout: Content + Sidebar */}
+      <div className="flex gap-10">
+        {/* Main Content */}
+        <article className="prose min-w-0 flex-1">
+          {/* Guide header */}
+          <div className="not-prose mb-6">
+            <div className="mb-3 flex flex-wrap items-center gap-3">
+              <DifficultyBadge level={guide.difficulty} />
+              <span
+                className="flex items-center gap-1 text-sm"
+                style={{ color: "var(--text-muted)" }}
+              >
+                <Clock size={14} />
+                {guide.time} read
+              </span>
+              <span
+                className="text-sm"
+                style={{ color: "var(--text-muted)" }}
+              >
+                Guide {idx + 1} of {guideContents.length}
+              </span>
+            </div>
+          </div>
 
-        <h1>{guide.title}</h1>
-        <p className="text-lg leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-          {guide.description}
-        </p>
+          <h1>{guide.title}</h1>
+          <p
+            className="text-lg leading-relaxed"
+            style={{ color: "var(--text-secondary)" }}
+          >
+            {guide.description}
+          </p>
 
-        <h2>What You&apos;ll Learn</h2>
-        <p>
-          This guide walks you through the key concepts and practical steps needed
-          to {guide.title.toLowerCase()}. By the end, you&apos;ll have hands-on
-          experience and be ready to apply these techniques in your own projects.
-        </p>
+          {/* Prerequisites */}
+          <PrerequisitesBox items={guide.prerequisites} />
 
-        <h2>Prerequisites</h2>
-        <ul>
-          <li>Basic understanding of Python or TypeScript</li>
-          <li>Familiarity with LLM APIs (OpenAI, Anthropic, etc.)</li>
-          {guide.difficulty !== "beginner" && (
-            <li>Completion of the <Link href="/guides/getting-started">Getting Started guide</Link></li>
-          )}
-        </ul>
+          {/* What You'll Learn */}
+          <WhatYoullLearnBox items={guide.whatYoullLearn} />
 
-        <h2>Step-by-Step Guide</h2>
-        <p>
-          Full guide content is being developed with detailed code examples, explanations,
-          and best practices. Check back soon for the complete tutorial.
-        </p>
+          {/* Sections */}
+          {guide.sections.map((section) => (
+            <section key={slugify(section.title)} id={slugify(section.title)} className="scroll-mt-20">
+              <h2>
+                <a href={`#${slugify(section.title)}`}>{section.title}</a>
+              </h2>
+              <div dangerouslySetInnerHTML={{ __html: section.content }} />
+            </section>
+          ))}
 
-        <h2>Next Steps</h2>
-        <ul>
-          <li>Explore the <Link href="/frameworks">frameworks</Link> mentioned in this guide</li>
-          <li>Review related <Link href="/patterns">design patterns</Link></li>
-          <li>Check the <Link href="/glossary">glossary</Link> for unfamiliar terms</li>
-        </ul>
+          {/* Common Mistakes */}
+          <CommonMistakesBox items={guide.commonMistakes} />
 
-        <div className="not-prose mt-12 flex items-center justify-between border-t pt-6" style={{ borderColor: "var(--border)" }}>
-          {prev ? (
-            <Link href={`/guides/${prev.slug}`} className="flex items-center gap-2 text-sm font-medium text-accent hover:underline">
-              <ArrowLeft size={14} /> {prev.title}
-            </Link>
-          ) : <div />}
-          {next ? (
-            <Link href={`/guides/${next.slug}`} className="flex items-center gap-2 text-sm font-medium text-accent hover:underline">
-              {next.title} <ArrowRight size={14} />
-            </Link>
-          ) : <div />}
-        </div>
-      </article>
+          {/* Next Steps */}
+          <NextStepsBox items={guide.nextSteps} />
+
+          {/* Prev/Next Navigation */}
+          <PrevNextNavigation prev={prev} next={next} />
+        </article>
+
+        {/* Sidebar: Table of Contents */}
+        <aside className="hidden xl:block w-64 shrink-0">
+          <TableOfContents guide={guide} />
+        </aside>
+      </div>
     </div>
   );
 }

@@ -1,7 +1,18 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  CheckCircle2,
+  XCircle,
+  BookOpen,
+  Code2,
+  Layers,
+  ArrowUpRight,
+} from "lucide-react";
 import { patterns } from "@/data/patterns";
+import { patternContent, getPatternContent } from "@/data/pattern-content";
+import { frameworks } from "@/data/frameworks";
 import { DifficultyBadge } from "@/components/ui/Badge";
 import type { Metadata } from "next";
 
@@ -15,11 +26,11 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const pattern = patterns.find((p) => p.id === slug);
-  if (!pattern) return { title: "Not Found" };
+  const content = getPatternContent(slug);
+  if (!content) return { title: "Not Found" };
   return {
-    title: `${pattern.title} — Design Pattern`,
-    description: pattern.description,
+    title: `${content.title} — Design Pattern`,
+    description: content.description,
   };
 }
 
@@ -29,68 +40,372 @@ export default async function PatternPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  const content = getPatternContent(slug);
   const pattern = patterns.find((p) => p.id === slug);
-  if (!pattern) notFound();
+  if (!content || !pattern) notFound();
 
-  const idx = patterns.findIndex((p) => p.id === slug);
-  const prev = idx > 0 ? patterns[idx - 1] : null;
-  const next = idx < patterns.length - 1 ? patterns[idx + 1] : null;
+  const idx = patternContent.findIndex((p) => p.id === slug);
+  const prev = idx > 0 ? patternContent[idx - 1] : null;
+  const next = idx < patternContent.length - 1 ? patternContent[idx + 1] : null;
+
+  const implementedByFrameworks = content.implementedBy
+    .map((id) => frameworks.find((f) => f.id === id))
+    .filter(Boolean);
+
+  const relatedPatterns = content.relatedPatterns
+    .map((id) => patternContent.find((p) => p.id === id))
+    .filter(Boolean);
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6">
-      <nav className="mb-6 flex items-center gap-2 text-sm" style={{ color: "var(--text-muted)" }}>
-        <Link href="/" className="hover:text-accent">Home</Link>
+      {/* Breadcrumb */}
+      <nav
+        className="mb-6 flex items-center gap-2 text-sm"
+        style={{ color: "var(--text-muted)" }}
+      >
+        <Link href="/" className="hover:text-accent">
+          Home
+        </Link>
         <span>/</span>
-        <Link href="/patterns" className="hover:text-accent">Patterns</Link>
+        <Link href="/patterns" className="hover:text-accent">
+          Patterns
+        </Link>
         <span>/</span>
-        <span style={{ color: "var(--text-primary)" }} className="font-medium">{pattern.title}</span>
+        <span
+          style={{ color: "var(--text-primary)" }}
+          className="font-medium"
+        >
+          {content.title}
+        </span>
       </nav>
 
-      <article className="prose">
-        <div className="not-prose mb-6 flex items-center gap-3">
-          <DifficultyBadge level={pattern.difficulty} />
+      <article>
+        {/* Header */}
+        <div className="mb-8">
+          <div className="mb-3 flex items-center gap-3">
+            <DifficultyBadge level={content.difficulty} />
+          </div>
+          <h1
+            className="text-3xl font-extrabold sm:text-4xl"
+            style={{ color: "var(--text-primary)" }}
+          >
+            {content.title}
+          </h1>
+          <p
+            className="mt-3 text-lg leading-relaxed"
+            style={{ color: "var(--text-secondary)" }}
+          >
+            {content.description}
+          </p>
         </div>
 
-        <h1>{pattern.title}</h1>
-        <p className="text-lg leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-          {pattern.description}
-        </p>
+        {/* Pseudocode / Algorithm Box */}
+        <div
+          className="mb-10 overflow-hidden rounded-xl border"
+          style={{
+            borderColor: "var(--border)",
+            backgroundColor: "var(--bg-code)",
+          }}
+        >
+          <div
+            className="flex items-center gap-2 border-b px-4 py-3"
+            style={{
+              borderColor: "var(--border)",
+              backgroundColor: "var(--bg-secondary)",
+            }}
+          >
+            <Code2
+              size={16}
+              style={{ color: "var(--color-accent)" }}
+            />
+            <span
+              className="text-sm font-semibold"
+              style={{ color: "var(--text-primary)" }}
+            >
+              Algorithm / Pseudocode
+            </span>
+          </div>
+          <pre
+            className="overflow-x-auto p-5"
+            style={{ margin: 0, border: "none", background: "none" }}
+          >
+            <code
+              className="text-sm leading-relaxed"
+              style={{
+                fontFamily:
+                  '"JetBrains Mono", "Fira Code", "Cascadia Code", "SF Mono", monospace',
+                color: "var(--text-secondary)",
+                background: "none",
+                border: "none",
+                padding: 0,
+              }}
+            >
+              {content.pseudocode}
+            </code>
+          </pre>
+        </div>
 
-        <h2>How It Works</h2>
-        <p>
-          This design pattern provides a proven architecture for building agent systems.
-          It defines how agents reason, act, and coordinate to accomplish complex tasks.
-        </p>
-        <p>
-          Detailed content including architecture diagrams, implementation examples across multiple
-          frameworks, and trade-off analysis is being developed. Check back soon.
-        </p>
+        {/* When to Use / When NOT to Use — Side by Side */}
+        <div className="mb-10 grid gap-4 sm:grid-cols-2">
+          {/* When to Use */}
+          <div
+            className="rounded-xl border p-5"
+            style={{
+              borderColor: "#16a34a33",
+              backgroundColor: "var(--callout-tip-bg)",
+            }}
+          >
+            <div className="mb-3 flex items-center gap-2">
+              <CheckCircle2
+                size={18}
+                className="shrink-0"
+                style={{ color: "#16a34a" }}
+              />
+              <h3
+                className="text-sm font-bold uppercase tracking-wide"
+                style={{ color: "#16a34a" }}
+              >
+                When to Use
+              </h3>
+            </div>
+            <ul className="space-y-2">
+              {content.whenToUse.map((item, i) => (
+                <li
+                  key={i}
+                  className="flex gap-2 text-sm leading-relaxed"
+                  style={{ color: "var(--text-secondary)" }}
+                >
+                  <span
+                    className="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full"
+                    style={{ backgroundColor: "#16a34a" }}
+                  />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
 
-        <h2>When to Use This Pattern</h2>
-        <ul>
-          <li>When you need structured agent reasoning and action cycles</li>
-          <li>For building reliable, predictable agent behaviors</li>
-          <li>In production systems requiring observability and debugging</li>
-        </ul>
+          {/* When NOT to Use */}
+          <div
+            className="rounded-xl border p-5"
+            style={{
+              borderColor: "#dc262633",
+              backgroundColor: "var(--callout-danger-bg)",
+            }}
+          >
+            <div className="mb-3 flex items-center gap-2">
+              <XCircle
+                size={18}
+                className="shrink-0"
+                style={{ color: "#dc2626" }}
+              />
+              <h3
+                className="text-sm font-bold uppercase tracking-wide"
+                style={{ color: "#dc2626" }}
+              >
+                When NOT to Use
+              </h3>
+            </div>
+            <ul className="space-y-2">
+              {content.whenNotToUse.map((item, i) => (
+                <li
+                  key={i}
+                  className="flex gap-2 text-sm leading-relaxed"
+                  style={{ color: "var(--text-secondary)" }}
+                >
+                  <span
+                    className="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full"
+                    style={{ backgroundColor: "#dc2626" }}
+                  />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
 
-        <h2>Related Content</h2>
-        <ul>
-          <li>See <Link href="/concepts">core concepts</Link> for foundational knowledge</li>
-          <li>Explore <Link href="/frameworks">frameworks</Link> that implement this pattern</li>
-          <li>Read our <Link href="/guides">practical guides</Link> for hands-on tutorials</li>
-        </ul>
+        {/* Content Sections */}
+        <div className="prose mb-10">
+          {content.sections.map((section, i) => (
+            <section key={i}>
+              <h2>{section.title}</h2>
+              <div
+                dangerouslySetInnerHTML={{ __html: section.content }}
+              />
+            </section>
+          ))}
+        </div>
 
-        <div className="not-prose mt-12 flex items-center justify-between border-t pt-6" style={{ borderColor: "var(--border)" }}>
+        {/* Implemented By — Framework Links */}
+        {implementedByFrameworks.length > 0 && (
+          <div
+            className="mb-10 rounded-xl border p-6"
+            style={{
+              borderColor: "var(--border)",
+              backgroundColor: "var(--bg-secondary)",
+            }}
+          >
+            <div className="mb-4 flex items-center gap-2">
+              <Layers
+                size={18}
+                style={{ color: "var(--color-accent)" }}
+              />
+              <h3
+                className="text-base font-bold"
+                style={{ color: "var(--text-primary)" }}
+              >
+                Implemented By
+              </h3>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {implementedByFrameworks.map((fw) =>
+                fw ? (
+                  <Link
+                    key={fw.id}
+                    href={`/frameworks/${fw.id}`}
+                    className="inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm font-medium transition-colors hover:border-accent"
+                    style={{
+                      borderColor: "var(--border)",
+                      backgroundColor: "var(--bg-card)",
+                      color: "var(--text-primary)",
+                    }}
+                  >
+                    {fw.name}
+                    <ArrowUpRight
+                      size={12}
+                      style={{ color: "var(--text-muted)" }}
+                    />
+                  </Link>
+                ) : null
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Related Patterns */}
+        {relatedPatterns.length > 0 && (
+          <div
+            className="mb-10 rounded-xl border p-6"
+            style={{
+              borderColor: "var(--border)",
+              backgroundColor: "var(--bg-secondary)",
+            }}
+          >
+            <div className="mb-4 flex items-center gap-2">
+              <BookOpen
+                size={18}
+                style={{ color: "var(--color-accent)" }}
+              />
+              <h3
+                className="text-base font-bold"
+                style={{ color: "var(--text-primary)" }}
+              >
+                Related Patterns
+              </h3>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {relatedPatterns.map((rp) =>
+                rp ? (
+                  <Link
+                    key={rp.id}
+                    href={`/patterns/${rp.id}`}
+                    className="group rounded-lg border p-4 transition-colors hover:border-accent"
+                    style={{
+                      borderColor: "var(--border)",
+                      backgroundColor: "var(--bg-card)",
+                    }}
+                  >
+                    <div className="mb-1 flex items-center justify-between">
+                      <span
+                        className="text-sm font-semibold"
+                        style={{ color: "var(--text-primary)" }}
+                      >
+                        {rp.title}
+                      </span>
+                      <DifficultyBadge level={rp.difficulty} />
+                    </div>
+                    <p
+                      className="line-clamp-2 text-xs leading-relaxed"
+                      style={{ color: "var(--text-muted)" }}
+                    >
+                      {rp.description}
+                    </p>
+                  </Link>
+                ) : null
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Previous / Next Navigation */}
+        <div
+          className="mt-12 flex items-center justify-between border-t pt-6"
+          style={{ borderColor: "var(--border)" }}
+        >
           {prev ? (
-            <Link href={`/patterns/${prev.id}`} className="flex items-center gap-2 text-sm font-medium text-accent hover:underline">
-              <ArrowLeft size={14} /> {prev.title}
+            <Link
+              href={`/patterns/${prev.id}`}
+              className="group flex items-center gap-3 rounded-lg border px-4 py-3 transition-colors hover:border-accent"
+              style={{
+                borderColor: "var(--border)",
+                backgroundColor: "var(--bg-card)",
+              }}
+            >
+              <ArrowLeft
+                size={16}
+                style={{ color: "var(--text-muted)" }}
+                className="transition-transform group-hover:-translate-x-0.5"
+              />
+              <div>
+                <div
+                  className="text-xs font-medium uppercase tracking-wide"
+                  style={{ color: "var(--text-muted)" }}
+                >
+                  Previous
+                </div>
+                <div
+                  className="text-sm font-semibold"
+                  style={{ color: "var(--text-primary)" }}
+                >
+                  {prev.title}
+                </div>
+              </div>
             </Link>
-          ) : <div />}
+          ) : (
+            <div />
+          )}
           {next ? (
-            <Link href={`/patterns/${next.id}`} className="flex items-center gap-2 text-sm font-medium text-accent hover:underline">
-              {next.title} <ArrowRight size={14} />
+            <Link
+              href={`/patterns/${next.id}`}
+              className="group flex items-center gap-3 rounded-lg border px-4 py-3 text-right transition-colors hover:border-accent"
+              style={{
+                borderColor: "var(--border)",
+                backgroundColor: "var(--bg-card)",
+              }}
+            >
+              <div>
+                <div
+                  className="text-xs font-medium uppercase tracking-wide"
+                  style={{ color: "var(--text-muted)" }}
+                >
+                  Next
+                </div>
+                <div
+                  className="text-sm font-semibold"
+                  style={{ color: "var(--text-primary)" }}
+                >
+                  {next.title}
+                </div>
+              </div>
+              <ArrowRight
+                size={16}
+                style={{ color: "var(--text-muted)" }}
+                className="transition-transform group-hover:translate-x-0.5"
+              />
             </Link>
-          ) : <div />}
+          ) : (
+            <div />
+          )}
         </div>
       </article>
     </div>
