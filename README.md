@@ -12,7 +12,7 @@ Foundations · Frameworks · Patterns · Guides — from first steps to producti
 
 <br />
 
-![Agentic AI Hub — Banner](public/og-image.png)
+<img src="./public/readme-banner.svg" alt="Agentic AI Hub banner" width="100%" />
 
 </div>
 

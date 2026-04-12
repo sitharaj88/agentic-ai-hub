@@ -1,0 +1,160 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Agentic AI Hub banner</title>
+  <desc id="desc">Decorative banner for the Agentic AI Hub README with a layered blue and amber gradient, agent workflow motifs, and the project title.</desc>
+
+  <defs>
+    <linearGradient id="bg" x1="120" y1="80" x2="1460" y2="820" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#061826"/>
+      <stop offset="0.55" stop-color="#0D2C45"/>
+      <stop offset="1" stop-color="#132B3D"/>
+    </linearGradient>
+    <linearGradient id="glowA" x1="260" y1="164" x2="940" y2="640" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4CC9F0" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#4CC9F0" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="glowB" x1="1080" y1="180" x2="1260" y2="520" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFB84D" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#FFB84D" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="220" y1="160" x2="1160" y2="720" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F2234" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#102638" stop-opacity="0.72"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#4CC9F0"/>
+      <stop offset="1" stop-color="#FFB84D"/>
+    </linearGradient>
+    <filter id="blurXL" x="-240" y="-240" width="2080" height="1380" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="70"/>
+    </filter>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" stroke="#9CC6E0" stroke-opacity="0.08" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <style>
+    .display {
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 800;
+    }
+    .ui {
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 600;
+    }
+    .body {
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 400;
+    }
+  </style>
+
+  <rect width="1600" height="900" rx="36" fill="url(#bg)"/>
+  <rect width="1600" height="900" rx="36" fill="url(#grid)"/>
+
+  <g filter="url(#blurXL)">
+    <ellipse cx="430" cy="250" rx="330" ry="190" fill="url(#glowA)"/>
+    <ellipse cx="1190" cy="258" rx="210" ry="170" fill="url(#glowB)"/>
+    <ellipse cx="1270" cy="760" rx="290" ry="120" fill="#1C6EA4" fill-opacity="0.28"/>
+  </g>
+
+  <rect x="88" y="88" width="1424" height="724" rx="28" fill="#091724" fill-opacity="0.2" stroke="#D3E5F3" stroke-opacity="0.16"/>
+  <rect x="126" y="126" width="948" height="648" rx="28" fill="url(#panel)" stroke="#D3E5F3" stroke-opacity="0.14"/>
+
+  <g opacity="0.95">
+    <rect x="166" y="166" width="148" height="38" rx="19" fill="#102A3B" stroke="#58BDE0" stroke-opacity="0.36"/>
+    <circle cx="194" cy="185" r="7" fill="#4CC9F0"/>
+    <text x="212" y="191" fill="#CFE9F7" font-size="18" class="ui">Open Source</text>
+
+    <rect x="328" y="166" width="164" height="38" rx="19" fill="#102A3B" stroke="#FFB84D" stroke-opacity="0.36"/>
+    <circle cx="356" cy="185" r="7" fill="#FFB84D"/>
+    <text x="374" y="191" fill="#F7E6C9" font-size="18" class="ui">Static Docs</text>
+  </g>
+
+  <text x="166" y="308" fill="#EAF5FB" font-size="88" letter-spacing="-1.5" class="display" textLength="740" lengthAdjust="spacingAndGlyphs">
+    Agentic AI Hub
+  </text>
+  <text x="166" y="370" fill="#8FD6EE" font-size="25" letter-spacing="3" class="ui" textLength="760" lengthAdjust="spacingAndGlyphs">
+    FOUNDATIONS  /  FRAMEWORKS  /  PATTERNS  /  GUIDES
+  </text>
+
+  <text x="166" y="454" fill="#D5E7F2" font-size="32" class="ui">
+    Build from first agent to production-grade GenAI systems.
+  </text>
+  <text x="166" y="504" fill="#AFC8D8" font-size="23" class="body">
+    Practical reference for agents, workflows, MCP, evaluation, reliability, and product UX.
+  </text>
+
+  <g>
+    <rect x="166" y="580" width="246" height="64" rx="18" fill="url(#accent)"/>
+    <text x="289" y="620" fill="#072033" font-size="22" class="display" text-anchor="middle">
+      Explore the docs
+    </text>
+
+    <rect x="430" y="580" width="230" height="64" rx="18" fill="#12283A" stroke="#D3E5F3" stroke-opacity="0.2"/>
+    <text x="545" y="620" fill="#EAF5FB" font-size="22" class="ui" text-anchor="middle">
+      Compare stacks
+    </text>
+  </g>
+
+  <g transform="translate(1142 172)">
+    <rect width="304" height="556" rx="26" fill="#0E2130" fill-opacity="0.9" stroke="#D3E5F3" stroke-opacity="0.14"/>
+
+    <text x="30" y="52" fill="#D8EAF5" font-size="22" class="ui">
+      Core Loop
+    </text>
+
+    <g>
+      <rect x="20" y="82" width="264" height="92" rx="18" fill="#123046"/>
+      <text x="58" y="111" fill="#8FD6EE" font-size="16" class="ui">1</text>
+      <text x="88" y="111" fill="#F1F8FC" font-size="24" class="ui">Observe</text>
+      <text x="58" y="138" fill="#B5CEDB" font-size="14" class="body">
+        <tspan x="58" dy="0">Context, inputs, memory,</tspan>
+        <tspan x="58" dy="18">environment</tspan>
+      </text>
+    </g>
+
+    <path d="M152 174V218" stroke="#5EC2E4" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 8"/>
+
+    <g>
+      <rect x="20" y="218" width="264" height="92" rx="18" fill="#14344A"/>
+      <text x="58" y="247" fill="#8FD6EE" font-size="16" class="ui">2</text>
+      <text x="88" y="247" fill="#F1F8FC" font-size="24" class="ui">Reason</text>
+      <text x="58" y="274" fill="#B5CEDB" font-size="14" class="body">
+        <tspan x="58" dy="0">Plan, route, decide,</tspan>
+        <tspan x="58" dy="18">validate</tspan>
+      </text>
+    </g>
+
+    <path d="M152 310V354" stroke="#5EC2E4" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 8"/>
+
+    <g>
+      <rect x="20" y="354" width="264" height="92" rx="18" fill="#16384F"/>
+      <text x="58" y="383" fill="#8FD6EE" font-size="16" class="ui">3</text>
+      <text x="88" y="383" fill="#F1F8FC" font-size="24" class="ui">Act</text>
+      <text x="58" y="410" fill="#B5CEDB" font-size="14" class="body">
+        <tspan x="58" dy="0">Tools, workflows,</tspan>
+        <tspan x="58" dy="18">external systems</tspan>
+      </text>
+    </g>
+
+    <path d="M152 446V490" stroke="#FFB84D" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 8"/>
+
+    <g>
+      <rect x="20" y="490" width="264" height="92" rx="18" fill="#3C2C1C"/>
+      <text x="58" y="519" fill="#FFCF7F" font-size="16" class="ui">4</text>
+      <text x="88" y="519" fill="#FFF6E8" font-size="24" class="ui">Evaluate</text>
+      <text x="58" y="546" fill="#E7D5B8" font-size="14" class="body">
+        <tspan x="58" dy="0">Guardrails, tests, traces,</tspan>
+        <tspan x="58" dy="18">feedback</tspan>
+      </text>
+    </g>
+  </g>
+
+  <g opacity="0.9">
+    <circle cx="930" cy="696" r="8" fill="#4CC9F0"/>
+    <circle cx="964" cy="696" r="8" fill="#FFB84D"/>
+    <circle cx="998" cy="696" r="8" fill="#C2E6F6"/>
+    <text x="166" y="710" fill="#8DAFC2" font-size="18" class="body">
+      Open-source reference for modern GenAI and agent engineering.
+    </text>
+  </g>
+</svg>
