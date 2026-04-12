@@ -158,6 +158,7 @@ Before opening a content PR, read:
 - [CONTRIBUTING.md](./CONTRIBUTING.md)
 - [docs/CONTENT_STANDARDS.md](./docs/CONTENT_STANDARDS.md)
 - [docs/templates/](./docs/templates/)
+- [Coverage Roadmap](https://sitharaj88.github.io/agentic-ai-hub/roadmap)
 
 ### Contribution Steps
 

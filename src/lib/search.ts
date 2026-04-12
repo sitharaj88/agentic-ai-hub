@@ -68,6 +68,7 @@ export const searchIndex: SearchItem[] = [
 
   // Roadmap
   { title: "GenAI Coverage Roadmap", description: "What the hub covers today, what is partial, and what should be added next.", href: "/roadmap", type: "Roadmap" },
+  { title: "Implementation Backlog", description: "Prioritized documentation chapters, tasks, and file targets for the next batches.", href: "/roadmap", type: "Roadmap" },
 
   // Learning Paths
   { title: "Beginner Learning Path", description: "New to AI agents? Go from zero to building your first agent in 2 hours.", href: "/learning-paths/beginner", type: "Learning Path", category: "beginner" },

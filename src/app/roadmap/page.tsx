@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { ArrowRight, CheckCircle2, Clock3, Map } from "lucide-react";
 import { topicMap, countTopicsByStatus, type TopicStatus } from "@/data/topic-map";
+import { implementationBacklog, type BacklogPriority } from "@/data/implementation-backlog";
 
 export const metadata: Metadata = {
   title: "GenAI Coverage Roadmap",
@@ -34,6 +35,27 @@ const statusCounts = {
   covered: countTopicsByStatus("covered"),
   partial: countTopicsByStatus("partial"),
   planned: countTopicsByStatus("planned"),
+};
+
+const priorityMeta: Record<
+  BacklogPriority,
+  { label: string; className: string; description: string }
+> = {
+  next: {
+    label: "Next",
+    className: "badge-beginner",
+    description: "Highest-priority work that closes the biggest coverage gaps.",
+  },
+  soon: {
+    label: "Soon",
+    className: "badge-intermediate",
+    description: "Important follow-on work after the next batch lands.",
+  },
+  later: {
+    label: "Later",
+    className: "badge-neutral",
+    description: "Valuable expansion once the core documentation footprint is broader.",
+  },
 };
 
 export default function RoadmapPage() {
@@ -84,6 +106,102 @@ export default function RoadmapPage() {
           Learn this hub in four passes: GenAI foundations first, then application engineering, then agent systems, then production operations. That order reduces confusion and makes later agent topics much easier to understand.
         </p>
       </div>
+
+      <section className="mb-12">
+        <div className="mb-4">
+          <h2 className="text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
+            Implementation Backlog
+          </h2>
+          <p className="mt-2 max-w-3xl text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+            This is the concrete next-work plan for the repo: prioritized chapters, what each chapter should deliver, and the main files that need to change.
+          </p>
+        </div>
+
+        <div className="space-y-6">
+          {implementationBacklog.map((chapter, index) => {
+            const meta = priorityMeta[chapter.priority];
+
+            return (
+              <article
+                key={chapter.id}
+                className="rounded-2xl border p-6"
+                style={{ backgroundColor: "var(--bg-card)", borderColor: "var(--border)" }}
+              >
+                <div className="flex flex-wrap items-center gap-3">
+                  <span
+                    className="inline-flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold"
+                    style={{ backgroundColor: "var(--bg-tertiary)", color: "var(--text-muted)" }}
+                  >
+                    {index + 1}
+                  </span>
+                  <h3 className="text-xl font-bold" style={{ color: "var(--text-primary)" }}>
+                    {chapter.title}
+                  </h3>
+                  <span className={`${meta.className} rounded-full px-2.5 py-0.5 text-xs font-medium`}>
+                    {meta.label}
+                  </span>
+                </div>
+
+                <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                  {chapter.whyNow}
+                </p>
+
+                <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_1.4fr]">
+                  <div>
+                    <h4 className="text-sm font-bold uppercase tracking-wide" style={{ color: "var(--text-muted)" }}>
+                      Deliverables
+                    </h4>
+                    <ul className="mt-3 space-y-2">
+                      {chapter.deliverables.map((item) => (
+                        <li key={item} className="text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                          <span style={{ color: "var(--text-muted)" }}>-</span> {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h4 className="text-sm font-bold uppercase tracking-wide" style={{ color: "var(--text-muted)" }}>
+                      Tasks
+                    </h4>
+                    <div className="mt-3 space-y-3">
+                      {chapter.tasks.map((task) => (
+                        <div
+                          key={task.title}
+                          className="rounded-xl border p-4"
+                          style={{ backgroundColor: "var(--bg-secondary)", borderColor: "var(--border)" }}
+                        >
+                          <h5 className="font-semibold" style={{ color: "var(--text-primary)" }}>
+                            {task.title}
+                          </h5>
+                          <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                            {task.description}
+                          </p>
+                          <div className="mt-3 flex flex-wrap gap-2">
+                            {task.fileTargets.map((target) => (
+                              <code
+                                key={target}
+                                className="rounded border px-2 py-1 text-xs"
+                                style={{
+                                  backgroundColor: "var(--bg-card)",
+                                  borderColor: "var(--border)",
+                                  color: "var(--text-secondary)",
+                                }}
+                              >
+                                {target}
+                              </code>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </section>
 
       <div className="space-y-10">
         {topicMap.map((section) => (
