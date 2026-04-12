@@ -51,6 +51,14 @@ export const concepts: Concept[] = [
     group: "genai-foundations",
   },
   {
+    id: "multimodal-genai",
+    title: "Multimodal GenAI",
+    description: "How GenAI systems work across text, images, audio, video, and documents instead of text alone.",
+    icon: "image",
+    difficulty: "intermediate",
+    group: "genai-foundations",
+  },
+  {
     id: "memory-systems",
     title: "Memory Systems",
     description: "Short-term, long-term, and episodic memory architectures that give agents persistent knowledge.",

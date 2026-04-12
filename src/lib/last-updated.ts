@@ -10,6 +10,7 @@ const lastUpdatedMap: Record<string, string> = {
   "concept:tool-use": "2025-06-15",
   "concept:model-selection-routing": "2026-04-12",
   "concept:structured-outputs": "2026-04-12",
+  "concept:multimodal-genai": "2026-04-12",
   "concept:fine-tuning-vs-rag-tools-workflows": "2026-04-12",
   "concept:human-in-the-loop-design": "2026-04-12",
   "concept:auth-tenancy-data-boundaries": "2026-04-12",
@@ -44,6 +45,7 @@ const lastUpdatedMap: Record<string, string> = {
   "guide:cost-engineering": "2026-04-12",
   "guide:governance-compliance": "2026-04-12",
   "guide:dataset-prompt-versioning": "2026-04-12",
+  "guide:genai-product-ux": "2026-04-12",
 
   // ── Frameworks ────────────────────────────────────────
   "framework:claude-agent-sdk": "2025-06-15",

@@ -37,6 +37,7 @@ export const searchIndex: SearchItem[] = [
   { title: "Tool Use & Function Calling", description: "How agents interact with external tools", href: "/concepts/tool-use", type: "Concept" },
   { title: "Model Selection & Routing", description: "Choosing the right model for each task and routing workloads intelligently", href: "/concepts/model-selection-routing", type: "Concept" },
   { title: "Structured Outputs", description: "Schema-constrained generation and validation for reliable automation", href: "/concepts/structured-outputs", type: "Concept" },
+  { title: "Multimodal GenAI", description: "Working across text, images, audio, documents, and mixed-modal pipelines", href: "/concepts/multimodal-genai", type: "Concept" },
   { title: "Fine-Tuning vs RAG vs Tools vs Workflows", description: "A practical framework for choosing the right capability layer for each GenAI use case", href: "/concepts/fine-tuning-vs-rag-tools-workflows", type: "Concept" },
   { title: "Human-in-the-Loop Design", description: "How to place approvals, escalation, and review loops into GenAI systems", href: "/concepts/human-in-the-loop-design", type: "Concept" },
   { title: "Auth, Tenancy & Data Boundaries", description: "Access control, tenant isolation, and data-boundary design for production GenAI systems", href: "/concepts/auth-tenancy-data-boundaries", type: "Concept" },
@@ -73,6 +74,7 @@ export const searchIndex: SearchItem[] = [
   { title: "Cost Engineering", description: "Control GenAI spend with routing, caching, quotas, and attribution", href: "/guides/cost-engineering", type: "Guide" },
   { title: "Governance & Compliance", description: "Auditability, policy enforcement, approvals, and compliance-aware GenAI design", href: "/guides/governance-compliance", type: "Guide" },
   { title: "Dataset & Prompt Versioning", description: "Version prompts, evaluation datasets, and retrieval logic so behavior changes stay reproducible", href: "/guides/dataset-prompt-versioning", type: "Guide" },
+  { title: "GenAI Product UX", description: "Streaming, partial results, evidence display, uncertainty handling, and human handoff for user-facing AI products", href: "/guides/genai-product-ux", type: "Guide" },
 
   // Roadmap
   { title: "GenAI Coverage Roadmap", description: "What the hub covers today, what is partial, and what should be added next.", href: "/roadmap", type: "Roadmap" },

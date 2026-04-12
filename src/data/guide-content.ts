@@ -3284,6 +3284,115 @@ if not policy_engine.can_access(user_role, resource_scope):
       { title: "Governance & Compliance", href: "/guides/governance-compliance" },
     ],
   },
+  {
+    slug: "genai-product-ux",
+    title: "GenAI Product UX",
+    description:
+      "Design user-facing GenAI experiences with streaming, partial results, uncertainty handling, evidence display, and human handoff.",
+    difficulty: "intermediate",
+    time: "18 min",
+    prerequisites: [
+      "Basic familiarity with chat or copilot-style interfaces",
+      "Recommended: Structured Outputs and Human-in-the-Loop Design",
+      "Helpful: experience building web or application UIs",
+    ],
+    whatYoullLearn: [
+      "Why GenAI UX is different from traditional product UX",
+      "How to design streaming and progressive disclosure well",
+      "How to communicate uncertainty, evidence, and limits",
+      "When to use drafts, confirmations, and human handoff patterns",
+    ],
+    sections: [
+      {
+        title: "GenAI UX Is About Managing Uncertainty",
+        content: `<p>Traditional product UX often assumes deterministic system behavior: click a button, get the expected result. GenAI products are different. They are probabilistic, context-sensitive, and sometimes partially correct. Good UX does not hide that reality. It manages it.</p>
+
+<p>A strong GenAI interface helps users answer four questions quickly:</p>
+<ul>
+<li><strong>What is the system doing right now?</strong></li>
+<li><strong>How certain is this result?</strong></li>
+<li><strong>What evidence or source material is this based on?</strong></li>
+<li><strong>What can I do next if this is wrong or incomplete?</strong></li>
+</ul>
+
+<p>That is why product UX matters so much in GenAI applications. A good model with weak UX still feels unreliable.</p>`,
+      },
+      {
+        title: "Streaming and Progressive Disclosure",
+        content: `<p>Streaming is useful when it improves trust or perceived responsiveness. It is not automatically good.</p>
+
+<p>Use streaming when:</p>
+<ul>
+<li>the user benefits from seeing the answer unfold</li>
+<li>latency is long enough that silence feels broken</li>
+<li>you can distinguish between partial generation and final action state</li>
+</ul>
+
+<p>Avoid streaming raw intermediate state that confuses people. For example, tool planning traces, unstable drafts, or half-formed compliance messages often create more doubt than confidence.</p>
+
+<p>Progressive disclosure usually works better than dumping everything at once:</p>
+<ul>
+<li>show the high-level answer first</li>
+<li>reveal sources, steps, or raw outputs on demand</li>
+<li>separate draft state from committed state clearly</li>
+</ul>`,
+      },
+      {
+        title: "Communicating Confidence and Evidence",
+        content: `<p>Users should not have to guess whether the system is grounded or improvising. Good GenAI UX exposes evidence and limits without overwhelming the interface.</p>
+
+<p>Useful patterns include:</p>
+<ul>
+<li><strong>Source citations</strong> for RAG or document answers</li>
+<li><strong>Attached artifacts</strong> such as the file, page, screenshot, or record the answer used</li>
+<li><strong>Action previews</strong> before side effects occur</li>
+<li><strong>Clear fallback messages</strong> when the system is uncertain, blocked, or missing access</li>
+</ul>
+
+<blockquote><p>The goal is not to make the system look confident. The goal is to help the user decide whether to trust this specific result.</p></blockquote>`,
+      },
+      {
+        title: "Drafts, Confirmation, and Handoffs",
+        content: `<p>User-facing GenAI systems should distinguish between <strong>draft generation</strong> and <strong>committed action</strong>.</p>
+
+<p>Common interaction patterns:</p>
+<ul>
+<li><strong>Draft then confirm</strong> &mdash; email, SQL, code change, purchase, deletion</li>
+<li><strong>Ask for clarification</strong> &mdash; when user intent is ambiguous and wrong action cost is high</li>
+<li><strong>Escalate to a person</strong> &mdash; when confidence is low, policy requires review, or the task leaves the supported path</li>
+<li><strong>Let the user edit before sending</strong> &mdash; especially for customer-facing or irreversible outputs</li>
+</ul>
+
+<p>These are not safety-only patterns. They are also usability patterns because they give users a better sense of control.</p>`,
+      },
+      {
+        title: "Measure UX, Not Just Model Quality",
+        content: `<p>GenAI product quality is not captured by benchmark scores alone. You should also watch UX signals:</p>
+
+<ul>
+<li>re-ask rate</li>
+<li>copy/edit rate</li>
+<li>abandonment after partial output</li>
+<li>human-handoff frequency</li>
+<li>time to trusted completion</li>
+</ul>
+
+<p>If users repeatedly rephrase, abandon, or manually fix the output, the UX is carrying too much uncertainty or friction even if the model benchmark looks good.</p>`,
+      },
+    ],
+    commonMistakes: [
+      "Streaming everything, including unstable intermediate state that users cannot interpret",
+      "Hiding source evidence when the answer depends on documents or retrieved context",
+      "Presenting drafts and committed actions with the same visual treatment",
+      "Using confident language when the system is actually blocked or uncertain",
+      "Measuring model quality but ignoring re-ask rate, edits, and abandonment",
+    ],
+    nextSteps: [
+      { title: "Multimodal GenAI", href: "/concepts/multimodal-genai" },
+      { title: "Human-in-the-Loop Design", href: "/concepts/human-in-the-loop-design" },
+      { title: "Prompt Engineering for Agents", href: "/guides/prompt-engineering" },
+    ],
+  },
 ];
 
 export function getGuideContent(slug: string): GuideContent | undefined {

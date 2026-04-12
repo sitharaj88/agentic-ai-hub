@@ -40,6 +40,11 @@ const relationshipMap: Record<string, string[]> = {
     "guide:guardrails",
     "framework:pydantic-ai",
   ],
+  "concept:multimodal-genai": [
+    "guide:genai-product-ux",
+    "pattern:tool-augmented",
+    "framework:vercel-ai-sdk",
+  ],
   "concept:fine-tuning-vs-rag-tools-workflows": [
     "guide:choosing-your-stack",
     "pattern:tool-augmented",
@@ -193,6 +198,11 @@ const relationshipMap: Record<string, string[]> = {
     "concept:context-engineering",
     "guide:evaluation",
     "framework:langgraph",
+  ],
+  "guide:genai-product-ux": [
+    "concept:multimodal-genai",
+    "concept:human-in-the-loop-design",
+    "framework:copilotkit",
   ],
 
   // ── Frameworks ──

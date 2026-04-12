@@ -60,7 +60,8 @@ export const topicMap: TopicMapSection[] = [
       {
         title: "Multimodal GenAI",
         description: "Working with documents, images, audio, and mixed-modal pipelines.",
-        status: "planned",
+        status: "covered",
+        href: "/concepts/multimodal-genai",
       },
     ],
   },
@@ -103,7 +104,8 @@ export const topicMap: TopicMapSection[] = [
       {
         title: "GenAI Product UX",
         description: "Streaming, partial results, confidence cues, and graceful failure handling in user-facing apps.",
-        status: "planned",
+        status: "covered",
+        href: "/guides/genai-product-ux",
       },
       {
         title: "Auth, Tenancy, and Data Boundaries",

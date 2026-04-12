@@ -1166,7 +1166,102 @@ return draft</code></pre>
   },
 
   // ================================================================
-  // 8. Fine-Tuning vs RAG vs Tools vs Workflows
+  // 8. Multimodal GenAI
+  // ================================================================
+  {
+    id: "multimodal-genai",
+    title: "Multimodal GenAI",
+    description:
+      "How GenAI systems work across text, images, audio, video, and documents instead of text alone.",
+    difficulty: "intermediate",
+    sections: [
+      {
+        id: "what-multimodal-means",
+        title: "What Multimodal Means",
+        content: `
+<p><strong>Multimodal GenAI</strong> systems accept, interpret, or generate more than one type of data. Instead of working only with text, they can combine text with images, PDFs, tables, audio, screenshots, or video.</p>
+
+<p>The important shift is architectural, not cosmetic. A multimodal system must decide:</p>
+<ul>
+  <li>which modality is the source of truth for the task</li>
+  <li>which parts of the input should be converted into text and which should remain native</li>
+  <li>when model reasoning should happen directly on the raw asset versus on an extracted representation</li>
+</ul>
+
+<p>A scanned invoice, a chart screenshot, and a support call transcript may all describe the same business event, but they require different preprocessing and evaluation strategies.</p>
+`,
+      },
+      {
+        id: "common-multimodal-workflows",
+        title: "Common Multimodal Workflows",
+        content: `
+<p>Most production systems fall into a few recurring patterns:</p>
+
+<ul>
+  <li><strong>Document understanding</strong> &mdash; parse PDFs, invoices, forms, or contracts and extract structured fields.</li>
+  <li><strong>Vision + reasoning</strong> &mdash; interpret screenshots, diagrams, dashboards, or product images.</li>
+  <li><strong>Speech pipelines</strong> &mdash; transcribe audio, summarize calls, and extract actions from conversations.</li>
+  <li><strong>Mixed-modal copilots</strong> &mdash; chat interfaces where users can attach files, images, or recordings alongside text.</li>
+</ul>
+
+<p>Many of these systems are still text-centric internally. The difference is that they add modality-specific ingestion before reasoning and modality-aware presentation after reasoning.</p>
+`,
+      },
+      {
+        id: "design-implications",
+        title: "Design Implications",
+        content: `
+<p>Multimodal systems force several design choices that text-only systems can often ignore:</p>
+
+<ul>
+  <li><strong>Input preprocessing</strong> &mdash; OCR, layout extraction, transcription, image resizing, and chunking become part of the application.</li>
+  <li><strong>Context budgeting</strong> &mdash; images, transcripts, and document excerpts compete for limited context space.</li>
+  <li><strong>Evaluation strategy</strong> &mdash; outputs must often be checked against both extracted text and original media.</li>
+  <li><strong>User experience</strong> &mdash; people need to see what file, image region, or audio span the system used.</li>
+</ul>
+
+<pre><code>asset -&gt; preprocess -&gt; extract/retrieve -&gt; reason -&gt; validate -&gt; present
+</code></pre>
+
+<p>When multimodal systems fail, the problem is often upstream of the model itself: bad OCR, poor chunk boundaries, low-quality screenshots, or missing retrieval metadata.</p>
+`,
+      },
+      {
+        id: "production-practices",
+        title: "Production Practices",
+        content: `
+<p>Reliable multimodal systems usually benefit from explicit pipeline stages:</p>
+
+<ul>
+  <li><strong>Preserve raw assets</strong> &mdash; keep the original file or media reference for audit and debugging.</li>
+  <li><strong>Store extracted representations separately</strong> &mdash; OCR text, transcript segments, and layout metadata should be versioned.</li>
+  <li><strong>Show evidence back to the user</strong> &mdash; cite pages, regions, timestamps, or attachments.</li>
+  <li><strong>Evaluate by modality</strong> &mdash; document extraction, visual reasoning, and speech summarization should not share the same benchmark blindly.</li>
+</ul>
+
+<blockquote><p>Multimodal GenAI is not just "LLMs, but with images." It is the design of systems that reason across different forms of evidence with different failure modes.</p></blockquote>
+`,
+      },
+    ],
+    keyTakeaways: [
+      "Multimodal systems work across text, images, audio, documents, and other media rather than text alone.",
+      "Most multimodal apps are pipeline problems as much as model problems.",
+      "Preprocessing, extraction quality, context budgeting, and evidence display matter as much as model choice.",
+      "Different modalities require different evaluation strategies and operational controls.",
+      "Users should be able to see which media asset, page, region, or timestamp the system relied on.",
+    ],
+    relatedFrameworks: [
+      "vercel-ai-sdk",
+      "llamaindex",
+      "haystack",
+      "google-adk",
+      "openai-agents-sdk",
+    ],
+    relatedPatterns: ["tool-augmented", "react", "hierarchical"],
+  },
+
+  // ================================================================
+  // 9. Fine-Tuning vs RAG vs Tools vs Workflows
   // ================================================================
   {
     id: "fine-tuning-vs-rag-tools-workflows",
