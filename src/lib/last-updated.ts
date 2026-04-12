@@ -46,6 +46,11 @@ const lastUpdatedMap: Record<string, string> = {
   "guide:governance-compliance": "2026-04-12",
   "guide:dataset-prompt-versioning": "2026-04-12",
   "guide:genai-product-ux": "2026-04-12",
+  "guide:framework-cookbook-support-copilot": "2026-04-12",
+  "guide:case-study-support-agent": "2026-04-12",
+  "guide:case-study-research-agent": "2026-04-12",
+  "guide:case-study-coding-agent": "2026-04-12",
+  "guide:case-study-document-workflows": "2026-04-12",
 
   // ── Frameworks ────────────────────────────────────────
   "framework:claude-agent-sdk": "2025-06-15",

@@ -3393,6 +3393,406 @@ if not policy_engine.can_access(user_role, resource_scope):
       { title: "Prompt Engineering for Agents", href: "/guides/prompt-engineering" },
     ],
   },
+  {
+    slug: "framework-cookbook-support-copilot",
+    title: "Framework Cookbook: Support Copilot",
+    description:
+      "See how the same support-copilot workflow maps across OpenAI Agents SDK, LangGraph, PydanticAI, and Vercel AI SDK.",
+    difficulty: "intermediate",
+    time: "20 min",
+    prerequisites: [
+      "Familiarity with at least one agent framework",
+      "Helpful: Choosing Your Stack and Guardrails coverage",
+      "Basic understanding of retrieval, tool calling, and human review",
+    ],
+    whatYoullLearn: [
+      "How one reference workflow translates across major frameworks",
+      "Which parts stay constant versus which parts are framework-specific",
+      "What tradeoffs matter for state, tools, validation, and UI integration",
+      "How to compare ergonomics without confusing framework style for system design",
+    ],
+    sections: [
+      {
+        title: "The Reference Workflow",
+        content: `<p>The reference application is a <strong>support copilot</strong> for customer-service teams. It does four things:</p>
+
+<ul>
+<li>retrieves relevant policy and account context</li>
+<li>drafts a support response</li>
+<li>proposes next actions such as refund, escalation, or follow-up</li>
+<li>requires human approval before high-risk side effects</li>
+</ul>
+
+<p>This workflow is deliberately representative: it combines retrieval, tool use, structured outputs, and approval gates without being tied to one vendor.</p>`,
+      },
+      {
+        title: "OpenAI Agents SDK Shape",
+        content: `<p>With the OpenAI Agents SDK, the support copilot maps naturally to an agent with typed tools, explicit instructions, and a runtime that handles the action loop for you.</p>
+
+<pre><code>agent = Agent(
+  name="SupportCopilot",
+  instructions="Draft support responses, cite policy, and escalate risky actions.",
+  tools=[lookup_account, search_policy, draft_refund_plan],
+)
+</code></pre>
+
+<p>This approach is strong when you want a direct agent abstraction with clean tool orchestration and minimal graph plumbing.</p>`,
+      },
+      {
+        title: "LangGraph Shape",
+        content: `<p>In LangGraph, the same workflow is easier to model as <strong>explicit state transitions</strong>: classify request, retrieve context, draft response, validate, then route either to approval or final output.</p>
+
+<pre><code>START -&gt; classify -&gt; retrieve -&gt; draft -&gt; validate -&gt; {approve | finalize}
+</code></pre>
+
+<p>This is a good fit when the workflow has branching, recovery logic, or durability requirements that should be visible in the architecture.</p>`,
+      },
+      {
+        title: "PydanticAI and Vercel AI SDK Shapes",
+        content: `<p><strong>PydanticAI</strong> makes the support copilot attractive when typed inputs and outputs are central. Its value shows up in structured result validation, safer tool signatures, and explicit data models.</p>
+
+<p><strong>Vercel AI SDK</strong> becomes compelling when the support copilot is tightly tied to a web UI: streaming drafts, message-based interactions, and attachment-aware chat surfaces are first-class concerns.</p>
+
+<p>The key lesson is that the workflow stays the same. What changes is where the framework gives you leverage: runtime orchestration, type safety, or UI delivery.</p>`,
+      },
+      {
+        title: "What to Compare Across Frameworks",
+        content: `<p>When comparing framework implementations, do not ask only “which one looks cleaner?” Compare the parts that affect production work:</p>
+
+<ul>
+<li>state model and workflow visibility</li>
+<li>tool definition ergonomics</li>
+<li>typed validation support</li>
+<li>human-approval integration</li>
+<li>streaming and UI fit</li>
+<li>testing and observability hooks</li>
+</ul>
+
+<blockquote><p>A cookbook is valuable when it keeps the business workflow constant and changes only the implementation surface. That makes framework tradeoffs visible instead of hypothetical.</p></blockquote>`,
+      },
+    ],
+    commonMistakes: [
+      "Comparing framework syntax instead of comparing workflow fit, state handling, and production controls",
+      "Changing the business workflow between implementations and calling it a fair comparison",
+      "Ignoring approval, observability, or validation paths because they make one framework look heavier",
+      "Choosing a framework only from the hello-world experience instead of the real workflow shape",
+      "Treating UI tooling and backend orchestration as the same category of decision",
+    ],
+    nextSteps: [
+      { title: "Choosing Your Stack", href: "/guides/choosing-your-stack" },
+      { title: "Case Study: Support Agent", href: "/guides/case-study-support-agent" },
+      { title: "Frameworks Catalog", href: "/frameworks" },
+    ],
+  },
+  {
+    slug: "case-study-support-agent",
+    title: "Case Study: Support Agent",
+    description:
+      "A production case study for a customer-support agent with retrieval, policy checks, drafts, and human escalation.",
+    difficulty: "advanced",
+    time: "18 min",
+    prerequisites: [
+      "Understanding of retrieval, tool use, and approval flows",
+      "Recommended: Guardrails, Human-in-the-Loop Design, and Governance coverage",
+    ],
+    whatYoullLearn: [
+      "How to structure a support agent around policy, account data, and escalation",
+      "Which actions should stay draft-only versus automated",
+      "How support metrics, auditability, and cost controls fit into the design",
+      "The most common failure modes for support copilot systems",
+    ],
+    sections: [
+      {
+        title: "Problem Shape",
+        content: `<p>A support agent has to answer customer questions, retrieve account state, cite policy correctly, and avoid unsafe actions. This makes it a classic <strong>bounded-autonomy</strong> workflow rather than a free-form chat assistant.</p>
+
+<p>Useful system boundaries include:</p>
+<ul>
+<li>read account and order context</li>
+<li>search policy and help-center content</li>
+<li>draft responses and refund recommendations</li>
+<li>escalate when risk, ambiguity, or account sensitivity crosses a threshold</li>
+</ul>`,
+      },
+      {
+        title: "Architecture",
+        content: `<p>A practical support-agent architecture often looks like this:</p>
+
+<pre><code>user request
+  -&gt; classify intent
+  -&gt; retrieve account + policy context
+  -&gt; draft response + next action
+  -&gt; validate against policy and risk rules
+  -&gt; {send draft to human | finalize low-risk answer}
+</code></pre>
+
+<p>The model is not the authority on policy. It is the reasoning layer that assembles a useful answer from authorized data and deterministic business rules.</p>`,
+      },
+      {
+        title: "Operational Controls",
+        content: `<p>Support systems need strong controls because mistakes reach customers quickly:</p>
+
+<ul>
+<li><strong>evidence display</strong> so agents can see which policy source was used</li>
+<li><strong>approval gates</strong> for refunds, credits, or account changes</li>
+<li><strong>tenant and role scoping</strong> so internal notes and customer data do not leak</li>
+<li><strong>cost and latency budgets</strong> because support volume is high</li>
+</ul>
+
+<p>Metrics should include containment rate, escalation rate, average handling-time reduction, and policy-correction rate.</p>`,
+      },
+      {
+        title: "Failure Modes",
+        content: `<p>Common support-agent failures are predictable:</p>
+
+<ul>
+<li>retrieving the wrong policy version</li>
+<li>giving a confident answer when account context is incomplete</li>
+<li>drafting actions that exceed the operator's permissions</li>
+<li>optimizing for containment at the expense of customer trust</li>
+</ul>
+
+<p>That is why support agents should be evaluated not only on answer quality, but also on escalation quality and policy correctness.</p>`,
+      },
+    ],
+    commonMistakes: [
+      "Letting the model improvise policy instead of grounding it in retrieved sources",
+      "Automating refunds or account actions without approval boundaries",
+      "Optimizing only for containment rate and ignoring correction or re-contact rate",
+      "Failing to show operators the evidence behind the draft response",
+      "Using one generic workflow for every support tier and risk level",
+    ],
+    nextSteps: [
+      { title: "Framework Cookbook: Support Copilot", href: "/guides/framework-cookbook-support-copilot" },
+      { title: "Guardrails & Safety", href: "/guides/guardrails" },
+      { title: "Governance & Compliance", href: "/guides/governance-compliance" },
+    ],
+  },
+  {
+    slug: "case-study-research-agent",
+    title: "Case Study: Research Agent",
+    description:
+      "A production case study for a research agent that searches, reads, synthesizes, and cites across large information sets.",
+    difficulty: "advanced",
+    time: "18 min",
+    prerequisites: [
+      "Familiarity with RAG, context engineering, and evaluation",
+      "Helpful: Workflow Reliability and Multimodal GenAI coverage",
+    ],
+    whatYoullLearn: [
+      "How to structure a research agent around search, reading, synthesis, and citation",
+      "Where retrieval, summarization, and human review fit in the workflow",
+      "How to avoid unsupported synthesis and citation drift",
+      "What to measure in research-agent quality beyond answer fluency",
+    ],
+    sections: [
+      {
+        title: "Problem Shape",
+        content: `<p>A research agent is valuable when the task is not just “find one fact,” but “search broadly, compare sources, synthesize findings, and produce a usable report.” This is a workflow problem as much as a model problem.</p>`,
+      },
+      {
+        title: "Architecture",
+        content: `<p>A common research architecture has four stages:</p>
+
+<pre><code>question
+  -&gt; search plan
+  -&gt; retrieval and reading
+  -&gt; note-taking and evidence compression
+  -&gt; synthesis with citations
+</code></pre>
+
+<p>The crucial design choice is keeping <strong>evidence gathering</strong> separate from <strong>synthesis</strong>. If those blur together, unsupported claims become hard to detect.</p>`,
+      },
+      {
+        title: "Operational Controls",
+        content: `<p>Good research agents should:</p>
+
+<ul>
+<li>preserve source references through the full pipeline</li>
+<li>distinguish retrieved evidence from generated synthesis</li>
+<li>limit summary drift by versioning intermediate notes</li>
+<li>support human review for high-importance reports</li>
+</ul>
+
+<p>Useful metrics include citation accuracy, source diversity, unsupported-claim rate, and time to first credible draft.</p>`,
+      },
+      {
+        title: "Failure Modes",
+        content: `<p>Research-agent failures usually look like:</p>
+
+<ul>
+<li>over-summarizing early and losing nuance</li>
+<li>citing the wrong passage for a claim</li>
+<li>preferring fluent synthesis over source-grounded synthesis</li>
+<li>treating stale or low-quality sources as equivalent to better ones</li>
+</ul>`,
+      },
+    ],
+    commonMistakes: [
+      "Combining retrieval, synthesis, and final writing into one opaque model step",
+      "Dropping citations during note compression and then trying to reconstruct them later",
+      "Measuring only final answer fluency instead of citation quality and evidence coverage",
+      "Overusing one source or one domain and calling the result research",
+      "Skipping human review for external or high-stakes reports",
+    ],
+    nextSteps: [
+      { title: "RAG & Agentic RAG", href: "/concepts/rag" },
+      { title: "Multimodal GenAI", href: "/concepts/multimodal-genai" },
+      { title: "Evaluation & Testing", href: "/guides/evaluation" },
+    ],
+  },
+  {
+    slug: "case-study-coding-agent",
+    title: "Case Study: Coding Agent",
+    description:
+      "A production case study for a coding agent that reads repos, plans edits, runs tools, and validates changes before handoff.",
+    difficulty: "advanced",
+    time: "20 min",
+    prerequisites: [
+      "Comfort reading code and thinking in repo-level workflows",
+      "Recommended: Tool Use, Workflow Reliability, and Evaluation coverage",
+    ],
+    whatYoullLearn: [
+      "How coding agents combine search, planning, editing, and verification",
+      "Where sandboxing, test execution, and human review matter most",
+      "Why repo context and state management dominate coding-agent quality",
+      "What failure patterns are specific to code-editing systems",
+    ],
+    sections: [
+      {
+        title: "Problem Shape",
+        content: `<p>A coding agent is not just a text generator for code snippets. It is a system that must understand repository state, make coordinated edits, run tools, and verify that the change is actually safe.</p>`,
+      },
+      {
+        title: "Architecture",
+        content: `<p>A practical coding-agent loop looks like this:</p>
+
+<pre><code>issue or request
+  -&gt; search codebase
+  -&gt; form change plan
+  -&gt; edit files
+  -&gt; run tests/lints/build
+  -&gt; summarize diff and hand off
+</code></pre>
+
+<p>The system is strong when every step is observable. Search results, chosen files, edits, and verification outputs should all be inspectable.</p>`,
+      },
+      {
+        title: "Operational Controls",
+        content: `<p>Coding agents need controls different from chat systems:</p>
+
+<ul>
+<li><strong>workspace isolation</strong> and file-scope awareness</li>
+<li><strong>non-destructive defaults</strong> for existing changes</li>
+<li><strong>structured verification</strong> through tests, typecheck, and build commands</li>
+<li><strong>explicit review output</strong> that explains what changed and what remains risky</li>
+</ul>
+
+<p>Useful metrics include verified-change rate, test pass rate, rollback rate, and number of human follow-up edits required.</p>`,
+      },
+      {
+        title: "Failure Modes",
+        content: `<p>Common coding-agent failures include:</p>
+
+<ul>
+<li>editing the wrong file because search context was shallow</li>
+<li>passing compilation while breaking behavior</li>
+<li>overwriting unrelated in-progress work</li>
+<li>fixing one issue by creating untested regressions elsewhere</li>
+</ul>
+
+<p>That is why coding agents should be judged on verified repo outcomes, not just plausible-looking diffs.</p>`,
+      },
+    ],
+    commonMistakes: [
+      "Treating code generation as the whole problem instead of repo understanding plus verification",
+      "Skipping tests because the diff looks small or obvious",
+      "Letting the agent overwrite unrelated work in a dirty tree",
+      "Using one giant prompt instead of explicit search, edit, and verify stages",
+      "Evaluating snippets instead of full change outcomes",
+    ],
+    nextSteps: [
+      { title: "Tool Use & Function Calling", href: "/concepts/tool-use" },
+      { title: "Workflow Reliability", href: "/concepts/workflow-reliability" },
+      { title: "Frameworks Catalog", href: "/frameworks" },
+    ],
+  },
+  {
+    slug: "case-study-document-workflows",
+    title: "Case Study: Document Workflows",
+    description:
+      "A production case study for document-heavy GenAI systems that extract, review, route, and transform files at scale.",
+    difficulty: "advanced",
+    time: "18 min",
+    prerequisites: [
+      "Familiarity with multimodal inputs, extraction, and structured outputs",
+      "Helpful: Dataset & Prompt Versioning and GenAI Product UX coverage",
+    ],
+    whatYoullLearn: [
+      "How document workflows combine extraction, validation, routing, and review",
+      "Where OCR, layout metadata, and human review matter most",
+      "How to manage file evidence and downstream system actions safely",
+      "What failure patterns appear in document-processing systems",
+    ],
+    sections: [
+      {
+        title: "Problem Shape",
+        content: `<p>Document workflows sit at the intersection of multimodal understanding and business process automation. Examples include invoice intake, contract review, claims processing, and compliance packet assembly.</p>`,
+      },
+      {
+        title: "Architecture",
+        content: `<p>A common workflow shape is:</p>
+
+<pre><code>document upload
+  -&gt; OCR/layout extraction
+  -&gt; field extraction
+  -&gt; validation against business rules
+  -&gt; route to reviewer or downstream system
+  -&gt; store evidence and audit trail
+</code></pre>
+
+<p>Here the system has to manage both the original file and the extracted representation. Losing that connection makes debugging and compliance review much harder.</p>`,
+      },
+      {
+        title: "Operational Controls",
+        content: `<p>Document workflows usually need:</p>
+
+<ul>
+<li>page-level or region-level evidence references</li>
+<li>confidence thresholds for extracted fields</li>
+<li>review queues for ambiguous or low-quality inputs</li>
+<li>strict retention and access controls for uploaded files</li>
+</ul>
+
+<p>Useful metrics include field-level accuracy, review deflection rate, turnaround time, and downstream correction rate.</p>`,
+      },
+      {
+        title: "Failure Modes",
+        content: `<p>Typical failures include:</p>
+
+<ul>
+<li>bad OCR being treated as reliable text</li>
+<li>layout-sensitive fields extracted into the wrong slots</li>
+<li>confidence scores that are not calibrated to real review outcomes</li>
+<li>missing audit links between the original document and the routed decision</li>
+</ul>
+
+<p>The system is only trustworthy if reviewers can trace every important field back to the source evidence.</p>`,
+      },
+    ],
+    commonMistakes: [
+      "Treating documents as plain text and discarding layout or page evidence too early",
+      "Sending low-confidence extraction straight into downstream systems",
+      "Failing to preserve the original file alongside extracted fields",
+      "Using one validation threshold for every document class",
+      "Ignoring review outcomes as a source of future evaluation data",
+    ],
+    nextSteps: [
+      { title: "Multimodal GenAI", href: "/concepts/multimodal-genai" },
+      { title: "Structured Outputs", href: "/concepts/structured-outputs" },
+      { title: "GenAI Product UX", href: "/guides/genai-product-ux" },
+    ],
+  },
 ];
 
 export function getGuideContent(slug: string): GuideContent | undefined {

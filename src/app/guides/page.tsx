@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, BookOpen, Rocket, Code, Shield, Eye, TestTube, Zap, Brain, Plug, Layers, Terminal, FileCode, DollarSign, Scale, GitBranch, PanelsTopLeft } from "lucide-react";
+import { ArrowRight, BookOpen, Rocket, Code, Shield, Eye, TestTube, Zap, Brain, Plug, Layers, Terminal, FileCode, DollarSign, Scale, GitBranch, PanelsTopLeft, MessageSquare, Search, FileText } from "lucide-react";
 import type { Metadata } from "next";
 import { guideContents } from "@/data/guide-content";
 
@@ -25,6 +25,11 @@ const guideIcons = {
   "governance-compliance": Scale,
   "dataset-prompt-versioning": GitBranch,
   "genai-product-ux": PanelsTopLeft,
+  "framework-cookbook-support-copilot": Layers,
+  "case-study-support-agent": MessageSquare,
+  "case-study-research-agent": Search,
+  "case-study-coding-agent": FileCode,
+  "case-study-document-workflows": FileText,
 } as const;
 
 const guides = guideContents.map((guide) => ({

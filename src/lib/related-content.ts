@@ -204,6 +204,31 @@ const relationshipMap: Record<string, string[]> = {
     "concept:human-in-the-loop-design",
     "framework:copilotkit",
   ],
+  "guide:framework-cookbook-support-copilot": [
+    "guide:choosing-your-stack",
+    "guide:case-study-support-agent",
+    "framework:openai-agents-sdk",
+  ],
+  "guide:case-study-support-agent": [
+    "guide:framework-cookbook-support-copilot",
+    "guide:guardrails",
+    "concept:human-in-the-loop-design",
+  ],
+  "guide:case-study-research-agent": [
+    "concept:rag",
+    "guide:evaluation",
+    "concept:multimodal-genai",
+  ],
+  "guide:case-study-coding-agent": [
+    "concept:tool-use",
+    "concept:workflow-reliability",
+    "guide:production-deployment",
+  ],
+  "guide:case-study-document-workflows": [
+    "concept:multimodal-genai",
+    "concept:structured-outputs",
+    "guide:genai-product-ux",
+  ],
 
   // ── Frameworks ──
   "framework:claude-agent-sdk": [

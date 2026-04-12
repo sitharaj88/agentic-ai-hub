@@ -75,6 +75,11 @@ export const searchIndex: SearchItem[] = [
   { title: "Governance & Compliance", description: "Auditability, policy enforcement, approvals, and compliance-aware GenAI design", href: "/guides/governance-compliance", type: "Guide" },
   { title: "Dataset & Prompt Versioning", description: "Version prompts, evaluation datasets, and retrieval logic so behavior changes stay reproducible", href: "/guides/dataset-prompt-versioning", type: "Guide" },
   { title: "GenAI Product UX", description: "Streaming, partial results, evidence display, uncertainty handling, and human handoff for user-facing AI products", href: "/guides/genai-product-ux", type: "Guide" },
+  { title: "Framework Cookbook: Support Copilot", description: "Compare one support-copilot workflow across OpenAI Agents SDK, LangGraph, PydanticAI, and Vercel AI SDK", href: "/guides/framework-cookbook-support-copilot", type: "Guide" },
+  { title: "Case Study: Support Agent", description: "A production support-agent design with retrieval, policy checks, drafts, and escalation", href: "/guides/case-study-support-agent", type: "Guide" },
+  { title: "Case Study: Research Agent", description: "A production research-agent design for search, reading, synthesis, and citations", href: "/guides/case-study-research-agent", type: "Guide" },
+  { title: "Case Study: Coding Agent", description: "A production coding-agent design for repo search, edits, verification, and handoff", href: "/guides/case-study-coding-agent", type: "Guide" },
+  { title: "Case Study: Document Workflows", description: "A production document-workflow design for extraction, review, routing, and evidence tracking", href: "/guides/case-study-document-workflows", type: "Guide" },
 
   // Roadmap
   { title: "GenAI Coverage Roadmap", description: "What the hub covers today, what is partial, and what should be added next.", href: "/roadmap", type: "Roadmap" },
