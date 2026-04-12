@@ -153,6 +153,12 @@ Contributions are welcome! Here's how you can help:
 - **Improve a concept** — Expand a section in `src/data/concept-content.ts`
 - **Write a guide** — Add a new guide to `src/data/guide-content.ts`
 
+Before opening a content PR, read:
+
+- [CONTRIBUTING.md](./CONTRIBUTING.md)
+- [docs/CONTENT_STANDARDS.md](./docs/CONTENT_STANDARDS.md)
+- [docs/templates/](./docs/templates/)
+
 ### Contribution Steps
 
 ```bash
