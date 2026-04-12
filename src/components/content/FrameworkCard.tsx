@@ -22,7 +22,9 @@ export function FrameworkCard({ framework }: { framework: Framework }) {
             {framework.name}
           </h3>
           <span className="shrink-0 text-xs" style={{ color: "var(--text-muted)" }}>
-            {framework.stars_approx}
+            <span title="Approximate GitHub stars; ecosystem metadata can drift over time.">
+              {framework.stars_approx}
+            </span>
           </span>
         </div>
         <p className="mt-0.5 text-sm" style={{ color: "var(--text-muted)" }}>

@@ -11,7 +11,7 @@ type SortKey = "name" | "developer" | "stars_approx" | "category";
 type SortDir = "asc" | "desc";
 
 const ALL_CATEGORIES = Object.keys(CATEGORIES) as Category[];
-const ALL_LANGUAGES = ["Python", "TypeScript", "C#"] as const;
+const ALL_LANGUAGES = ["Python", "TypeScript", "Go", "Java", "C#"] as const;
 type Language = (typeof ALL_LANGUAGES)[number];
 
 export default function ComparePage() {
@@ -126,7 +126,7 @@ export default function ComparePage() {
           Compare Frameworks
         </h1>
         <p className="mt-3 max-w-2xl text-lg" style={{ color: "var(--text-secondary)" }}>
-          Side-by-side comparison of all {frameworks.length} AI agent frameworks. Click any column header to sort.
+          Side-by-side comparison of all {frameworks.length} AI agent frameworks. Click any column header to sort. GitHub star counts are approximate snapshots and may drift over time.
         </p>
       </div>
 
@@ -307,7 +307,7 @@ export default function ComparePage() {
                 <th className="px-4 py-3 text-center text-sm font-semibold" style={{ color: "var(--text-primary)", borderBottom: "2px solid var(--border-strong)" }}>
                   Multi-Agent
                 </th>
-                <SortHeader label="Stars" field="stars_approx" />
+                <SortHeader label="Stars (approx.)" field="stars_approx" />
                 <th className="px-4 py-3 text-sm font-semibold" style={{ color: "var(--text-primary)", borderBottom: "2px solid var(--border-strong)" }}>
                   Links
                 </th>

@@ -32,8 +32,8 @@ const lastUpdatedMap: Record<string, string> = {
   "pattern:agent-teams": "2025-06-15",
 
   // ── Guides ────────────────────────────────────────────
-  "guide:getting-started": "2025-06-15",
-  "guide:first-agent": "2025-06-15",
+  "guide:getting-started": "2026-04-12",
+  "guide:first-agent": "2026-04-12",
   "guide:choosing-your-stack": "2025-06-15",
   "guide:multi-agent-architecture": "2025-06-15",
   "guide:building-mcp-servers": "2025-06-15",
@@ -54,8 +54,8 @@ const lastUpdatedMap: Record<string, string> = {
 
   // ── Frameworks ────────────────────────────────────────
   "framework:claude-agent-sdk": "2025-06-15",
-  "framework:openai-agents-sdk": "2025-06-15",
-  "framework:google-adk": "2025-06-15",
+  "framework:openai-agents-sdk": "2026-04-12",
+  "framework:google-adk": "2026-04-12",
   "framework:microsoft-agent-framework": "2025-06-15",
   "framework:aws-strands": "2025-06-15",
   "framework:langgraph": "2025-06-15",
@@ -68,12 +68,12 @@ const lastUpdatedMap: Record<string, string> = {
   "framework:haystack": "2025-06-15",
   "framework:mastra": "2025-06-15",
   "framework:langchain": "2025-06-15",
-  "framework:vercel-ai-sdk": "2025-06-15",
+  "framework:vercel-ai-sdk": "2026-04-12",
   "framework:copilotkit": "2025-06-15",
-  "framework:dify": "2025-06-15",
+  "framework:dify": "2026-04-12",
   "framework:flowise": "2025-06-15",
   "framework:rivet": "2025-06-15",
-  "framework:mcp": "2025-06-15",
+  "framework:mcp": "2026-04-12",
   "framework:a2a": "2025-06-15",
 };
 

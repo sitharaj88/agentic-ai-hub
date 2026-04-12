@@ -124,12 +124,12 @@ print(result)`,
     tagline: "Official OpenAI agent toolkit",
     category: "big-tech",
     developer: "OpenAI",
-    language: ["Python"],
+    language: ["Python", "TypeScript"],
     license: "MIT",
     github_url: "https://github.com/openai/openai-agents-python",
-    docs_url: "https://openai.github.io/openai-agents-python/",
+    docs_url: "https://platform.openai.com/docs/guides/agents-sdk/",
     description:
-      "OpenAI's official SDK for building production-ready agents with managed infrastructure, tool use, handoffs between specialized agents, and built-in guardrails. It provides a minimal yet powerful set of primitives: Agents, Handoffs, Guardrails, and a Runner to orchestrate everything.",
+      "OpenAI's official SDK for building production-ready agents with managed infrastructure, tool use, handoffs between specialized agents, and built-in guardrails. The SDK is available for both Python and TypeScript and provides a minimal yet powerful set of primitives: Agents, Handoffs, Guardrails, and a Runner to orchestrate everything.",
     architecture:
       "The SDK is built around an Agent class that bundles instructions, tools, and model configuration. A Runner orchestrates the agentic loop, invoking the model, processing tool calls, and managing handoffs between agents. Guardrails run in parallel with the main agent to validate inputs and outputs, enabling safe multi-step execution.",
     use_cases: [
@@ -144,11 +144,11 @@ print(result)`,
       "Built-in guardrails for input/output validation",
       "Elegant handoff mechanism between specialized agents",
       "Tracing and observability out of the box",
-      "Minimal abstraction with maximum control",
+      "Official SDKs for both Python and TypeScript",
     ],
     weaknesses: [
       "OpenAI model lock-in by default (requires adapters for other providers)",
-      "Python-only SDK at launch",
+      "Multi-provider support is less central than in framework-agnostic stacks",
       "Smaller plugin ecosystem compared to LangChain",
     ],
     code_example: `from agents import Agent, Runner, function_tool
@@ -180,12 +180,12 @@ print(result.final_output)`,
     tagline: "Google's agent development kit",
     category: "big-tech",
     developer: "Google",
-    language: ["Python"],
+    language: ["Python", "TypeScript", "Go", "Java"],
     license: "Apache-2.0",
     github_url: "https://github.com/google/adk-python",
     docs_url: "https://google.github.io/adk-docs/",
     description:
-      "Google's comprehensive Agent Development Kit for building multi-agent systems powered by Gemini and other models. It provides a layered architecture supporting simple LLM agents, pipeline agents with sequential/parallel/loop workflows, and custom agents with arbitrary orchestration logic. Deep integration with Google Cloud services and Vertex AI.",
+      "Google's comprehensive Agent Development Kit for building multi-agent systems powered by Gemini and other models. ADK now spans Python, TypeScript, Go, and Java, and provides a layered architecture supporting simple LLM agents, pipeline agents with sequential/parallel/loop workflows, and custom agents with arbitrary orchestration logic. Deep integration with Google Cloud services and Vertex AI.",
     architecture:
       "ADK uses a hierarchical agent architecture where a root agent can delegate to sub-agents. Agents are organized as a tree, with each agent having access to tools, a model, and optional sub-agents. The framework supports three agent types: LLM agents (model-driven), pipeline agents (workflow-driven with SequentialAgent, ParallelAgent, LoopAgent), and custom agents (code-driven). Session and memory services handle state persistence.",
     use_cases: [
@@ -1073,7 +1073,7 @@ print(result)`,
     github_url: "https://github.com/vercel/ai",
     docs_url: "https://sdk.vercel.ai/docs",
     description:
-      "TypeScript-first SDK for building AI-powered web applications with streaming, tool use, structured outputs, and multi-model support. The Vercel AI SDK provides three layers: AI SDK Core for server-side LLM calls, AI SDK UI for React/Svelte/Vue chat hooks, and AI SDK RSC for React Server Components streaming. It is the most popular way to integrate AI into web applications.",
+      "TypeScript-first SDK for building AI-powered web applications with streaming, tool use, structured outputs, and multi-model support. The Vercel AI SDK provides three layers: AI SDK Core for server-side LLM calls, AI SDK UI for React/Svelte/Vue chat hooks, and AI SDK RSC for React Server Components streaming. It is a widely used way to integrate AI into web applications.",
     architecture:
       "The SDK is organized into three layers. AI SDK Core provides model-agnostic functions (generateText, streamText, generateObject) that work with any provider via a unified interface. AI SDK UI provides framework hooks (useChat, useCompletion) for building interactive UIs with automatic streaming. AI SDK RSC enables streaming React Server Components with AI-generated content. The provider system allows hot-swapping between OpenAI, Anthropic, Google, and other model providers with zero code changes.",
     use_cases: [
@@ -1222,7 +1222,7 @@ function TodoApp() {
     github_url: "https://github.com/langgenius/dify",
     docs_url: "https://docs.dify.ai/",
     description:
-      "Open-source platform for building AI workflows visually with a drag-and-drop interface. Dify combines a visual workflow builder, RAG pipeline, model management, and observability into a single platform. It supports chatbots, agents, text generation, and complex workflow applications, with support for 100+ model providers.",
+      "Open-source platform for building AI workflows visually with a drag-and-drop interface. Dify combines a visual workflow builder, RAG pipeline, model management, and observability into a single platform. It supports chatbots, agents, text generation, and complex workflow applications, with broad model-provider coverage.",
     architecture:
       "Dify uses a web-based application architecture with a React frontend and Flask/Python backend. Workflows are defined as directed graphs in a visual canvas, with nodes representing LLM calls, tools, conditions, code blocks, and other operations. The execution engine processes nodes in dependency order, passing data between them. A built-in RAG engine handles document ingestion, chunking, embedding, and retrieval. The platform exposes workflows as APIs for integration.",
     use_cases: [
@@ -1235,9 +1235,9 @@ function TodoApp() {
     strengths: [
       "Powerful visual workflow builder accessible to non-developers",
       "Self-hostable with Docker for full data control",
-      "Supports 100+ model providers (OpenAI, Anthropic, local models)",
+      "Broad model-provider support, including hosted and self-hosted models",
       "Built-in RAG, annotation, and dataset management",
-      "Active community with 60k+ GitHub stars",
+      "Large open-source community and active release cadence",
     ],
     weaknesses: [
       "Platform dependency limits flexibility for code-first developers",
@@ -1433,7 +1433,7 @@ console.log(result.output.value);`,
     description:
       "Open protocol that standardizes how LLM applications connect to external data sources, tools, and services. MCP defines a client-server architecture where MCP servers expose tools, resources, and prompts through a standard interface, and MCP clients (like Claude, IDEs, and agent frameworks) can discover and use them. Think of it as a 'USB-C for AI' — one standard connector for all integrations.",
     architecture:
-      "MCP uses a JSON-RPC 2.0-based client-server protocol. An MCP server exposes three primitives: Tools (callable functions), Resources (readable data), and Prompts (reusable templates). The transport layer supports stdio (for local servers) and HTTP with Server-Sent Events (for remote servers). Clients discover server capabilities via an initialization handshake, then invoke tools and read resources through typed RPC calls. The protocol is stateful within a session but stateless between sessions.",
+      "MCP uses a JSON-RPC 2.0-based client-server protocol. An MCP server exposes three primitives: Tools (callable functions), Resources (readable data), and Prompts (reusable templates). The transport layer supports stdio (for local servers) and Streamable HTTP (for remote servers), with the older HTTP+SSE transport now considered legacy. Clients discover server capabilities via an initialization handshake, then invoke tools and read resources through typed RPC calls. The protocol is stateful within a session but stateless between sessions.",
     use_cases: [
       "Standardized tool integration for LLM applications",
       "Connecting AI assistants to databases, APIs, and services",
@@ -1446,7 +1446,7 @@ console.log(result.output.value);`,
       "Growing ecosystem with 1000+ community servers",
       "Simple protocol that is easy to implement in any language",
       "Decouples tool implementation from agent framework",
-      "Supports both local (stdio) and remote (HTTP/SSE) transports",
+      "Supports both local (stdio) and remote (Streamable HTTP) transports",
     ],
     weaknesses: [
       "Still evolving — specification changes can break implementations",

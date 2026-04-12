@@ -503,7 +503,7 @@ print(result.final_output)
         content: `<p>For your first TypeScript agent, we recommend starting with one of these options:</p>
 
 <ul>
-<li><strong>Vercel AI SDK</strong> — The most popular way to build AI into web apps. Supports multiple providers (Anthropic, OpenAI, Google), streaming, and tool use out of the box.</li>
+<li><strong>Vercel AI SDK</strong> — A widely used way to build AI into web apps. Supports multiple providers (Anthropic, OpenAI, Google), streaming, and tool use out of the box.</li>
 <li><strong>Mastra</strong> — TypeScript-first agent framework with built-in workflows, RAG, and evaluation tools.</li>
 <li><strong>CopilotKit</strong> — React components for building AI copilot experiences with in-app chat and context awareness.</li>
 </ul>
@@ -711,7 +711,7 @@ print(result.final_output)
 
 <pre><code>Based on the current information:
 - Weather in Tokyo: It is 22C and sunny
-- Current time in Tokyo: 2025-06-15T08:30:00+00:00
+- Current time in Tokyo: [current Tokyo ISO timestamp]
 
 Tomorrow looks like a great day to fly to Tokyo! The weather
 is pleasant and sunny. Remember to adjust for the time

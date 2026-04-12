@@ -377,7 +377,7 @@ const glossary: GlossaryTerm[] = [
   {
     term: "MCP Transport",
     definition:
-      "The communication layer used to exchange MCP messages between client and server. MCP supports two transport types: stdio (for local processes communicating over standard input/output) and HTTP with Server-Sent Events (for remote servers).",
+      "The communication layer used to exchange MCP messages between client and server. MCP supports two standard transport types: stdio (for local processes communicating over standard input/output) and Streamable HTTP (for remote servers). Legacy HTTP+SSE transport may still appear in older implementations and docs.",
     category: "Protocols",
   },
   {

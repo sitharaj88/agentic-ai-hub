@@ -189,7 +189,7 @@ export default async function FrameworkPage({
                   { label: "Developer", value: fw.developer },
                   { label: "Language", value: fw.language.join(", ") },
                   { label: "License", value: fw.license },
-                  { label: "GitHub Stars", value: fw.stars_approx },
+                  { label: "GitHub Stars (approx.)", value: fw.stars_approx },
                   { label: "MCP Support", value: fw.mcp_support ? "Yes" : "No", icon: fw.mcp_support },
                   { label: "Multi-Agent", value: fw.multi_agent ? "Yes" : "No", icon: fw.multi_agent },
                 ].map((row, i) => (
@@ -222,6 +222,9 @@ export default async function FrameworkPage({
               </tbody>
             </table>
           </div>
+          <p className="mt-3 text-sm" style={{ color: "var(--text-muted)" }}>
+            GitHub stars and notable-user examples are approximate ecosystem snapshots and may drift over time.
+          </p>
 
           {/* Notable Users */}
           {"notable_users" in fw && Array.isArray(fw.notable_users) && fw.notable_users.length > 0 && (
@@ -331,7 +334,7 @@ export default async function FrameworkPage({
                   { label: "Category", content: <CategoryBadge category={fw.category} /> },
                   { label: "Language", content: <div className="flex gap-1">{fw.language.map((l) => <LanguageBadge key={l} language={l} />)}</div> },
                   { label: "License", content: <span className="text-sm font-medium" style={{ color: "var(--text-secondary)" }}>{fw.license}</span> },
-                  { label: "Stars", content: <span className="text-sm font-medium" style={{ color: "var(--text-secondary)" }}>{fw.stars_approx}</span> },
+                  { label: "Stars (approx.)", content: <span className="text-sm font-medium" style={{ color: "var(--text-secondary)" }}>{fw.stars_approx}</span> },
                   { label: "MCP", content: fw.mcp_support ? <Check size={16} className="text-emerald-500" /> : <X size={16} className="text-red-400 opacity-50" /> },
                   { label: "Multi-Agent", content: fw.multi_agent ? <Check size={16} className="text-emerald-500" /> : <X size={16} className="text-red-400 opacity-50" /> },
                 ].map((row, i) => (
