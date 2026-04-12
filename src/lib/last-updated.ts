@@ -39,6 +39,9 @@ const lastUpdatedMap: Record<string, string> = {
   "guide:observability": "2025-06-15",
   "guide:evaluation": "2025-06-15",
   "guide:production-deployment": "2025-06-15",
+  "guide:cost-engineering": "2026-04-12",
+  "guide:governance-compliance": "2026-04-12",
+  "guide:dataset-prompt-versioning": "2026-04-12",
 
   // ── Frameworks ────────────────────────────────────────
   "framework:claude-agent-sdk": "2025-06-15",

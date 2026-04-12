@@ -2871,6 +2871,393 @@ class AgentWithFallback:
       { title: "Explore Frameworks", href: "/frameworks" },
     ],
   },
+
+  // ──────────────────────────────────────────────────────────────
+  // 11. Cost Engineering
+  // ──────────────────────────────────────────────────────────────
+  {
+    slug: "cost-engineering",
+    title: "Cost Engineering",
+    description:
+      "Control GenAI and agent spend with model routing, caching, token budgets, attribution, and operational guardrails.",
+    difficulty: "advanced",
+    time: "20 min",
+    prerequisites: [
+      "Familiarity with model APIs and token-based pricing",
+      "Basic understanding of routing, caching, and production monitoring",
+      "Recommended: Production Deployment guide",
+    ],
+    whatYoullLearn: [
+      "How to break spend down by model, tool, and workflow stage",
+      "When to use routing, caching, and batching to reduce cost",
+      "How to enforce request budgets and tenant-level quotas",
+      "Which metrics matter for cost visibility and optimization",
+    ],
+    sections: [
+      {
+        title: "Treat Cost as a Product Constraint",
+        content: `<p>Cost engineering is not a late optimization pass. In GenAI systems, the architecture itself determines the cost shape: prompt length, retrieval depth, tool calls, retries, fallback chains, and model choice all compound.</p>
+
+<p>A practical cost model looks like this:</p>
+
+<pre><code>total_request_cost =
+  model_input_cost +
+  model_output_cost +
+  retrieval_cost +
+  tool_execution_cost +
+  retry_cost +
+  observability_overhead
+</code></pre>
+
+<p>If you only track the final API bill, you are already too late. You need to attribute spend to the request path that created it.</p>`,
+      },
+      {
+        title: "Routing Before Optimization",
+        content: `<p>The highest-leverage cost control is usually <strong>routing</strong>, not prompt trimming. Use small, cheap models for classification, extraction, and low-risk drafting. Escalate to larger models only when the task actually requires them.</p>
+
+<pre><code>def route_request(task_type: str, risk_level: str):
+    if task_type in {"classification", "simple_extraction"}:
+        return "small-fast-model"
+    if risk_level == "high":
+        return "large-reliable-model"
+    return "mid-tier-model"
+</code></pre>
+
+<p>Good routing decisions should consider:</p>
+<ul>
+<li><strong>Task complexity</strong> — reasoning depth, retrieval needs, and output precision</li>
+<li><strong>Risk</strong> — financial, legal, customer-facing, or irreversible actions</li>
+<li><strong>Latency target</strong> — user-facing chat flows tolerate less delay than background jobs</li>
+<li><strong>Fallback policy</strong> — whether cheaper models are allowed to fail open to a stronger model</li>
+</ul>`,
+      },
+      {
+        title: "Caching, Batching, and Reuse",
+        content: `<p>Not every request should hit a model. Reuse work aggressively where the product allows it.</p>
+
+<h4>What to cache</h4>
+<ul>
+<li>Stable prompt templates and system messages</li>
+<li>Repeated retrieval results for popular documents or queries</li>
+<li>Deterministic tool outputs such as internal metadata lookups</li>
+<li>Low-volatility generation tasks like FAQ answers or summaries</li>
+</ul>
+
+<h4>What not to cache blindly</h4>
+<ul>
+<li>User-specific answers that depend on private state</li>
+<li>Compliance-sensitive content that must reflect current policy</li>
+<li>Outputs from prompts that change frequently</li>
+</ul>
+
+<pre><code>cache_key = hash(
+    model_name,
+    prompt_version,
+    retrieval_snapshot_id,
+    user_scope,
+    normalized_input
+)
+</code></pre>
+
+<p>For offline or async workloads, batch processing can reduce cost substantially. Summaries, tagging jobs, enrichment pipelines, and background classification should not run through an interactive path if you can avoid it.</p>`,
+      },
+      {
+        title: "Budgets, Quotas, and Attribution",
+        content: `<p>Every production GenAI system should have explicit budget controls. Otherwise the cheapest success path in development becomes the most expensive production incident.</p>
+
+<p>Enforce limits at several levels:</p>
+<ul>
+<li><strong>Per request</strong> — max prompt size, max tool calls, max retries, max output tokens</li>
+<li><strong>Per session</strong> — rolling spend cap for a chat or workflow run</li>
+<li><strong>Per tenant</strong> — monthly quota, alert thresholds, and overage policy</li>
+<li><strong>Per feature</strong> — separate budgets for internal copilots, customer chat, batch pipelines, and evaluators</li>
+</ul>
+
+<pre><code>{
+  "tenant_id": "acme-co",
+  "feature": "support-copilot",
+  "request_id": "req_123",
+  "model_cost_usd": 0.018,
+  "tool_cost_usd": 0.004,
+  "retry_cost_usd": 0.002,
+  "total_cost_usd": 0.024
+}
+</code></pre>
+
+<p>If finance or product teams cannot answer “which customer workflow costs the most?” you do not yet have cost observability.</p>`,
+      },
+      {
+        title: "Operational Cost Guardrails",
+        content: `<p>Cost guardrails belong in the runtime, not just in dashboards. Use live controls to stop runaway requests.</p>
+
+<ul>
+<li><strong>Token ceilings</strong> on every call</li>
+<li><strong>Tool-call caps</strong> per run</li>
+<li><strong>Fallback suppression</strong> when the system is already over budget</li>
+<li><strong>Concurrency limits</strong> for expensive workflows</li>
+<li><strong>Alerts</strong> on sudden spend spikes by tenant, workflow, or model</li>
+</ul>
+
+<p>The goal is not “lowest possible cost.” The goal is <strong>predictable cost for acceptable quality</strong>.</p>`,
+      },
+    ],
+    commonMistakes: [
+      "Optimizing prompt length while ignoring the much larger impact of model routing and retries",
+      "Caching without including prompt version or retrieval snapshot in the cache key",
+      "Tracking spend globally but not attributing it to features, tenants, or workflow stages",
+      "Allowing fallback chains to silently double or triple request cost",
+      "Treating evaluators and background jobs as free because they are not customer-facing",
+    ],
+    nextSteps: [
+      { title: "Production Deployment", href: "/guides/production-deployment" },
+      { title: "Observability & Monitoring", href: "/guides/observability" },
+      { title: "Model Selection & Routing", href: "/concepts/model-selection-routing" },
+    ],
+  },
+
+  // ──────────────────────────────────────────────────────────────
+  // 12. Governance & Compliance
+  // ──────────────────────────────────────────────────────────────
+  {
+    slug: "governance-compliance",
+    title: "Governance & Compliance",
+    description:
+      "Design GenAI systems with auditability, policy enforcement, approval controls, and compliance-aware operational boundaries.",
+    difficulty: "advanced",
+    time: "20 min",
+    prerequisites: [
+      "Familiarity with production GenAI systems and enterprise requirements",
+      "Basic understanding of access control and human approval patterns",
+      "Recommended: Guardrails and Auth, Tenancy & Data Boundaries coverage",
+    ],
+    whatYoullLearn: [
+      "How governance differs from runtime guardrails",
+      "Which events and artifacts must be auditable",
+      "How to enforce approval and policy checkpoints",
+      "How compliance requirements affect architecture choices",
+    ],
+    sections: [
+      {
+        title: "Governance Is Broader Than Safety",
+        content: `<p>Guardrails stop bad inputs or outputs at runtime. Governance answers broader organizational questions:</p>
+
+<ul>
+<li>Who approved this workflow?</li>
+<li>Which prompt version produced this action?</li>
+<li>What model and retrieval source were used?</li>
+<li>Which policy allowed or blocked the decision?</li>
+<li>Can we reconstruct what happened six months later?</li>
+</ul>
+
+<p>If your system can generate a result but cannot explain how it got there, it is not governance-ready.</p>`,
+      },
+      {
+        title: "Auditability and Decision Records",
+        content: `<p>Auditability means preserving enough evidence to reconstruct important executions. That does not mean storing every token forever. It means storing the right artifacts for the right retention window.</p>
+
+<p>Common audit records include:</p>
+<ul>
+<li>Prompt version and system policy version</li>
+<li>Model name and runtime parameters</li>
+<li>Retrieved documents or retrieval snapshot IDs</li>
+<li>Tool calls, tool outputs, and external side effects</li>
+<li>Human approval events and reviewer identity</li>
+<li>Final output and any moderation or validation results</li>
+</ul>
+
+<pre><code>{
+  "run_id": "run_456",
+  "policy_version": "policy_2026_04",
+  "prompt_version": "support_triage_v7",
+  "model": "large-reliable-model",
+  "review_required": true,
+  "reviewer_id": "user_92",
+  "decision": "approved"
+}
+</code></pre>`,
+      },
+      {
+        title: "Policy Enforcement and Approval Gates",
+        content: `<p>Policy enforcement should be explicit. Do not bury business rules inside model prompts and hope the model follows them every time.</p>
+
+<p>Separate <strong>policy logic</strong> from <strong>model reasoning</strong>:</p>
+<ul>
+<li>Use deterministic checks for role, scope, tenant, and action eligibility</li>
+<li>Require human approval for high-risk actions such as sending contracts, changing account settings, or making financial decisions</li>
+<li>Record why the system allowed or blocked each action</li>
+</ul>
+
+<pre><code>if action.risk_level == "high" and not approval.present:
+    block("Human approval required")
+
+if not policy_engine.can_access(user_role, resource_scope):
+    block("Policy violation")
+</code></pre>
+
+<p>A model can recommend. Policy code decides.</p>`,
+      },
+      {
+        title: "Compliance-Aware Architecture",
+        content: `<p>Compliance requirements change system design. They influence where data is stored, how long it is retained, and which model providers you can use.</p>
+
+<p>Architecture questions that should be resolved early:</p>
+<ul>
+<li><strong>Data residency</strong> — where prompts, logs, and retrieved data are stored</li>
+<li><strong>Retention</strong> — what should be deleted, redacted, or archived</li>
+<li><strong>Provider controls</strong> — whether certain workloads may use external APIs</li>
+<li><strong>Segmentation</strong> — whether regulated and non-regulated workloads share infrastructure</li>
+</ul>
+
+<p>Compliance is usually easiest to satisfy when systems are designed around explicit boundaries, not retrofitted after launch.</p>`,
+      },
+      {
+        title: "Review Model Changes Like Product Changes",
+        content: `<p>Model swaps, prompt edits, retrieval changes, and tool additions should follow a release process. Treat them like product behavior changes, because that is what they are.</p>
+
+<ul>
+<li>Version prompts and retrieval logic</li>
+<li>Require review for policy-sensitive changes</li>
+<li>Run regression evaluations before rollout</li>
+<li>Keep rollout, approval, and rollback records</li>
+</ul>
+
+<p>Governance becomes practical when every meaningful change has an owner, a review path, and a rollback plan.</p>`,
+      },
+    ],
+    commonMistakes: [
+      "Assuming moderation alone is enough to satisfy governance requirements",
+      "Storing outputs without retaining prompt, policy, and retrieval version metadata",
+      "Encoding approval policy inside prompts instead of deterministic application logic",
+      "Rolling out model or prompt changes without a review and rollback process",
+      "Treating compliance constraints as deployment details instead of architectural requirements",
+    ],
+    nextSteps: [
+      { title: "Guardrails & Safety", href: "/guides/guardrails" },
+      { title: "Human-in-the-Loop Design", href: "/concepts/human-in-the-loop-design" },
+      { title: "Auth, Tenancy & Data Boundaries", href: "/concepts/auth-tenancy-data-boundaries" },
+    ],
+  },
+
+  // ──────────────────────────────────────────────────────────────
+  // 13. Dataset & Prompt Versioning
+  // ──────────────────────────────────────────────────────────────
+  {
+    slug: "dataset-prompt-versioning",
+    title: "Dataset & Prompt Versioning",
+    description:
+      "Version prompts, evaluation datasets, and retrieval logic so GenAI behavior changes are reviewable, testable, and reproducible.",
+    difficulty: "advanced",
+    time: "18 min",
+    prerequisites: [
+      "Familiarity with evaluation, testing, and prompt engineering",
+      "Basic understanding of CI/CD workflows",
+      "Recommended: Evaluation & Testing guide",
+    ],
+    whatYoullLearn: [
+      "What should be versioned in a GenAI system",
+      "How to keep prompt changes reproducible and reviewable",
+      "How evaluation datasets should evolve without hiding regressions",
+      "How to connect versioning to rollout and rollback decisions",
+    ],
+    sections: [
+      {
+        title: "Version More Than the Prompt Text",
+        content: `<p>Teams often say they “version prompts,” but the real behavior of a GenAI system depends on much more:</p>
+
+<ul>
+<li>System prompt and tool instructions</li>
+<li>Few-shot examples</li>
+<li>Output schema</li>
+<li>Retrieval chunking and ranking logic</li>
+<li>Evaluation datasets and scoring rules</li>
+<li>Tool behavior and fallback policy</li>
+</ul>
+
+<p>If any of those change, the system changed.</p>`,
+      },
+      {
+        title: "Prompt Versioning in Practice",
+        content: `<p>Prompts should have stable identifiers and a visible change history. Avoid unnamed prompt edits inside application code with no traceability.</p>
+
+<pre><code>prompts/
+  support/
+    triage_v1.md
+    triage_v2.md
+  sales/
+    quote_review_v3.md
+</code></pre>
+
+<p>Each version should record:</p>
+<ul>
+<li>Why the prompt changed</li>
+<li>Which failure mode it addresses</li>
+<li>Which evaluations should improve</li>
+<li>Who approved the rollout</li>
+</ul>`,
+      },
+      {
+        title: "Dataset Versioning and Regression Control",
+        content: `<p>Evaluation datasets are not static forever, but they cannot be edited casually. If tests change at the same time as the system, you can easily hide regressions.</p>
+
+<p>Use separate dataset operations for:</p>
+<ul>
+<li><strong>Additions</strong> — new failure cases discovered in production</li>
+<li><strong>Corrections</strong> — fixes to labels or expected outputs</li>
+<li><strong>Retirements</strong> — removing obsolete scenarios with a documented reason</li>
+</ul>
+
+<pre><code>evals/
+  support-triage/
+    dataset_v4.jsonl
+    rubric_v4.md
+    changelog.md
+</code></pre>
+
+<p>The dataset should tell a story of what the team learned, not just provide a pile of examples.</p>`,
+      },
+      {
+        title: "Tie Versions to Releases",
+        content: `<p>A release should point to a complete behavior snapshot. That means linking prompt versions, dataset versions, retrieval settings, and model choices to the deployed build.</p>
+
+<pre><code>{
+  "release": "2026.04.12",
+  "prompt_version": "support_triage_v7",
+  "dataset_version": "support_eval_v4",
+  "retrieval_config": "kb_chunking_v3",
+  "model_policy": "routing_policy_v2"
+}
+</code></pre>
+
+<p>This is what makes rollback possible. If a change hurts quality, you need to know exactly which bundle of changes went live.</p>`,
+      },
+      {
+        title: "Review and Rollout Workflow",
+        content: `<p>Prompt and dataset changes should follow a review path similar to application code:</p>
+
+<ol>
+<li>Propose a prompt, dataset, or retrieval change</li>
+<li>Run offline evaluation against the current baseline</li>
+<li>Review differences, not just average scores</li>
+<li>Ship gradually if the change is user-visible or policy-sensitive</li>
+<li>Record approval and keep rollback instructions nearby</li>
+</ol>
+
+<p>Versioning only matters if it supports safer change management.</p>`,
+      },
+    ],
+    commonMistakes: [
+      "Versioning the prompt text but not the examples, schema, or retrieval settings that shape behavior",
+      "Updating the evaluation dataset at the same time as the prompt without separating the changes",
+      "Using mutable prompt strings inside code with no review trail",
+      "Comparing only average benchmark scores instead of looking at which cases improved or regressed",
+      "Deploying prompt changes without a release record that links to the evaluated versions",
+    ],
+    nextSteps: [
+      { title: "Evaluation & Testing", href: "/guides/evaluation" },
+      { title: "Prompt Engineering for Agents", href: "/guides/prompt-engineering" },
+      { title: "Governance & Compliance", href: "/guides/governance-compliance" },
+    ],
+  },
 ];
 
 export function getGuideContent(slug: string): GuideContent | undefined {

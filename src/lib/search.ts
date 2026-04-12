@@ -68,13 +68,16 @@ export const searchIndex: SearchItem[] = [
   { title: "Observability & Monitoring", description: "Monitor agents in production", href: "/guides/observability", type: "Guide" },
   { title: "Evaluation & Testing", description: "Test and evaluate agent performance", href: "/guides/evaluation", type: "Guide" },
   { title: "Production Deployment", description: "Ship agents to production", href: "/guides/production-deployment", type: "Guide" },
+  { title: "Cost Engineering", description: "Control GenAI spend with routing, caching, quotas, and attribution", href: "/guides/cost-engineering", type: "Guide" },
+  { title: "Governance & Compliance", description: "Auditability, policy enforcement, approvals, and compliance-aware GenAI design", href: "/guides/governance-compliance", type: "Guide" },
+  { title: "Dataset & Prompt Versioning", description: "Version prompts, evaluation datasets, and retrieval logic so behavior changes stay reproducible", href: "/guides/dataset-prompt-versioning", type: "Guide" },
 
   // Roadmap
   { title: "GenAI Coverage Roadmap", description: "What the hub covers today, what is partial, and what should be added next.", href: "/roadmap", type: "Roadmap" },
   { title: "Implementation Backlog", description: "Prioritized documentation chapters, tasks, and file targets for the next batches.", href: "/roadmap", type: "Roadmap" },
 
   // Learning Paths
-  { title: "Beginner Learning Path", description: "New to AI agents? Go from zero to building your first agent in 2 hours.", href: "/learning-paths/beginner", type: "Learning Path", category: "beginner" },
+  { title: "Beginner Learning Path", description: "New to AI agents? Go from zero to building your first agent with a foundations-first path.", href: "/learning-paths/beginner", type: "Learning Path", category: "beginner" },
   { title: "Python Developer Path", description: "Build powerful agents with Python frameworks like LangGraph, CrewAI, and PydanticAI.", href: "/learning-paths/python", type: "Learning Path", category: "intermediate" },
   { title: "TypeScript Developer Path", description: "Agent development in the TypeScript ecosystem with Vercel AI SDK, Mastra, and CopilotKit.", href: "/learning-paths/typescript", type: "Learning Path", category: "intermediate" },
   { title: "Production Engineer Path", description: "Ship, monitor, and scale AI agents in production environments.", href: "/learning-paths/production", type: "Learning Path", category: "advanced" },

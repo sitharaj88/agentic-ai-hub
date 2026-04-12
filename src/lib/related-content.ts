@@ -160,13 +160,28 @@ const relationshipMap: Record<string, string[]> = {
     "framework:langgraph",
   ],
   "guide:evaluation": [
-    "concept:planning-and-reasoning",
+    "guide:dataset-prompt-versioning",
     "pattern:react",
     "framework:openai-agents-sdk",
   ],
   "guide:production-deployment": [
-    "concept:auth-tenancy-data-boundaries",
+    "guide:cost-engineering",
     "pattern:supervisor",
+    "framework:langgraph",
+  ],
+  "guide:cost-engineering": [
+    "concept:model-selection-routing",
+    "guide:production-deployment",
+    "framework:vercel-ai-sdk",
+  ],
+  "guide:governance-compliance": [
+    "concept:human-in-the-loop-design",
+    "concept:auth-tenancy-data-boundaries",
+    "framework:mcp",
+  ],
+  "guide:dataset-prompt-versioning": [
+    "concept:context-engineering",
+    "guide:evaluation",
     "framework:langgraph",
   ],
 

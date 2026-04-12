@@ -18,60 +18,8 @@ export interface BacklogChapter {
 export const implementationBacklog: BacklogChapter[] = [
   {
     id: "chapter-1",
-    title: "Production Operations Deepening",
-    priority: "next",
-    whyNow:
-      "The production section exists, but several critical operations topics are still only partial. Tightening this area raises the hub’s credibility for production readers.",
-    deliverables: [
-      "Add a dedicated page for Cost Engineering.",
-      "Add Governance & Compliance guidance.",
-      "Add Dataset & Prompt Versioning guidance.",
-    ],
-    tasks: [
-      {
-        title: "Add Cost Engineering as a first-class page",
-        description:
-          "Break cost control out of deployment into a dedicated page covering caching, routing, token budgets, attribution, and spend governance.",
-        fileTargets: [
-          "src/data/concepts.ts or src/data/guide-content.ts",
-          "src/data/concept-content.ts or src/data/guide-content.ts",
-          "src/lib/search.ts",
-          "src/lib/related-content.ts",
-          "src/lib/last-updated.ts",
-          "src/data/topic-map.ts",
-        ],
-      },
-      {
-        title: "Add Governance & Compliance",
-        description:
-          "Cover auditability, approvals, policy enforcement, model governance, and compliance-aware architecture choices.",
-        fileTargets: [
-          "src/data/concepts.ts",
-          "src/data/concept-content.ts",
-          "src/lib/search.ts",
-          "src/lib/related-content.ts",
-          "src/lib/last-updated.ts",
-          "src/data/topic-map.ts",
-        ],
-      },
-      {
-        title: "Add Dataset & Prompt Versioning",
-        description:
-          "Document how evaluation sets, prompts, and retrieval logic should be versioned and reviewed over time.",
-        fileTargets: [
-          "src/data/guide-content.ts or src/data/concept-content.ts",
-          "src/lib/search.ts",
-          "src/lib/related-content.ts",
-          "src/lib/last-updated.ts",
-          "src/data/topic-map.ts",
-        ],
-      },
-    ],
-  },
-  {
-    id: "chapter-2",
     title: "Agent Systems Reliability",
-    priority: "soon",
+    priority: "next",
     whyNow:
       "The hub covers agent patterns well conceptually, but is still lighter on workflow robustness and UI-acting systems.",
     deliverables: [
@@ -120,7 +68,7 @@ export const implementationBacklog: BacklogChapter[] = [
     ],
   },
   {
-    id: "chapter-3",
+    id: "chapter-2",
     title: "Multimodal and Product UX Coverage",
     priority: "soon",
     whyNow:
@@ -158,7 +106,7 @@ export const implementationBacklog: BacklogChapter[] = [
     ],
   },
   {
-    id: "chapter-4",
+    id: "chapter-3",
     title: "Framework Cookbooks and Case Studies",
     priority: "later",
     whyNow:
