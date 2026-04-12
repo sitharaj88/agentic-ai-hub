@@ -11,17 +11,17 @@ const conceptGroups = [
   {
     key: "genai-foundations",
     title: "1. GenAI Foundations",
-    description: "Start with the core mental models: what agents are and how models use tools to interact with real systems.",
+    description: "Start with the core mental models: how models, tools, structure, and context fit together in GenAI systems.",
   },
   {
-    key: "agent-building-blocks",
-    title: "2. Agent Building Blocks",
-    description: "Move into the mechanisms that make agents useful in practice: memory, planning, and reasoning strategies.",
+    key: "application-engineering",
+    title: "2. Application Engineering",
+    description: "Move into the decision frameworks and system components that turn model calls into useful, production-ready applications.",
   },
   {
-    key: "advanced-systems",
-    title: "3. Advanced Systems",
-    description: "Finish with production-oriented architectures and protocols such as RAG, MCP, and multi-agent coordination.",
+    key: "agent-systems",
+    title: "3. Agent Systems",
+    description: "Finish with reasoning and orchestration patterns for multi-step and multi-agent workflows.",
   },
 ] as const;
 
@@ -33,7 +33,7 @@ export default function ConceptsPage() {
           GenAI & Agent Foundations
         </h1>
         <p className="mt-3 max-w-2xl text-lg" style={{ color: "var(--text-secondary)" }}>
-          Learn this hub in order: start with GenAI fundamentals, then the core agent building blocks, then the advanced systems used in production.
+          Learn this hub in order: start with GenAI fundamentals, move into application engineering, then finish with agent-system design.
         </p>
       </div>
 

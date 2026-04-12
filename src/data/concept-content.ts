@@ -1166,7 +1166,285 @@ return draft</code></pre>
   },
 
   // ================================================================
-  // 8. Multi-Agent Systems
+  // 8. Fine-Tuning vs RAG vs Tools vs Workflows
+  // ================================================================
+  {
+    id: "fine-tuning-vs-rag-tools-workflows",
+    title: "Fine-Tuning vs RAG vs Tools vs Workflows",
+    description:
+      "A practical framework for choosing whether to adapt the model, retrieve knowledge, call tools, or design a workflow.",
+    difficulty: "intermediate",
+    sections: [
+      {
+        id: "the-core-decision",
+        title: "The Core Decision",
+        content: `
+<p>Many GenAI teams ask the wrong first question: "Should we fine-tune?" In practice, the real design question is broader: <strong>what kind of system change does this problem require?</strong> Some problems are about missing knowledge. Others are about missing actions. Others are about output structure, workflow control, or domain-specific behavior.</p>
+
+<p>Four common levers solve different classes of problems:</p>
+<ul>
+  <li><strong>Fine-tuning</strong> &mdash; change the model's behavior or style through additional training.</li>
+  <li><strong>RAG</strong> &mdash; inject external knowledge at runtime.</li>
+  <li><strong>Tools</strong> &mdash; let the model query systems or take actions.</li>
+  <li><strong>Workflows</strong> &mdash; add deterministic sequencing, validation, retries, and handoffs around the model.</li>
+</ul>
+
+<p>The strongest systems usually use more than one of these levers, but they should be chosen deliberately rather than by habit.</p>
+`,
+      },
+      {
+        id: "when-each-option-fits",
+        title: "When Each Option Fits",
+        content: `
+<table>
+  <thead>
+    <tr><th>Approach</th><th>Best For</th><th>Weak Fit For</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>Fine-tuning</strong></td><td>Stable style, format, tone, or domain behavior that repeats often</td><td>Frequently changing knowledge</td></tr>
+    <tr><td><strong>RAG</strong></td><td>Up-to-date, organization-specific, or document-heavy knowledge</td><td>Tasks that require acting on external systems</td></tr>
+    <tr><td><strong>Tools</strong></td><td>Live system access, calculations, APIs, transactions, and state changes</td><td>Problems that are purely about writing style or latent knowledge</td></tr>
+    <tr><td><strong>Workflows</strong></td><td>Reliability, approvals, bounded autonomy, retries, and multi-step orchestration</td><td>Problems that could be solved by a single prompt and response</td></tr>
+  </tbody>
+</table>
+
+<p>A simple heuristic:</p>
+<ul>
+  <li>If the model needs <strong>facts</strong>, consider RAG.</li>
+  <li>If the model needs <strong>actions</strong>, consider tools.</li>
+  <li>If the system needs <strong>control</strong>, consider workflows.</li>
+  <li>If the model's <strong>behavior</strong> itself needs to change repeatedly, consider fine-tuning.</li>
+</ul>
+`,
+      },
+      {
+        id: "common-misuse-patterns",
+        title: "Common Misuse Patterns",
+        content: `
+<p>Teams often reach for the wrong lever because it sounds more advanced:</p>
+
+<ul>
+  <li><strong>Using fine-tuning for missing knowledge</strong> &mdash; if the knowledge changes often, retrieval is usually the better answer.</li>
+  <li><strong>Using RAG when the system really needs tools</strong> &mdash; retrieved documentation does not replace live system access.</li>
+  <li><strong>Using a bigger model instead of a workflow</strong> &mdash; stronger models do not remove the need for validation, approvals, or retries.</li>
+  <li><strong>Using tools when deterministic code would be simpler</strong> &mdash; not every API call needs agentic routing.</li>
+</ul>
+
+<p>Most production issues come from solving the wrong layer of the problem rather than from a weak model alone.</p>
+`,
+      },
+      {
+        id: "practical-decision-framework",
+        title: "A Practical Decision Framework",
+        content: `
+<p>Work through these questions in order:</p>
+
+<ol>
+  <li><strong>Is the missing capability knowledge, action, control, or behavior?</strong></li>
+  <li><strong>Does the knowledge change frequently?</strong> If yes, prefer RAG over fine-tuning.</li>
+  <li><strong>Does the system need to read or write live external state?</strong> If yes, use tools.</li>
+  <li><strong>Does the task require approvals, retries, or deterministic sequencing?</strong> If yes, add a workflow layer.</li>
+  <li><strong>Is the desired behavior highly repetitive and stable across many examples?</strong> If yes, fine-tuning may be justified.</li>
+</ol>
+
+<blockquote><p>Fine-tuning changes the model. RAG changes the context. Tools change what the model can do. Workflows change how the system behaves around the model.</p></blockquote>
+`,
+      },
+    ],
+    keyTakeaways: [
+      "Fine-tuning, RAG, tools, and workflows solve different classes of problems.",
+      "Use RAG for changing knowledge, tools for actions, workflows for control, and fine-tuning for repeated behavioral adaptation.",
+      "Many teams overuse fine-tuning when retrieval or workflow design would solve the real issue more directly.",
+      "The right question is not 'which technique is best?' but 'which layer of the system actually needs to change?'",
+      "Strong production systems often combine these approaches, but each should have a clear role.",
+    ],
+    relatedFrameworks: [
+      "llamaindex",
+      "haystack",
+      "langgraph",
+      "openai-agents-sdk",
+      "pydantic-ai",
+    ],
+    relatedPatterns: ["tool-augmented", "react", "supervisor"],
+  },
+
+  // ================================================================
+  // 9. Human-in-the-Loop Design
+  // ================================================================
+  {
+    id: "human-in-the-loop-design",
+    title: "Human-in-the-Loop Design",
+    description:
+      "How to place approvals, escalation points, and review loops into GenAI and agent workflows.",
+    difficulty: "intermediate",
+    sections: [
+      {
+        id: "why-hitl-exists",
+        title: "Why Human-in-the-Loop Exists",
+        content: `
+<p><strong>Human-in-the-loop (HITL)</strong> design means deliberately deciding where a person should review, approve, override, or take over from the system. It is not a sign that the system failed. It is a design choice for managing risk, ambiguity, and accountability.</p>
+
+<p>HITL is especially valuable when:</p>
+<ul>
+  <li>the action has external consequences</li>
+  <li>the answer is uncertain or high-stakes</li>
+  <li>the user expects oversight or auditability</li>
+  <li>the workflow involves policy, legal, financial, or safety constraints</li>
+</ul>
+
+<p>The core question is not "Should a human be involved?" but "At which point in the workflow does human review create the most value with the least friction?"</p>
+`,
+      },
+      {
+        id: "common-hitl-patterns",
+        title: "Common Human-in-the-Loop Patterns",
+        content: `
+<p>Several patterns show up repeatedly in production systems:</p>
+
+<h3>Approval gates</h3>
+<p>The system prepares an action, but a human must approve it before execution. Common for emails, purchases, deletions, or customer-facing changes.</p>
+
+<h3>Escalation by uncertainty</h3>
+<p>If the model is uncertain, low-confidence, or fails validation repeatedly, the task is escalated to a human.</p>
+
+<h3>Review queues</h3>
+<p>The model drafts outputs in bulk and humans review items asynchronously. This is common in content moderation, case triage, and support workflows.</p>
+
+<h3>Exception handling</h3>
+<p>The model handles normal cases automatically, but edge cases are routed to a human operator.</p>
+`,
+      },
+      {
+        id: "where-to-place-review",
+        title: "Where to Place Review",
+        content: `
+<p>Human review can be placed at different points in the workflow:</p>
+
+<ul>
+  <li><strong>Before action</strong> &mdash; highest safety, more friction.</li>
+  <li><strong>After draft generation</strong> &mdash; good for editorial and analytic workflows.</li>
+  <li><strong>After validation failure</strong> &mdash; useful when most cases should stay automated.</li>
+  <li><strong>On random samples</strong> &mdash; useful for quality assurance and calibration.</li>
+</ul>
+
+<p>The placement depends on consequence, reversibility, and expected error cost. If an incorrect action is expensive or irreversible, review should happen earlier.</p>
+`,
+      },
+      {
+        id: "design-principles",
+        title: "Design Principles",
+        content: `
+<ul>
+  <li><strong>Show the human the right evidence</strong> &mdash; approvals should include the draft action, the relevant context, and why the system chose it.</li>
+  <li><strong>Minimize review fatigue</strong> &mdash; do not send humans every low-value decision if thresholds or automation rules can filter them.</li>
+  <li><strong>Capture outcomes</strong> &mdash; approvals, rejections, and edits are valuable evaluation data.</li>
+  <li><strong>Keep override paths simple</strong> &mdash; the operator should be able to reject, edit, escalate, or reroute quickly.</li>
+</ul>
+
+<blockquote><p>The goal of HITL is not to slow the system down. It is to put human attention exactly where the downside of automation is highest.</p></blockquote>
+`,
+      },
+    ],
+    keyTakeaways: [
+      "Human-in-the-loop design is a deliberate control pattern, not just a fallback for weak systems.",
+      "Common patterns include approval gates, uncertainty-based escalation, review queues, and exception handling.",
+      "The best review point depends on consequence, reversibility, and error cost.",
+      "Humans need clear evidence and fast controls, not raw model output with no context.",
+      "Approval and rejection outcomes should feed back into evaluation and system improvement.",
+    ],
+    relatedFrameworks: [
+      "openai-agents-sdk",
+      "claude-agent-sdk",
+      "langgraph",
+      "crewai",
+      "pydantic-ai",
+    ],
+    relatedPatterns: ["supervisor", "tool-augmented", "agent-teams"],
+  },
+
+  // ================================================================
+  // 10. Auth, Tenancy & Data Boundaries
+  // ================================================================
+  {
+    id: "auth-tenancy-data-boundaries",
+    title: "Auth, Tenancy & Data Boundaries",
+    description:
+      "How to design access control, tenant isolation, and data boundaries for production GenAI systems.",
+    difficulty: "intermediate",
+    sections: [
+      {
+        id: "why-boundaries-matter",
+        title: "Why Boundaries Matter",
+        content: `
+<p>GenAI systems often sit close to sensitive information: internal documents, customer data, tickets, source code, account records, and business workflows. That makes <strong>access boundaries</strong> a first-class architectural concern, not an implementation detail.</p>
+
+<p>If your system can access the wrong user's data, the wrong tenant's knowledge base, or the wrong tool permissions, you do not just have a model problem. You have a security and product-trust problem.</p>
+`,
+      },
+      {
+        id: "auth-and-authorization",
+        title: "Authentication vs Authorization",
+        content: `
+<p><strong>Authentication</strong> answers "Who is the caller?" <strong>Authorization</strong> answers "What are they allowed to access or do?" GenAI systems need both.</p>
+
+<ul>
+  <li><strong>Authentication</strong> is typically handled by sessions, OAuth, SSO, API tokens, or service credentials.</li>
+  <li><strong>Authorization</strong> should be enforced at every boundary: retrieval, tool access, action execution, and result visibility.</li>
+</ul>
+
+<p>A common failure mode is authenticating the user correctly but then letting the model query tools or documents using over-broad service credentials.</p>
+`,
+      },
+      {
+        id: "tenant-isolation",
+        title: "Tenant Isolation",
+        content: `
+<p>In multi-tenant systems, each tenant's data, memory, retrieval index, and audit trail should be treated as separate unless there is an explicit and secure reason to share them.</p>
+
+<p>Important boundaries include:</p>
+<ul>
+  <li><strong>Retrieval boundaries</strong> &mdash; document search should be scoped to the correct tenant and sometimes to the correct user.</li>
+  <li><strong>Memory boundaries</strong> &mdash; saved state and history should not leak between tenants or workspaces.</li>
+  <li><strong>Tool boundaries</strong> &mdash; tool credentials and accessible actions should be scoped to the correct tenant context.</li>
+  <li><strong>Logging boundaries</strong> &mdash; telemetry and traces may also contain sensitive tenant data.</li>
+</ul>
+`,
+      },
+      {
+        id: "design-practices",
+        title: "Design Practices",
+        content: `
+<ul>
+  <li><strong>Propagate identity through the workflow</strong> &mdash; user and tenant context should be available at retrieval and tool-execution time.</li>
+  <li><strong>Scope credentials narrowly</strong> &mdash; do not let the model operate through admin-level tokens by default.</li>
+  <li><strong>Filter before retrieval results reach the model</strong> &mdash; do not depend on prompt instructions alone to prevent leakage.</li>
+  <li><strong>Separate system memory by boundary</strong> &mdash; sessions, workspaces, and organizations should map to explicit storage scopes.</li>
+  <li><strong>Audit sensitive actions</strong> &mdash; accesses, approvals, and side effects should be logged with actor and tenant context.</li>
+</ul>
+
+<p>In practice, safe GenAI systems treat authorization as a property of the <strong>application architecture</strong>, not of the model.</p>
+`,
+      },
+    ],
+    keyTakeaways: [
+      "GenAI systems need strong identity and data boundaries because they often sit close to sensitive tools and information.",
+      "Authentication proves who the caller is; authorization determines what data and actions they can access.",
+      "Tenant isolation must apply to retrieval, memory, tools, and logs, not just to the user-facing UI.",
+      "Do not rely on prompts to enforce access control; enforce boundaries before data reaches the model.",
+      "Identity, scope, and auditability should travel with the workflow end-to-end.",
+    ],
+    relatedFrameworks: [
+      "mcp",
+      "pydantic-ai",
+      "langgraph",
+      "vercel-ai-sdk",
+      "google-adk",
+    ],
+    relatedPatterns: ["tool-augmented", "supervisor", "agent-teams"],
+  },
+
+  // ================================================================
+  // 11. Multi-Agent Systems
   // ================================================================
   {
     id: "multi-agent-systems",
