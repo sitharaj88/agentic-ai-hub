@@ -19,6 +19,7 @@ const TYPE_CONFIG: Record<
   Concept: { label: "Concept", bg: "rgba(59,130,246,0.15)", text: "rgb(59,130,246)" },
   Pattern: { label: "Pattern", bg: "rgba(168,85,247,0.15)", text: "rgb(168,85,247)" },
   Guide: { label: "Guide", bg: "rgba(34,197,94,0.15)", text: "rgb(34,197,94)" },
+  Roadmap: { label: "Roadmap", bg: "rgba(14,165,233,0.15)", text: "rgb(14,165,233)" },
   Tool: { label: "Tool", bg: "rgba(245,158,11,0.15)", text: "rgb(245,158,11)" },
   Glossary: { label: "Glossary", bg: "rgba(236,72,153,0.15)", text: "rgb(236,72,153)" },
   Ecosystem: { label: "Ecosystem", bg: "rgba(20,184,166,0.15)", text: "rgb(20,184,166)" },
@@ -39,6 +40,7 @@ function TypeIcon({ type }: { type: SearchItem["type"] }) {
       return <GraduationCap size={size} style={style} />;
     case "Framework":
       return <Cpu size={size} style={style} />;
+    case "Roadmap":
     case "Pattern":
       return <Route size={size} style={style} />;
     default:
@@ -66,6 +68,7 @@ function groupResults(items: SearchItem[]): { type: SearchItem["type"]; items: S
     "Concept",
     "Pattern",
     "Guide",
+    "Roadmap",
     "Ecosystem",
     "Learning Path",
     "Tool",

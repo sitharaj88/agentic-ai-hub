@@ -7,6 +7,7 @@ const footerNav = [
     heading: "Learn",
     links: [
       { label: "Foundations", href: "/concepts" },
+      { label: "Coverage Roadmap", href: "/roadmap" },
       { label: "Design Patterns", href: "/patterns" },
       { label: "Glossary", href: "/glossary" },
       { label: "Learning Paths", href: "/learning-paths/beginner" },

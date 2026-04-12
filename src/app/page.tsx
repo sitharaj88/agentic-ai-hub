@@ -173,6 +173,69 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ===== COVERAGE ROADMAP ===== */}
+      <section
+        className="border-y py-16 sm:py-20"
+        style={{ borderColor: "var(--border)", backgroundColor: "var(--bg-secondary)" }}
+      >
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <div className="mb-10 flex items-end justify-between">
+            <div>
+              <h2 className="text-3xl font-bold" style={{ color: "var(--text-primary)" }}>
+                Coverage Roadmap
+              </h2>
+              <p className="mt-3 max-w-3xl text-lg" style={{ color: "var(--text-secondary)" }}>
+                See what the hub already covers well, which topics are only partial today, and what should be added next for modern GenAI development.
+              </p>
+            </div>
+            <Link
+              href="/roadmap"
+              className="hidden items-center gap-1 text-sm font-medium text-accent hover:underline sm:flex"
+            >
+              Open roadmap <ArrowRight size={14} />
+            </Link>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-4">
+            {[
+              {
+                title: "GenAI Foundations",
+                desc: "Models, tools, prompting, structured outputs, and context design.",
+              },
+              {
+                title: "Application Engineering",
+                desc: "RAG, memory, MCP, human review, UX, and product architecture.",
+              },
+              {
+                title: "Agent Systems",
+                desc: "Reasoning, orchestration, multi-agent collaboration, and workflow reliability.",
+              },
+              {
+                title: "Production Operations",
+                desc: "Guardrails, evals, observability, deployment, cost, and governance.",
+              },
+            ].map((item) => (
+              <Link
+                key={item.title}
+                href="/roadmap"
+                className="group rounded-2xl border p-5 transition-all hover:-translate-y-0.5 hover:border-accent hover:shadow-md"
+                style={{ backgroundColor: "var(--bg-card)", borderColor: "var(--border)" }}
+              >
+                <h3 className="font-bold" style={{ color: "var(--text-primary)" }}>
+                  {item.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                  {item.desc}
+                </p>
+                <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-accent transition-all group-hover:gap-2">
+                  Explore <ArrowRight size={14} />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ===== CORE CONCEPTS ===== */}
       <section
         className="border-y py-16 sm:py-20"

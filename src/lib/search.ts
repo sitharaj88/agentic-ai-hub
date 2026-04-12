@@ -2,7 +2,7 @@ export interface SearchItem {
   title: string;
   description: string;
   href: string;
-  type: "Framework" | "Concept" | "Pattern" | "Guide" | "Tool" | "Glossary" | "Ecosystem" | "Learning Path";
+  type: "Framework" | "Concept" | "Pattern" | "Guide" | "Roadmap" | "Tool" | "Glossary" | "Ecosystem" | "Learning Path";
   category?: string;
 }
 
@@ -62,6 +62,9 @@ export const searchIndex: SearchItem[] = [
   { title: "Observability & Monitoring", description: "Monitor agents in production", href: "/guides/observability", type: "Guide" },
   { title: "Evaluation & Testing", description: "Test and evaluate agent performance", href: "/guides/evaluation", type: "Guide" },
   { title: "Production Deployment", description: "Ship agents to production", href: "/guides/production-deployment", type: "Guide" },
+
+  // Roadmap
+  { title: "GenAI Coverage Roadmap", description: "What the hub covers today, what is partial, and what should be added next.", href: "/roadmap", type: "Roadmap" },
 
   // Learning Paths
   { title: "Beginner Learning Path", description: "New to AI agents? Go from zero to building your first agent in 2 hours.", href: "/learning-paths/beginner", type: "Learning Path", category: "beginner" },
