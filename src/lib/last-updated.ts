@@ -8,8 +8,11 @@ const lastUpdatedMap: Record<string, string> = {
   // ── Concepts ──────────────────────────────────────────
   "concept:what-are-ai-agents": "2025-06-15",
   "concept:tool-use": "2025-06-15",
+  "concept:model-selection-routing": "2026-04-12",
+  "concept:structured-outputs": "2026-04-12",
   "concept:memory-systems": "2025-06-15",
   "concept:planning-and-reasoning": "2025-06-15",
+  "concept:context-engineering": "2026-04-12",
   "concept:multi-agent-systems": "2025-06-15",
   "concept:model-context-protocol": "2025-06-15",
   "concept:rag": "2025-06-15",

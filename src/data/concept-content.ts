@@ -410,7 +410,226 @@ async function handleToolCalls(toolCalls) {
   },
 
   // ================================================================
-  // 3. Memory Systems
+  // 3. Model Selection & Routing
+  // ================================================================
+  {
+    id: "model-selection-routing",
+    title: "Model Selection & Routing",
+    description:
+      "How to choose the right model for each task and route workloads by capability, latency, and cost.",
+    difficulty: "beginner",
+    sections: [
+      {
+        id: "why-model-choice-matters",
+        title: "Why Model Choice Matters",
+        content: `
+<p>One of the most common GenAI mistakes is treating model choice as a one-time decision. In real systems, different tasks need different models. A lightweight model may be ideal for extraction, classification, or fast routing decisions, while a stronger model may be necessary for synthesis, planning, or ambiguous requests.</p>
+
+<p>The choice affects four outcomes at once:</p>
+<ul>
+  <li><strong>Quality</strong> &mdash; Can the model solve the task reliably?</li>
+  <li><strong>Latency</strong> &mdash; How fast is the end-to-end response?</li>
+  <li><strong>Cost</strong> &mdash; Is the model affordable at production volume?</li>
+  <li><strong>Operational stability</strong> &mdash; Does it produce consistent tool use, valid structure, and predictable behavior?</li>
+</ul>
+
+<p>A practical rule is to avoid asking, "Which model is best?" and instead ask, "Which model is best for this step of this workflow?"</p>
+`,
+      },
+      {
+        id: "decision-criteria",
+        title: "The Main Decision Criteria",
+        content: `
+<p>Model selection should be based on workload-specific criteria rather than provider branding or benchmark headlines alone.</p>
+
+<table>
+  <thead>
+    <tr><th>Criterion</th><th>What to Evaluate</th><th>Operational Impact</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Capability</td><td>Reasoning, instruction-following, tool use, writing quality</td><td>Task success rate</td></tr>
+    <tr><td>Latency</td><td>Average and tail response time</td><td>User experience and throughput</td></tr>
+    <tr><td>Cost</td><td>Input/output token cost and retry overhead</td><td>Margins and scale</td></tr>
+    <tr><td>Context size</td><td>Ability to handle long documents and conversation traces</td><td>Retrieval and memory design</td></tr>
+    <tr><td>Structured reliability</td><td>How often it produces valid schema-constrained output</td><td>Validation and automation safety</td></tr>
+    <tr><td>Tool behavior</td><td>Does it over-call, under-call, or misuse tools?</td><td>Correctness and spend</td></tr>
+  </tbody>
+</table>
+
+<p>The same model can be excellent for one workload and mediocre for another. High-quality selection always depends on the task you are actually running.</p>
+`,
+      },
+      {
+        id: "routing-patterns",
+        title: "Common Routing Patterns",
+        content: `
+<p><strong>Model routing</strong> means selecting models dynamically at runtime instead of hardcoding one model for everything. Common patterns include:</p>
+
+<h3>Complexity-based routing</h3>
+<p>Use smaller models for easy tasks and escalate to stronger models only when the request is ambiguous, high-risk, or multi-step.</p>
+
+<h3>Stage-based routing</h3>
+<p>Use different models for different stages of the workflow: intent classification, retrieval, synthesis, validation, and final response.</p>
+
+<h3>Fallback routing</h3>
+<p>Use a primary model first, then switch to a secondary model if the first one times out, hits rate limits, or fails validation.</p>
+
+<h3>Policy-based routing</h3>
+<p>Route certain requests to models that meet compliance, region, privacy, or deployment requirements.</p>
+
+<pre><code>def choose_model(task):
+    if task.kind in {"classification", "routing", "extraction"}:
+        return "small-fast-model"
+    if task.requires_strong_reasoning or task.risk == "high":
+        return "large-capable-model"
+    return "mid-tier-general-model"</code></pre>
+`,
+      },
+      {
+        id: "operational-best-practices",
+        title: "Operational Best Practices",
+        content: `
+<p>Routing logic should be measured like any other critical production component.</p>
+
+<ul>
+  <li><strong>Track model performance per task type</strong> &mdash; success rate, retries, latency, token usage, and validation failures.</li>
+  <li><strong>Keep routing rules explicit</strong> &mdash; do not bury important routing logic inside prompts.</li>
+  <li><strong>Use escalation thresholds</strong> &mdash; if a smaller model fails validation, escalate rather than forcing it to do everything.</li>
+  <li><strong>Apply task budgets</strong> &mdash; define maximum latency, token, and retry limits per workflow.</li>
+  <li><strong>Revisit decisions regularly</strong> &mdash; model quality, pricing, and behavior change quickly.</li>
+</ul>
+
+<blockquote><p>The best model is not the most capable model in the abstract. It is the one that meets your accuracy, latency, and cost targets for a specific workload.</p></blockquote>
+`,
+      },
+    ],
+    keyTakeaways: [
+      "Model choice should be made per task or workflow stage, not once for the entire system.",
+      "The practical tradeoff is always quality vs latency vs cost vs operational reliability.",
+      "Complexity-based, stage-based, fallback, and policy-based routing are the main production patterns.",
+      "Small models are often sufficient for routing, extraction, and classification; stronger models should be reserved for harder reasoning steps.",
+      "Model-routing policy should be driven by measured workload performance, not only reputation or benchmarks.",
+    ],
+    relatedFrameworks: [
+      "openai-agents-sdk",
+      "claude-agent-sdk",
+      "vercel-ai-sdk",
+      "langgraph",
+      "pydantic-ai",
+    ],
+    relatedPatterns: ["tool-augmented", "react", "supervisor"],
+  },
+
+  // ================================================================
+  // 4. Structured Outputs
+  // ================================================================
+  {
+    id: "structured-outputs",
+    title: "Structured Outputs",
+    description:
+      "Generating validated JSON, typed objects, and schema-constrained results instead of brittle free-form text.",
+    difficulty: "beginner",
+    sections: [
+      {
+        id: "why-structured-outputs",
+        title: "Why Structured Outputs Matter",
+        content: `
+<p>Free-form text is easy for humans to read, but applications often need structured data. If a model response is going to drive automation, populate a UI, call an API, or trigger a business workflow, you usually want <strong>structured outputs</strong> such as JSON, typed objects, or schema-constrained fields.</p>
+
+<p>Structured outputs reduce three common failure modes:</p>
+<ul>
+  <li><strong>Parsing failures</strong> &mdash; the model adds extra prose or changes the format.</li>
+  <li><strong>Field drift</strong> &mdash; keys, enums, or value types vary across runs.</li>
+  <li><strong>Unsafe automation</strong> &mdash; downstream systems act on text that was never validated.</li>
+</ul>
+
+<p>For extraction, classification, tool arguments, routing, and automated decisions, structured outputs should be your default.</p>
+`,
+      },
+      {
+        id: "schema-first-design",
+        title: "Schema-First Design",
+        content: `
+<p>The strongest approach is to define the output shape <strong>before</strong> asking the model to generate it. A good schema specifies:</p>
+
+<ul>
+  <li>Field names and types</li>
+  <li>Required vs optional fields</li>
+  <li>Enum values where possible</li>
+  <li>Descriptions for ambiguous fields</li>
+  <li>Validation constraints for downstream safety</li>
+</ul>
+
+<pre><code>{
+  "type": "object",
+  "properties": {
+    "priority": { "type": "string", "enum": ["low", "medium", "high"] },
+    "requires_human_review": { "type": "boolean" },
+    "summary": { "type": "string" }
+  },
+  "required": ["priority", "requires_human_review", "summary"]
+}</code></pre>
+
+<p>Explicit schemas narrow the output space and make it much easier to reject invalid results automatically.</p>
+`,
+      },
+      {
+        id: "generation-and-validation",
+        title: "Generation and Validation",
+        content: `
+<p>Reliable structured generation usually has two layers:</p>
+
+<ol>
+  <li><strong>Constrain generation</strong> &mdash; use native structured-output or JSON-schema support when your provider offers it.</li>
+  <li><strong>Validate after generation</strong> &mdash; always run the result through application-side validation before trusting it.</li>
+</ol>
+
+<pre><code>result = call_model_with_schema(...)
+parsed = schema_validator.parse(result)
+
+if not parsed.valid:
+    retry_or_escalate()</code></pre>
+
+<p>Even when provider-side structured output works well, application-side validation is still where business rules are enforced.</p>
+`,
+      },
+      {
+        id: "design-guidelines",
+        title: "Design Guidelines",
+        content: `
+<p>Keep schemas simple enough for the model to satisfy reliably:</p>
+
+<ul>
+  <li><strong>Prefer shallow schemas first</strong> &mdash; deep nesting is harder to generate and debug.</li>
+  <li><strong>Use enums where possible</strong> &mdash; bounded outputs are more reliable than open-ended strings.</li>
+  <li><strong>Separate reasoning from the final object</strong> &mdash; the object should be small, clean, and typed.</li>
+  <li><strong>Retry intentionally</strong> &mdash; malformed output may deserve a retry, but cap attempts.</li>
+  <li><strong>Log validation failures</strong> &mdash; they reveal prompt, schema, or model weaknesses.</li>
+</ul>
+
+<p>Whenever the model's response is consumed by code rather than a human, structured outputs are usually worth the extra design effort.</p>
+`,
+      },
+    ],
+    keyTakeaways: [
+      "Use structured outputs whenever model results feed tools, code, or downstream workflows.",
+      "A schema-first approach improves reliability and makes validation explicit.",
+      "Provider-side output constraints help, but application-side validation is still required.",
+      "Shallow schemas, enums, and clear field descriptions are easier for models to satisfy consistently.",
+      "Validation failures are valuable operational signals, not just parsing annoyances.",
+    ],
+    relatedFrameworks: [
+      "openai-agents-sdk",
+      "pydantic-ai",
+      "vercel-ai-sdk",
+      "langchain",
+      "claude-agent-sdk",
+    ],
+    relatedPatterns: ["tool-augmented", "react", "supervisor"],
+  },
+
+  // ================================================================
+  // 5. Memory Systems
   // ================================================================
   {
     id: "memory-systems",
@@ -839,7 +1058,115 @@ return draft</code></pre>
   },
 
   // ================================================================
-  // 5. Multi-Agent Systems
+  // 7. Context Engineering
+  // ================================================================
+  {
+    id: "context-engineering",
+    title: "Context Engineering",
+    description:
+      "How prompts, retrieved documents, tool results, memory, and instructions are assembled into the model context.",
+    difficulty: "intermediate",
+    sections: [
+      {
+        id: "what-context-engineering-is",
+        title: "What Context Engineering Is",
+        content: `
+<p><strong>Context engineering</strong> is the practice of deciding what information a model sees for a given step, in what order, and in what format. It is broader than prompt engineering. Prompting focuses on instructions; context engineering focuses on the <strong>entire input package</strong>: system prompts, user request, retrieved context, memory, examples, tool results, and workflow state.</p>
+
+<p>In modern GenAI systems, output quality often depends less on wording tricks and more on whether the right context was assembled at the right time.</p>
+`,
+      },
+      {
+        id: "main-context-layers",
+        title: "The Main Context Layers",
+        content: `
+<p>A useful mental model is to treat context as layered:</p>
+
+<ol>
+  <li><strong>Instruction layer</strong> &mdash; system prompts, role definitions, policies, and formatting rules.</li>
+  <li><strong>Task layer</strong> &mdash; the current user request, explicit constraints, and desired output.</li>
+  <li><strong>Knowledge layer</strong> &mdash; retrieved documents, tool documentation, memory, and examples.</li>
+  <li><strong>Execution layer</strong> &mdash; intermediate tool results, workflow state, previous decisions, and recent observations.</li>
+</ol>
+
+<p>These layers should not be mixed carelessly. Stable rules belong in instructions; volatile data belongs in execution context.</p>
+`,
+      },
+      {
+        id: "assembly-strategies",
+        title: "Context Assembly Strategies",
+        content: `
+<p>Good context engineering is selective. More tokens do not automatically mean better performance.</p>
+
+<ul>
+  <li><strong>Retrieve only what is relevant</strong> &mdash; rank and filter evidence instead of dumping full documents.</li>
+  <li><strong>Summarize old state</strong> &mdash; long traces should be compacted instead of replayed forever.</li>
+  <li><strong>Localize tool context</strong> &mdash; only include the tool descriptions and examples needed for the current step.</li>
+  <li><strong>Separate raw evidence from synthesis</strong> &mdash; do not blend source snippets with instructions carelessly.</li>
+  <li><strong>Use step-specific prompts</strong> &mdash; retrieval, planning, routing, and synthesis often need different context shapes.</li>
+</ul>
+
+<pre><code>context = [
+  system_instructions,
+  user_request,
+  retrieved_evidence[:k],
+  recent_tool_results,
+  summarized_memory,
+]</code></pre>
+`,
+      },
+      {
+        id: "common-failures",
+        title: "Common Failure Modes",
+        content: `
+<p>Most context failures come from one of four patterns:</p>
+
+<ul>
+  <li><strong>Context overload</strong> &mdash; too much low-value material dilutes important signals.</li>
+  <li><strong>Context omission</strong> &mdash; a critical policy, tool result, or document never makes it into the prompt.</li>
+  <li><strong>Instruction collision</strong> &mdash; system rules, user instructions, and retrieved content conflict.</li>
+  <li><strong>Stale state</strong> &mdash; summaries or memory persist after the task has changed.</li>
+</ul>
+
+<p>The solution is usually architectural, not linguistic: better retrieval, better state compaction, clearer layering, and tighter workflow boundaries.</p>
+`,
+      },
+      {
+        id: "production-practices",
+        title: "Production Practices",
+        content: `
+<p>In production systems, context engineering should be observable and testable:</p>
+
+<ul>
+  <li><strong>Log context assembly decisions</strong> &mdash; capture which sources, chunks, summaries, and tool outputs were included.</li>
+  <li><strong>Version prompt and retrieval logic</strong> &mdash; context assembly changes should be traceable like code.</li>
+  <li><strong>Measure context effectiveness</strong> &mdash; track whether longer context actually improves outcomes.</li>
+  <li><strong>Design for compactness</strong> &mdash; context budget is a product constraint, not just a model parameter.</li>
+</ul>
+
+<blockquote><p>Prompt engineering asks, "What should I tell the model?" Context engineering asks, "What should the model know right now, and what should be left out?"</p></blockquote>
+`,
+      },
+    ],
+    keyTakeaways: [
+      "Context engineering is the design of the full model input, not just the wording of prompts.",
+      "Instructions, task details, knowledge, and execution state should be treated as separate context layers.",
+      "Selective context usually outperforms indiscriminate context stuffing.",
+      "Common failures come from overload, omission, instruction collisions, and stale state.",
+      "Production systems should log, version, and evaluate context assembly logic like any other important component.",
+    ],
+    relatedFrameworks: [
+      "langgraph",
+      "llamaindex",
+      "haystack",
+      "langchain",
+      "openai-agents-sdk",
+    ],
+    relatedPatterns: ["react", "tool-augmented", "hierarchical"],
+  },
+
+  // ================================================================
+  // 8. Multi-Agent Systems
   // ================================================================
   {
     id: "multi-agent-systems",

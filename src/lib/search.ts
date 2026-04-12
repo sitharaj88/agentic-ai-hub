@@ -35,8 +35,11 @@ export const searchIndex: SearchItem[] = [
   // Concepts
   { title: "What Are AI Agents?", description: "Understanding autonomous AI systems", href: "/concepts/what-are-ai-agents", type: "Concept" },
   { title: "Tool Use & Function Calling", description: "How agents interact with external tools", href: "/concepts/tool-use", type: "Concept" },
+  { title: "Model Selection & Routing", description: "Choosing the right model for each task and routing workloads intelligently", href: "/concepts/model-selection-routing", type: "Concept" },
+  { title: "Structured Outputs", description: "Schema-constrained generation and validation for reliable automation", href: "/concepts/structured-outputs", type: "Concept" },
   { title: "Memory Systems", description: "Short-term, long-term, and episodic agent memory", href: "/concepts/memory-systems", type: "Concept" },
   { title: "Planning & Reasoning", description: "CoT, ReAct, Tree of Thought, and more", href: "/concepts/planning-and-reasoning", type: "Concept" },
+  { title: "Context Engineering", description: "Assembling the right context for each model step", href: "/concepts/context-engineering", type: "Concept" },
   { title: "Multi-Agent Systems", description: "Coordinating multiple AI agents", href: "/concepts/multi-agent-systems", type: "Concept" },
   { title: "Model Context Protocol", description: "The open standard for LLM integrations", href: "/concepts/model-context-protocol", type: "Concept" },
   { title: "RAG & Agentic RAG", description: "Retrieval-augmented generation for agents", href: "/concepts/rag", type: "Concept" },

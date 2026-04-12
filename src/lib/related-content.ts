@@ -30,6 +30,16 @@ const relationshipMap: Record<string, string[]> = {
     "pattern:tool-augmented",
     "framework:mcp",
   ],
+  "concept:model-selection-routing": [
+    "guide:choosing-your-stack",
+    "guide:production-deployment",
+    "framework:vercel-ai-sdk",
+  ],
+  "concept:structured-outputs": [
+    "guide:prompt-engineering",
+    "guide:guardrails",
+    "framework:pydantic-ai",
+  ],
   "concept:memory-systems": [
     "guide:choosing-your-stack",
     "pattern:react",
@@ -39,6 +49,11 @@ const relationshipMap: Record<string, string[]> = {
     "guide:prompt-engineering",
     "pattern:hierarchical",
     "framework:openai-agents-sdk",
+  ],
+  "concept:context-engineering": [
+    "guide:prompt-engineering",
+    "guide:evaluation",
+    "framework:langgraph",
   ],
   "concept:multi-agent-systems": [
     "guide:multi-agent-architecture",
@@ -100,7 +115,7 @@ const relationshipMap: Record<string, string[]> = {
     "framework:openai-agents-sdk",
   ],
   "guide:choosing-your-stack": [
-    "concept:what-are-ai-agents",
+    "concept:model-selection-routing",
     "pattern:supervisor",
     "framework:langgraph",
   ],
@@ -115,7 +130,7 @@ const relationshipMap: Record<string, string[]> = {
     "framework:mcp",
   ],
   "guide:prompt-engineering": [
-    "concept:planning-and-reasoning",
+    "concept:structured-outputs",
     "pattern:react",
     "framework:claude-agent-sdk",
   ],
@@ -147,7 +162,7 @@ const relationshipMap: Record<string, string[]> = {
     "pattern:react",
   ],
   "framework:openai-agents-sdk": [
-    "concept:tool-use",
+    "concept:structured-outputs",
     "guide:first-agent",
     "pattern:react",
   ],
@@ -192,7 +207,7 @@ const relationshipMap: Record<string, string[]> = {
     "pattern:react",
   ],
   "framework:pydantic-ai": [
-    "concept:tool-use",
+    "concept:structured-outputs",
     "guide:guardrails",
     "pattern:tool-augmented",
   ],
@@ -212,7 +227,7 @@ const relationshipMap: Record<string, string[]> = {
     "pattern:react",
   ],
   "framework:langchain": [
-    "concept:tool-use",
+    "concept:context-engineering",
     "guide:choosing-your-stack",
     "pattern:react",
   ],

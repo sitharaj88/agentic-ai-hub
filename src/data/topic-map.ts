@@ -42,17 +42,20 @@ export const topicMap: TopicMapSection[] = [
       {
         title: "Model Selection & Routing",
         description: "How to choose models by capability, latency, cost, and reliability, then route workloads between them.",
-        status: "planned",
+        status: "covered",
+        href: "/concepts/model-selection-routing",
       },
       {
         title: "Structured Outputs",
         description: "Schema-first generation, validation, typed results, and constrained output patterns.",
-        status: "planned",
+        status: "covered",
+        href: "/concepts/structured-outputs",
       },
       {
         title: "Context Engineering",
         description: "How prompts, retrieved context, tool results, and memory should be assembled for each run.",
-        status: "planned",
+        status: "covered",
+        href: "/concepts/context-engineering",
       },
       {
         title: "Multimodal GenAI",
