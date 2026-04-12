@@ -107,6 +107,22 @@ export const concepts: Concept[] = [
     group: "agent-systems",
   },
   {
+    id: "workflow-reliability",
+    title: "Workflow Reliability",
+    description: "Retries, idempotency, fallback chains, and bounded autonomy for reliable multi-step agent workflows.",
+    icon: "refresh",
+    difficulty: "intermediate",
+    group: "agent-systems",
+  },
+  {
+    id: "computer-use-browser-automation",
+    title: "Computer Use & Browser Automation",
+    description: "When agents should act through user interfaces and what controls those systems require.",
+    icon: "monitor",
+    difficulty: "advanced",
+    group: "agent-systems",
+  },
+  {
     id: "multi-agent-systems",
     title: "Multi-Agent Systems",
     description: "Coordinating multiple AI agents to collaborate, delegate, and solve complex problems together.",

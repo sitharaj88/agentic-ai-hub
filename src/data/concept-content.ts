@@ -1444,7 +1444,210 @@ return draft</code></pre>
   },
 
   // ================================================================
-  // 11. Multi-Agent Systems
+  // 11. Workflow Reliability
+  // ================================================================
+  {
+    id: "workflow-reliability",
+    title: "Workflow Reliability",
+    description:
+      "Retries, idempotency, fallback chains, and bounded autonomy for reliable multi-step agent workflows.",
+    difficulty: "intermediate",
+    sections: [
+      {
+        id: "why-reliability-is-different",
+        title: "Why Workflow Reliability Is Different",
+        content: `
+<p>Reliability in agent systems is not just about whether a single model call succeeds. It is about whether a <strong>multi-step workflow</strong> behaves predictably when models are uncertain, tools fail, data changes, or external systems return partial results.</p>
+
+<p>A workflow can fail in several ways even when the model is "working":</p>
+<ul>
+  <li>the same side effect is triggered twice</li>
+  <li>a fallback path silently degrades quality too far</li>
+  <li>a retry replays an irreversible action</li>
+  <li>a loop keeps spending tokens without making progress</li>
+  <li>a partial failure leaves the system in an inconsistent state</li>
+</ul>
+
+<p>This is why reliability belongs at the workflow layer, not just at the prompt layer.</p>
+`,
+      },
+      {
+        id: "core-controls",
+        title: "Core Reliability Controls",
+        content: `
+<p>Reliable agent workflows usually combine a small set of controls:</p>
+
+<ul>
+  <li><strong>Retries</strong> &mdash; repeat transient failures with backoff.</li>
+  <li><strong>Idempotency</strong> &mdash; make repeated execution safe for external side effects.</li>
+  <li><strong>Fallbacks</strong> &mdash; switch to a weaker or simpler path when the preferred path fails.</li>
+  <li><strong>Timeouts</strong> &mdash; cap how long a step or full run is allowed to continue.</li>
+  <li><strong>Bounded autonomy</strong> &mdash; limit loops, tool calls, and high-risk actions.</li>
+  <li><strong>Compensation logic</strong> &mdash; undo or reconcile partial side effects when later steps fail.</li>
+</ul>
+
+<pre><code>run_workflow(task):
+  with request_budget(max_steps=8, max_tool_calls=5):
+    plan = create_plan(task)
+    for step in plan:
+      result = retry(step.execute, max_attempts=3)
+      if result.is_terminal_failure:
+        return fallback_or_escalate(step, result)
+    return finalize()
+</code></pre>
+`,
+      },
+      {
+        id: "idempotency-and-side-effects",
+        title: "Idempotency and External Side Effects",
+        content: `
+<p>Idempotency matters most when agents interact with real systems: tickets, emails, purchases, CRM updates, infrastructure changes. If a retry can repeat the same side effect, the workflow is unsafe.</p>
+
+<p>Common design practices:</p>
+<ul>
+  <li><strong>Use idempotency keys</strong> for write operations.</li>
+  <li><strong>Separate draft from commit</strong> for high-risk actions.</li>
+  <li><strong>Record state transitions</strong> so retries can resume rather than replay blindly.</li>
+  <li><strong>Detect duplicate intent</strong> before creating a second external action.</li>
+</ul>
+
+<blockquote><p>The safest retry is the one that can prove what has already happened.</p></blockquote>
+`,
+      },
+      {
+        id: "bounded-autonomy",
+        title: "Bounded Autonomy and Failure Recovery",
+        content: `
+<p>Agents should be autonomous, but not unbounded. Reliability improves when the workflow has explicit ceilings and recovery paths.</p>
+
+<p>Useful boundaries include:</p>
+<ul>
+  <li><strong>Maximum loop count</strong> before forced termination</li>
+  <li><strong>Maximum tool depth</strong> before escalation</li>
+  <li><strong>Risk thresholds</strong> that require human approval</li>
+  <li><strong>Fallback chains</strong> that degrade capability in a controlled order</li>
+</ul>
+
+<p>When a workflow cannot complete safely, the best outcome is often a clean handoff to a person or a simpler deterministic path, not another round of free-form reasoning.</p>
+`,
+      },
+    ],
+    keyTakeaways: [
+      "Workflow reliability is about the behavior of the full multi-step system, not just individual model calls.",
+      "Retries, idempotency, timeouts, fallbacks, and bounded autonomy are the core controls.",
+      "External side effects make idempotency and state tracking non-negotiable.",
+      "Reliability improves when workflows can stop, recover, or escalate cleanly.",
+      "Many agent failures are workflow-design failures rather than model-quality failures.",
+    ],
+    relatedFrameworks: [
+      "langgraph",
+      "openai-agents-sdk",
+      "pydantic-ai",
+      "aws-strands",
+      "google-adk",
+    ],
+    relatedPatterns: ["react", "supervisor", "hierarchical"],
+  },
+
+  // ================================================================
+  // 12. Computer Use & Browser Automation
+  // ================================================================
+  {
+    id: "computer-use-browser-automation",
+    title: "Computer Use & Browser Automation",
+    description:
+      "When agents should act through user interfaces and what controls those systems require.",
+    difficulty: "advanced",
+    sections: [
+      {
+        id: "when-ui-acting-makes-sense",
+        title: "When UI-Level Acting Makes Sense",
+        content: `
+<p><strong>Computer use</strong> means the agent acts through the same user interface a person would use: reading screens, clicking buttons, filling forms, and navigating browser or desktop applications. This is most useful when no stable API exists or when the workflow spans multiple human-oriented tools.</p>
+
+<p>Good fits include:</p>
+<ul>
+  <li>legacy internal systems with no programmatic interface</li>
+  <li>cross-application workflows that depend on browser navigation</li>
+  <li>operator-assist systems where a human stays nearby and can intervene</li>
+</ul>
+
+<p>Bad fits include stable, high-volume workflows that already have good APIs. UI acting is usually more fragile and slower than direct integrations.</p>
+`,
+      },
+      {
+        id: "how-these-systems-fail",
+        title: "How These Systems Fail",
+        content: `
+<p>Browser and desktop agents fail differently from API-driven agents:</p>
+
+<ul>
+  <li><strong>UI drift</strong> &mdash; labels, layouts, or selectors change.</li>
+  <li><strong>Ambiguous affordances</strong> &mdash; multiple similar buttons or fields appear.</li>
+  <li><strong>Hidden state</strong> &mdash; popups, auth modals, and partial page loads interrupt the flow.</li>
+  <li><strong>Observability gaps</strong> &mdash; the system knows what it clicked, but not always why it failed.</li>
+</ul>
+
+<p>Because of this, UI-acting agents require stronger recovery logic and tighter permissions than many API-based workflows.</p>
+`,
+      },
+      {
+        id: "guardrails-for-computer-use",
+        title: "Guardrails for Computer Use",
+        content: `
+<p>Safe computer-use systems usually add more constraints than standard tool-calling systems:</p>
+
+<ul>
+  <li><strong>Scope the environment</strong> &mdash; isolated browser profiles, sandboxed desktops, or limited app sets.</li>
+  <li><strong>Limit reachable actions</strong> &mdash; allow only approved domains, screens, or action classes.</li>
+  <li><strong>Insert approval checkpoints</strong> &mdash; especially before sends, purchases, deletes, or irreversible changes.</li>
+  <li><strong>Capture screenshots and action traces</strong> &mdash; so failures can be audited and debugged.</li>
+  <li><strong>Prefer read-only or draft-first modes</strong> where possible.</li>
+</ul>
+
+<pre><code>if action.type in {"purchase", "delete", "send"}:
+  require_human_approval()
+
+if page.domain not in approved_domains:
+  block("Unapproved domain")
+</code></pre>
+`,
+      },
+      {
+        id: "choosing-apis-vs-ui",
+        title: "Choosing APIs vs UI Automation",
+        content: `
+<p>A practical decision rule:</p>
+
+<ul>
+  <li><strong>Use APIs first</strong> when they exist and are stable.</li>
+  <li><strong>Use browser automation</strong> when the workflow must operate across human-only surfaces.</li>
+  <li><strong>Use computer use with humans nearby</strong> when the environment is high-value but brittle.</li>
+</ul>
+
+<p>UI acting is powerful because it reaches places APIs do not. It is risky for the same reason.</p>
+`,
+      },
+    ],
+    keyTakeaways: [
+      "Computer use lets agents act through interfaces when APIs are missing or incomplete.",
+      "UI-acting systems are usually slower, more brittle, and harder to debug than API-driven systems.",
+      "The main risks are UI drift, ambiguous controls, hidden state, and uncontrolled side effects.",
+      "Sandboxing, action limits, screenshots, and approval checkpoints are core controls.",
+      "If a stable API exists, it is usually the better default.",
+    ],
+    relatedFrameworks: [
+      "claude-agent-sdk",
+      "openai-agents-sdk",
+      "google-adk",
+      "ag2",
+      "mastra",
+    ],
+    relatedPatterns: ["tool-augmented", "supervisor", "react"],
+  },
+
+  // ================================================================
+  // 13. Multi-Agent Systems
   // ================================================================
   {
     id: "multi-agent-systems",

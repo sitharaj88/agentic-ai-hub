@@ -74,7 +74,9 @@ const paths: LearningPath[] = [
     steps: [
       { title: "Human-in-the-Loop Design", href: "/concepts/human-in-the-loop-design", time: "12 min", description: "Design approval gates and escalation paths before increasing system autonomy." },
       { title: "Auth, Tenancy & Data Boundaries", href: "/concepts/auth-tenancy-data-boundaries", time: "12 min", description: "Understand the access-control and isolation constraints that matter in real deployments." },
+      { title: "Workflow Reliability", href: "/concepts/workflow-reliability", time: "12 min", description: "Add retries, idempotency, and bounded autonomy before trusting multi-step workflows." },
       { title: "Guardrails & Safety", href: "/guides/guardrails", time: "20 min", description: "Implement safety measures and validation." },
+      { title: "Computer Use & Browser Automation", href: "/concepts/computer-use-browser-automation", time: "12 min", description: "Learn when UI-acting agents are justified and what additional controls they need." },
       { title: "Observability & Monitoring", href: "/guides/observability", time: "20 min", description: "Monitor agent behavior in production." },
       { title: "Evaluation & Testing", href: "/guides/evaluation", time: "20 min", description: "Test and benchmark agent performance." },
       { title: "Dataset & Prompt Versioning", href: "/guides/dataset-prompt-versioning", time: "18 min", description: "Keep prompt, dataset, and retrieval changes reproducible and reviewable." },

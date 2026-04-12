@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Cpu, Wrench, Brain, Route, Users, Plug, Database, Layers, Boxes, Shield } from "lucide-react";
+import { ArrowRight, Cpu, Wrench, Brain, Route, Users, Plug, Database, Layers, Boxes, Shield, RefreshCw, Monitor } from "lucide-react";
 import { DifficultyBadge } from "@/components/ui/Badge";
 import type { Concept } from "@/data/concepts";
 
@@ -14,6 +14,8 @@ const iconMap: Record<string, React.ComponentType<{ size?: number; className?: s
   layers: Layers,
   boxes: Boxes,
   shield: Shield,
+  refresh: RefreshCw,
+  monitor: Monitor,
 };
 
 export function ConceptCard({ concept }: { concept: Concept }) {

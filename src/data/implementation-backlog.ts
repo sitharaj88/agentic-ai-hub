@@ -18,59 +18,8 @@ export interface BacklogChapter {
 export const implementationBacklog: BacklogChapter[] = [
   {
     id: "chapter-1",
-    title: "Agent Systems Reliability",
-    priority: "next",
-    whyNow:
-      "The hub covers agent patterns well conceptually, but is still lighter on workflow robustness and UI-acting systems.",
-    deliverables: [
-      "Expand Workflow Reliability from partial to dedicated coverage.",
-      "Add Computer Use & Browser Automation.",
-      "Strengthen the agent evaluation flywheel story across guides and roadmap.",
-    ],
-    tasks: [
-      {
-        title: "Add Workflow Reliability",
-        description:
-          "Create focused guidance for retries, idempotency, bounded autonomy, compensation logic, and failure recovery.",
-        fileTargets: [
-          "src/data/concepts.ts or src/data/guide-content.ts",
-          "src/data/concept-content.ts or src/data/guide-content.ts",
-          "src/lib/search.ts",
-          "src/lib/related-content.ts",
-          "src/lib/last-updated.ts",
-          "src/data/topic-map.ts",
-        ],
-      },
-      {
-        title: "Add Computer Use & Browser Automation",
-        description:
-          "Cover when to use UI-level agents, how they fail, and the guardrails needed for browser or desktop acting systems.",
-        fileTargets: [
-          "src/data/concepts.ts",
-          "src/data/concept-content.ts",
-          "src/lib/search.ts",
-          "src/lib/related-content.ts",
-          "src/lib/last-updated.ts",
-          "src/data/topic-map.ts",
-        ],
-      },
-      {
-        title: "Strengthen Agent Evaluation Flywheel",
-        description:
-          "Add tighter cross-links and dedicated evaluation-loop guidance connecting dataset design, regression testing, and operational feedback.",
-        fileTargets: [
-          "src/data/guide-content.ts",
-          "src/lib/related-content.ts",
-          "src/data/topic-map.ts",
-          "src/app/roadmap/page.tsx",
-        ],
-      },
-    ],
-  },
-  {
-    id: "chapter-2",
     title: "Multimodal and Product UX Coverage",
-    priority: "soon",
+    priority: "next",
     whyNow:
       "The hub still leans heavily text-first. Adding multimodal and UX guidance makes it more useful for broader GenAI application development.",
     deliverables: [
@@ -106,7 +55,7 @@ export const implementationBacklog: BacklogChapter[] = [
     ],
   },
   {
-    id: "chapter-3",
+    id: "chapter-2",
     title: "Framework Cookbooks and Case Studies",
     priority: "later",
     whyNow:

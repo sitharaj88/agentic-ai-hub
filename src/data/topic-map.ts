@@ -146,18 +146,19 @@ export const topicMap: TopicMapSection[] = [
       {
         title: "Workflow Reliability",
         description: "Retries, fallback chains, idempotency, compensation logic, and bounded autonomy.",
-        status: "partial",
-        href: "/guides/production-deployment",
+        status: "covered",
+        href: "/concepts/workflow-reliability",
       },
       {
         title: "Computer Use & Browser Automation",
         description: "When agents should act through UIs, and the guardrails needed for those systems.",
-        status: "planned",
+        status: "covered",
+        href: "/concepts/computer-use-browser-automation",
       },
       {
         title: "Agent Evaluation Flywheel",
         description: "How agent behavior improves through datasets, regression tests, reviews, and operational feedback.",
-        status: "partial",
+        status: "covered",
         href: "/guides/evaluation",
       },
     ],

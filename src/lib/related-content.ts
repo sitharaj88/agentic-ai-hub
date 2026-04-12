@@ -65,6 +65,16 @@ const relationshipMap: Record<string, string[]> = {
     "pattern:hierarchical",
     "framework:openai-agents-sdk",
   ],
+  "concept:workflow-reliability": [
+    "guide:production-deployment",
+    "guide:evaluation",
+    "framework:langgraph",
+  ],
+  "concept:computer-use-browser-automation": [
+    "guide:guardrails",
+    "pattern:tool-augmented",
+    "framework:claude-agent-sdk",
+  ],
   "concept:context-engineering": [
     "guide:prompt-engineering",
     "guide:evaluation",
@@ -150,7 +160,7 @@ const relationshipMap: Record<string, string[]> = {
     "framework:claude-agent-sdk",
   ],
   "guide:guardrails": [
-    "concept:human-in-the-loop-design",
+    "concept:computer-use-browser-automation",
     "pattern:supervisor",
     "framework:pydantic-ai",
   ],
@@ -161,12 +171,12 @@ const relationshipMap: Record<string, string[]> = {
   ],
   "guide:evaluation": [
     "guide:dataset-prompt-versioning",
-    "pattern:react",
+    "concept:workflow-reliability",
     "framework:openai-agents-sdk",
   ],
   "guide:production-deployment": [
     "guide:cost-engineering",
-    "pattern:supervisor",
+    "concept:workflow-reliability",
     "framework:langgraph",
   ],
   "guide:cost-engineering": [

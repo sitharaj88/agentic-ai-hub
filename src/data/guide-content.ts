@@ -2170,6 +2170,7 @@ def check_alerts(metrics: dict) -> list[AlertRule]:
       "Key metrics: accuracy, latency, cost, and tool-use correctness",
       "Building benchmark suites and regression tests",
       "Integrating agent evaluation into CI/CD pipelines",
+      "How to turn evaluation results into a feedback loop that improves agent behavior over time",
     ],
     sections: [
       {
@@ -2401,6 +2402,31 @@ def run_benchmark(test_cases: list[dict], agent_fn) -> dict:
 </code></pre>`,
       },
       {
+        title: "The Agent Evaluation Flywheel",
+        content: `<p>Good evaluation systems are not static test suites. They form a <strong>flywheel</strong>:</p>
+
+<ol>
+<li><strong>Observe production behavior</strong> &mdash; review traces, failures, edits, escalations, and user complaints.</li>
+<li><strong>Turn failures into dataset cases</strong> &mdash; add real misses, not just synthetic examples.</li>
+<li><strong>Run regression and targeted evaluations</strong> &mdash; verify whether the change improved the exact failure mode.</li>
+<li><strong>Ship with instrumentation</strong> &mdash; watch whether the improvement holds in real usage.</li>
+<li><strong>Repeat</strong> &mdash; every failure becomes input to the next version of the system.</li>
+</ol>
+
+<p>This is what separates one-off benchmarks from a real improvement loop. The goal is not just to measure the agent once; it is to make the system learn from operational feedback.</p>
+
+<p>High-signal inputs to the flywheel include:</p>
+<ul>
+<li>human overrides and manual edits</li>
+<li>failed approval requests</li>
+<li>tool-call errors and repeated retries</li>
+<li>high-cost or high-latency outliers</li>
+<li>cases where users re-ask or abandon the workflow</li>
+</ul>
+
+<blockquote><p>An evaluation suite becomes a flywheel when production mistakes are converted into versioned tests that prevent the same class of failure from shipping again.</p></blockquote>`,
+      },
+      {
         title: "CI/CD Integration",
         content: `<p>Add agent evaluation to your CI/CD pipeline. Here is a GitHub Actions example:</p>
 
@@ -2453,7 +2479,7 @@ jobs:
     nextSteps: [
       { title: "Production Deployment", href: "/guides/production-deployment" },
       { title: "Observability & Monitoring", href: "/guides/observability" },
-      { title: "Guardrails & Safety", href: "/guides/guardrails" },
+      { title: "Dataset & Prompt Versioning", href: "/guides/dataset-prompt-versioning" },
     ],
   },
 

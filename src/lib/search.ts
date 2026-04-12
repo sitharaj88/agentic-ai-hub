@@ -42,6 +42,8 @@ export const searchIndex: SearchItem[] = [
   { title: "Auth, Tenancy & Data Boundaries", description: "Access control, tenant isolation, and data-boundary design for production GenAI systems", href: "/concepts/auth-tenancy-data-boundaries", type: "Concept" },
   { title: "Memory Systems", description: "Short-term, long-term, and episodic agent memory", href: "/concepts/memory-systems", type: "Concept" },
   { title: "Planning & Reasoning", description: "CoT, ReAct, Tree of Thought, and more", href: "/concepts/planning-and-reasoning", type: "Concept" },
+  { title: "Workflow Reliability", description: "Retries, idempotency, fallback chains, and bounded autonomy for reliable agent workflows", href: "/concepts/workflow-reliability", type: "Concept" },
+  { title: "Computer Use & Browser Automation", description: "When agents should act through interfaces and what controls those systems require", href: "/concepts/computer-use-browser-automation", type: "Concept" },
   { title: "Context Engineering", description: "Assembling the right context for each model step", href: "/concepts/context-engineering", type: "Concept" },
   { title: "Multi-Agent Systems", description: "Coordinating multiple AI agents", href: "/concepts/multi-agent-systems", type: "Concept" },
   { title: "Model Context Protocol", description: "The open standard for LLM integrations", href: "/concepts/model-context-protocol", type: "Concept" },
