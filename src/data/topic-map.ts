@@ -91,13 +91,14 @@ export const topicMap: TopicMapSection[] = [
       {
         title: "Fine-Tuning vs RAG vs Tools vs Workflows",
         description: "A practical decision framework for choosing the right capability layer for a use case.",
-        status: "planned",
+        status: "covered",
+        href: "/concepts/fine-tuning-vs-rag-tools-workflows",
       },
       {
         title: "Human-in-the-Loop Design",
         description: "Approval checkpoints, escalation patterns, and where to keep humans in the control loop.",
-        status: "partial",
-        href: "/guides/guardrails",
+        status: "covered",
+        href: "/concepts/human-in-the-loop-design",
       },
       {
         title: "GenAI Product UX",
@@ -107,7 +108,8 @@ export const topicMap: TopicMapSection[] = [
       {
         title: "Auth, Tenancy, and Data Boundaries",
         description: "RBAC, tenant isolation, secrets handling, and access control for enterprise GenAI systems.",
-        status: "planned",
+        status: "covered",
+        href: "/concepts/auth-tenancy-data-boundaries",
       },
     ],
   },

@@ -19,7 +19,7 @@ const paths: LearningPath[] = [
     title: "Start Here — Foundations Path",
     description: "New to GenAI and agents? This path takes you from core concepts to a working first agent.",
     difficulty: "beginner",
-    estimatedTime: "2.5 hours",
+    estimatedTime: "3 hours",
     steps: [
       { title: "What Are AI Agents?", href: "/concepts/what-are-ai-agents", time: "10 min", description: "Understand what agents are and how they differ from simple chatbots." },
       { title: "Tool Use & Function Calling", href: "/concepts/tool-use", time: "15 min", description: "Learn how models use tools to interact with the outside world." },
@@ -28,6 +28,7 @@ const paths: LearningPath[] = [
       { title: "Memory Systems", href: "/concepts/memory-systems", time: "15 min", description: "See how agents retain context and persistent knowledge across steps." },
       { title: "Planning & Reasoning", href: "/concepts/planning-and-reasoning", time: "15 min", description: "Discover how agents plan, deliberate, and solve multi-step tasks." },
       { title: "Context Engineering", href: "/concepts/context-engineering", time: "12 min", description: "Understand how prompts, memory, retrieval, and tool results should be assembled." },
+      { title: "Fine-Tuning vs RAG vs Tools vs Workflows", href: "/concepts/fine-tuning-vs-rag-tools-workflows", time: "12 min", description: "Learn how to choose the right system pattern instead of defaulting to a single technique." },
       { title: "Getting Started with Agents", href: "/guides/getting-started", time: "15 min", description: "Tie the fundamentals together before you begin implementing." },
       { title: "Your First Agent in 5 Minutes", href: "/guides/first-agent", time: "20 min", description: "Build a working agent from scratch." },
       { title: "Choosing Your Stack", href: "/guides/choosing-your-stack", time: "10 min", description: "Pick the right framework and runtime for your first project." },
@@ -69,8 +70,10 @@ const paths: LearningPath[] = [
     title: "Production Engineer Path",
     description: "Ship, monitor, and scale AI agents in production environments.",
     difficulty: "advanced",
-    estimatedTime: "2.5 hours",
+    estimatedTime: "3 hours",
     steps: [
+      { title: "Human-in-the-Loop Design", href: "/concepts/human-in-the-loop-design", time: "12 min", description: "Design approval gates and escalation paths before increasing system autonomy." },
+      { title: "Auth, Tenancy & Data Boundaries", href: "/concepts/auth-tenancy-data-boundaries", time: "12 min", description: "Understand the access-control and isolation constraints that matter in real deployments." },
       { title: "Guardrails & Safety", href: "/guides/guardrails", time: "20 min", description: "Implement safety measures and validation." },
       { title: "Observability & Monitoring", href: "/guides/observability", time: "20 min", description: "Monitor agent behavior in production." },
       { title: "Evaluation & Testing", href: "/guides/evaluation", time: "20 min", description: "Test and benchmark agent performance." },

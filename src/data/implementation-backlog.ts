@@ -18,58 +18,6 @@ export interface BacklogChapter {
 export const implementationBacklog: BacklogChapter[] = [
   {
     id: "chapter-1",
-    title: "Application Engineering Expansion",
-    priority: "next",
-    whyNow:
-      "The foundations layer is stronger now, but application-level decision pages are still missing. These topics help developers decide how to design real GenAI systems after the basics.",
-    deliverables: [
-      "Add a dedicated concept page for Fine-Tuning vs RAG vs Tools vs Workflows.",
-      "Add a guide or concept page for Human-in-the-Loop Design.",
-      "Add a concept or guide covering Auth, Tenancy, and Data Boundaries.",
-    ],
-    tasks: [
-      {
-        title: "Add Fine-Tuning vs RAG vs Tools vs Workflows",
-        description:
-          "Create a practical decision framework for choosing the right capability layer for a use case.",
-        fileTargets: [
-          "src/data/concepts.ts",
-          "src/data/concept-content.ts",
-          "src/lib/search.ts",
-          "src/lib/related-content.ts",
-          "src/lib/last-updated.ts",
-          "src/data/topic-map.ts",
-        ],
-      },
-      {
-        title: "Add Human-in-the-Loop Design coverage",
-        description:
-          "Turn the current partial coverage into a dedicated page focused on approvals, escalation, review queues, and safe autonomy boundaries.",
-        fileTargets: [
-          "src/data/guide-content.ts or src/data/concept-content.ts",
-          "src/lib/search.ts",
-          "src/lib/related-content.ts",
-          "src/lib/last-updated.ts",
-          "src/data/topic-map.ts",
-        ],
-      },
-      {
-        title: "Add Auth, Tenancy, and Data Boundaries",
-        description:
-          "Document RBAC, tenant isolation, secrets handling, and enterprise access-control design for GenAI systems.",
-        fileTargets: [
-          "src/data/concepts.ts",
-          "src/data/concept-content.ts",
-          "src/lib/search.ts",
-          "src/lib/related-content.ts",
-          "src/lib/last-updated.ts",
-          "src/data/topic-map.ts",
-        ],
-      },
-    ],
-  },
-  {
-    id: "chapter-2",
     title: "Production Operations Deepening",
     priority: "next",
     whyNow:
@@ -121,7 +69,7 @@ export const implementationBacklog: BacklogChapter[] = [
     ],
   },
   {
-    id: "chapter-3",
+    id: "chapter-2",
     title: "Agent Systems Reliability",
     priority: "soon",
     whyNow:
@@ -172,7 +120,7 @@ export const implementationBacklog: BacklogChapter[] = [
     ],
   },
   {
-    id: "chapter-4",
+    id: "chapter-3",
     title: "Multimodal and Product UX Coverage",
     priority: "soon",
     whyNow:
@@ -210,7 +158,7 @@ export const implementationBacklog: BacklogChapter[] = [
     ],
   },
   {
-    id: "chapter-5",
+    id: "chapter-4",
     title: "Framework Cookbooks and Case Studies",
     priority: "later",
     whyNow:

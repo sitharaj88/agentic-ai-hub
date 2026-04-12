@@ -28,7 +28,7 @@ Whether you are picking your first framework or designing a multi-agent system f
 
 ## Features
 
-- **10 Foundation Topics** — Deep-dives with code examples, academic citations, and key takeaways
+- **13 Foundation Topics** — Deep-dives with code examples, academic citations, and key takeaways
 - **22+ Frameworks** — LangGraph, CrewAI, Claude Agent SDK, OpenAI Agents SDK, AutoGen, and more
 - **6 Design Patterns** — ReAct, Supervisor, Peer Collaboration, and others with pseudocode
 - **12 Step-by-step Guides** — Getting started to production deployment
@@ -76,7 +76,7 @@ agentic-ai-hub/
 │   │   ├── seo/                # JSON-LD, meta helpers
 │   │   └── ui/                 # Shared UI primitives (Badge, SearchModal…)
 │   ├── data/                   # All content as TypeScript data files
-│   │   ├── concept-content.ts  # 10 concepts with full HTML content
+│   │   ├── concept-content.ts  # 13 concepts with full HTML content
 │   │   ├── frameworks.ts       # 22+ framework definitions
 │   │   ├── pattern-content.ts  # 6 design patterns
 │   │   └── guide-content.ts    # 12 guides
@@ -137,7 +137,7 @@ All content lives in `src/data/` as TypeScript files — no CMS, no database, no
 
 | File | Content |
 |---|---|
-| `concept-content.ts` | 10 foundation topics with full HTML sections, code examples, and key takeaways |
+| `concept-content.ts` | 13 foundation topics with full HTML sections, code examples, and key takeaways |
 | `frameworks.ts` | 22+ framework cards with metadata, language, category, and features |
 | `pattern-content.ts` | 6 design patterns with pseudocode, when-to-use, and related patterns |
 | `guide-content.ts` | 12 guides with prerequisites, sections, common mistakes, and next steps |

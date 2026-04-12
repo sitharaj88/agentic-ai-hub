@@ -40,6 +40,21 @@ const relationshipMap: Record<string, string[]> = {
     "guide:guardrails",
     "framework:pydantic-ai",
   ],
+  "concept:fine-tuning-vs-rag-tools-workflows": [
+    "guide:choosing-your-stack",
+    "pattern:tool-augmented",
+    "framework:llamaindex",
+  ],
+  "concept:human-in-the-loop-design": [
+    "guide:guardrails",
+    "pattern:supervisor",
+    "framework:openai-agents-sdk",
+  ],
+  "concept:auth-tenancy-data-boundaries": [
+    "guide:production-deployment",
+    "pattern:tool-augmented",
+    "framework:mcp",
+  ],
   "concept:memory-systems": [
     "guide:choosing-your-stack",
     "pattern:react",
@@ -115,7 +130,7 @@ const relationshipMap: Record<string, string[]> = {
     "framework:openai-agents-sdk",
   ],
   "guide:choosing-your-stack": [
-    "concept:model-selection-routing",
+    "concept:fine-tuning-vs-rag-tools-workflows",
     "pattern:supervisor",
     "framework:langgraph",
   ],
@@ -135,7 +150,7 @@ const relationshipMap: Record<string, string[]> = {
     "framework:claude-agent-sdk",
   ],
   "guide:guardrails": [
-    "concept:planning-and-reasoning",
+    "concept:human-in-the-loop-design",
     "pattern:supervisor",
     "framework:pydantic-ai",
   ],
@@ -150,7 +165,7 @@ const relationshipMap: Record<string, string[]> = {
     "framework:openai-agents-sdk",
   ],
   "guide:production-deployment": [
-    "concept:memory-systems",
+    "concept:auth-tenancy-data-boundaries",
     "pattern:supervisor",
     "framework:langgraph",
   ],
@@ -162,7 +177,7 @@ const relationshipMap: Record<string, string[]> = {
     "pattern:react",
   ],
   "framework:openai-agents-sdk": [
-    "concept:structured-outputs",
+    "concept:human-in-the-loop-design",
     "guide:first-agent",
     "pattern:react",
   ],
@@ -197,7 +212,7 @@ const relationshipMap: Record<string, string[]> = {
     "pattern:peer-collaboration",
   ],
   "framework:llamaindex": [
-    "concept:rag",
+    "concept:fine-tuning-vs-rag-tools-workflows",
     "guide:choosing-your-stack",
     "pattern:tool-augmented",
   ],
@@ -209,7 +224,7 @@ const relationshipMap: Record<string, string[]> = {
   "framework:pydantic-ai": [
     "concept:structured-outputs",
     "guide:guardrails",
-    "pattern:tool-augmented",
+    "concept:human-in-the-loop-design",
   ],
   "framework:agno": [
     "concept:multi-agent-systems",
@@ -257,7 +272,7 @@ const relationshipMap: Record<string, string[]> = {
     "pattern:react",
   ],
   "framework:mcp": [
-    "concept:model-context-protocol",
+    "concept:auth-tenancy-data-boundaries",
     "guide:building-mcp-servers",
     "pattern:tool-augmented",
   ],
