@@ -16,17 +16,18 @@ interface LearningPath {
 const paths: LearningPath[] = [
   {
     slug: "beginner",
-    title: "Start Here — Beginner Path",
-    description: "New to AI agents? This path takes you from zero to building your first agent.",
+    title: "Start Here — Foundations Path",
+    description: "New to GenAI and agents? This path takes you from core concepts to a working first agent.",
     difficulty: "beginner",
     estimatedTime: "2 hours",
     steps: [
       { title: "What Are AI Agents?", href: "/concepts/what-are-ai-agents", time: "10 min", description: "Understand what agents are and how they differ from simple chatbots." },
-      { title: "Tool Use & Function Calling", href: "/concepts/tool-use", time: "15 min", description: "Learn how agents interact with the outside world." },
-      { title: "Planning & Reasoning", href: "/concepts/planning-and-reasoning", time: "15 min", description: "Discover how agents think step-by-step to solve problems." },
+      { title: "Tool Use & Function Calling", href: "/concepts/tool-use", time: "15 min", description: "Learn how models use tools to interact with the outside world." },
+      { title: "Memory Systems", href: "/concepts/memory-systems", time: "15 min", description: "See how agents retain context and persistent knowledge across steps." },
+      { title: "Planning & Reasoning", href: "/concepts/planning-and-reasoning", time: "15 min", description: "Discover how agents plan, deliberate, and solve multi-step tasks." },
+      { title: "Getting Started with Agents", href: "/guides/getting-started", time: "15 min", description: "Tie the fundamentals together before you begin implementing." },
       { title: "Your First Agent in 5 Minutes", href: "/guides/first-agent", time: "20 min", description: "Build a working agent from scratch." },
-      { title: "Choosing Your Stack", href: "/guides/choosing-your-stack", time: "15 min", description: "Pick the right framework for your needs." },
-      { title: "Getting Started Guide", href: "/guides/getting-started", time: "30 min", description: "Deep dive into agent development fundamentals." },
+      { title: "Choosing Your Stack", href: "/guides/choosing-your-stack", time: "10 min", description: "Pick the right framework and runtime for your first project." },
     ],
   },
   {

@@ -6,6 +6,7 @@ export interface Concept {
   description: string;
   icon: string;
   difficulty: Difficulty;
+  group: "genai-foundations" | "agent-building-blocks" | "advanced-systems";
 }
 
 export const concepts: Concept[] = [
@@ -15,6 +16,7 @@ export const concepts: Concept[] = [
     description: "Understanding autonomous AI systems that perceive, reason, plan, and act to achieve goals.",
     icon: "cpu",
     difficulty: "beginner",
+    group: "genai-foundations",
   },
   {
     id: "tool-use",
@@ -22,6 +24,7 @@ export const concepts: Concept[] = [
     description: "How agents interact with external tools, APIs, and services to take action in the real world.",
     icon: "wrench",
     difficulty: "beginner",
+    group: "genai-foundations",
   },
   {
     id: "memory-systems",
@@ -29,6 +32,7 @@ export const concepts: Concept[] = [
     description: "Short-term, long-term, and episodic memory architectures that give agents persistent knowledge.",
     icon: "brain",
     difficulty: "intermediate",
+    group: "agent-building-blocks",
   },
   {
     id: "planning-and-reasoning",
@@ -36,6 +40,7 @@ export const concepts: Concept[] = [
     description: "Chain of Thought, ReAct, Tree of Thought, and other reasoning strategies agents use to solve problems.",
     icon: "route",
     difficulty: "intermediate",
+    group: "agent-building-blocks",
   },
   {
     id: "multi-agent-systems",
@@ -43,6 +48,7 @@ export const concepts: Concept[] = [
     description: "Coordinating multiple AI agents to collaborate, delegate, and solve complex problems together.",
     icon: "users",
     difficulty: "advanced",
+    group: "advanced-systems",
   },
   {
     id: "model-context-protocol",
@@ -50,6 +56,7 @@ export const concepts: Concept[] = [
     description: "The open standard that lets LLM applications seamlessly connect to any external data source or tool.",
     icon: "plug",
     difficulty: "intermediate",
+    group: "advanced-systems",
   },
   {
     id: "rag",
@@ -57,5 +64,6 @@ export const concepts: Concept[] = [
     description: "Retrieval-augmented generation and its evolution into agentic systems with hierarchical retrieval.",
     icon: "database",
     difficulty: "intermediate",
+    group: "advanced-systems",
   },
 ];

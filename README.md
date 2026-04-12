@@ -3,7 +3,7 @@
 # Agentic AI Hub
 
 **The definitive open-source guide to AI agent development.**
-Concepts · Frameworks · Patterns · Guides — from first steps to production.
+Foundations · Frameworks · Patterns · Guides — from first steps to production.
 
 [![Live Site](https://img.shields.io/badge/Live%20Site-sitharaj88.github.io-blue?style=for-the-badge&logo=vercel)](https://sitharaj88.github.io/agentic-ai-hub)
 [![GitHub Stars](https://img.shields.io/github/stars/sitharaj88/agentic-ai-hub?style=for-the-badge&logo=github)](https://github.com/sitharaj88/agentic-ai-hub/stargazers)
@@ -28,7 +28,7 @@ Whether you are picking your first framework or designing a multi-agent system f
 
 ## Features
 
-- **7 Core Concepts** — Deep-dives with code examples, academic citations, and key takeaways
+- **7 Foundation Topics** — Deep-dives with code examples, academic citations, and key takeaways
 - **22+ Frameworks** — LangGraph, CrewAI, Claude Agent SDK, OpenAI Agents SDK, AutoGen, and more
 - **6 Design Patterns** — ReAct, Supervisor, Peer Collaboration, and others with pseudocode
 - **12 Step-by-step Guides** — Getting started to production deployment

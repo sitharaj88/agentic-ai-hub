@@ -1,7 +1,7 @@
 export const SITE_CONFIG = {
   name: "Agentic AI Hub",
   description:
-    "The definitive open-source guide to every framework, pattern, and tool for AI agent development.",
+    "The definitive open-source guide to GenAI foundations, agent engineering, and production AI systems.",
   url: "https://sitharaj88.github.io/agentic-ai-hub",
   github: "https://github.com/sitharaj88/agentic-ai-hub",
   author: "Sitharaj Seenivasan",
@@ -11,7 +11,7 @@ export const SITE_CONFIG = {
 } as const;
 
 export const NAV_LINKS = [
-  { label: "Concepts", href: "/concepts" },
+  { label: "Foundations", href: "/concepts" },
   { label: "Frameworks", href: "/frameworks" },
   { label: "Patterns", href: "/patterns" },
   { label: "Guides", href: "/guides" },

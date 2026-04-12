@@ -55,7 +55,7 @@ const learningPaths = [
 
 const stats = [
   { value: `${frameworks.length}`, label: "Frameworks" },
-  { value: `${concepts.length}`, label: "Core Concepts" },
+  { value: `${concepts.length}`, label: "Foundations" },
   { value: `${patterns.length}`, label: "Design Patterns" },
   { value: `${guideContents.length}`, label: "Guides" },
 ];
@@ -94,8 +94,8 @@ export default function HomePage() {
             className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed sm:text-xl"
             style={{ color: "var(--text-secondary)" }}
           >
-            The definitive open-source guide to every framework, pattern, and tool
-            for AI agent development. From first steps to production.
+            Learn GenAI foundations, agent patterns, frameworks, and production
+            operations in one place. Start with fundamentals and work toward real systems.
           </p>
 
           {/* CTAs */}
@@ -131,14 +131,14 @@ export default function HomePage() {
 
       {/* ===== LEARNING PATHS ===== */}
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20">
-        <div className="mb-10 text-center">
-          <h2 className="text-3xl font-bold" style={{ color: "var(--text-primary)" }}>
-            Choose Your Path
-          </h2>
-          <p className="mt-3 text-lg" style={{ color: "var(--text-secondary)" }}>
-            Curated learning journeys for every experience level
-          </p>
-        </div>
+          <div className="mb-10 text-center">
+            <h2 className="text-3xl font-bold" style={{ color: "var(--text-primary)" }}>
+              Choose Your Path
+            </h2>
+            <p className="mt-3 text-lg" style={{ color: "var(--text-secondary)" }}>
+            Curated learning journeys that start with foundations and branch into build and production tracks
+            </p>
+          </div>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {learningPaths.map((path) => {
@@ -182,10 +182,10 @@ export default function HomePage() {
           <div className="mb-10 flex items-end justify-between">
             <div>
               <h2 className="text-3xl font-bold" style={{ color: "var(--text-primary)" }}>
-                Core Concepts
+                Foundations
               </h2>
               <p className="mt-3 text-lg" style={{ color: "var(--text-secondary)" }}>
-                The fundamentals of AI agent development
+                GenAI and agent building blocks, arranged from fundamentals to advanced systems
               </p>
             </div>
             <Link

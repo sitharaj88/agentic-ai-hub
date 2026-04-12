@@ -85,7 +85,7 @@ export default async function ConceptPage({
       <BreadcrumbJsonLd
         items={[
           { name: "Home", href: "/" },
-          { name: "Concepts", href: "/concepts/" },
+          { name: "Foundations", href: "/concepts/" },
           { name: concept.title, href: `/concepts/${slug}/` },
         ]}
       />
@@ -100,7 +100,7 @@ export default async function ConceptPage({
         </Link>
         <span>/</span>
         <Link href="/concepts" className="hover:text-accent">
-          Concepts
+          Foundations
         </Link>
         <span>/</span>
         <span
@@ -400,7 +400,7 @@ export default async function ConceptPage({
                   style={{ color: "var(--text-muted)" }}
                 >
                   <BookOpen size={14} />
-                  All Concepts
+                  All Foundations
                 </Link>
               </div>
             </div>
