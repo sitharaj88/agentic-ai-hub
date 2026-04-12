@@ -454,7 +454,7 @@ export default async function PatternPage({
 
           {/* Edit on GitHub */}
           <div className="not-prose mt-4 flex justify-end">
-            <EditOnGithub filePath={`src/app/patterns/[slug]/page.tsx`} />
+            <EditOnGithub filePath="src/data/pattern-content.ts" />
           </div>
         </article>
         </ProseCodeBlocks>

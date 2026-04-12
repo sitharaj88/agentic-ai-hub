@@ -376,7 +376,7 @@ export default async function ConceptPage({
 
           {/* Edit on GitHub */}
           <div className="not-prose mt-4 flex justify-end">
-            <EditOnGithub filePath={`src/app/concepts/[slug]/page.tsx`} />
+            <EditOnGithub filePath="src/data/concept-content.ts" />
           </div>
         </article>
         </ProseCodeBlocks>

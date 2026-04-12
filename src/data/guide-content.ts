@@ -183,12 +183,15 @@ console.log(text);
 <pre><code>from agents import Agent, Runner, function_tool
 
 @function_tool
-def calculate(expression: str) -> str:
-    """Evaluate a math expression and return the result."""
-    try:
-        return str(eval(expression))
-    except Exception as e:
-        return f"Error: {e}"
+def calculate(operation: str, a: float, b: float) -> str:
+    """Perform a single arithmetic operation safely."""
+    operations = {
+        "add": a + b,
+        "subtract": a - b,
+        "multiply": a * b,
+        "divide": a / b if b != 0 else "Error: division by zero",
+    }
+    return str(operations.get(operation, "Error: unsupported operation"))
 
 agent = Agent(
     name="MathAgent",
@@ -196,7 +199,7 @@ agent = Agent(
     tools=[calculate],
 )
 
-result = Runner.run_sync(agent, "What is 247 * 38 + 19?")
+result = Runner.run_sync(agent, "What is 247 multiplied by 38?")
 print(result.final_output)
 </code></pre>
 
@@ -209,19 +212,23 @@ import { z } from "zod";
 const { text } = await generateText({
   model: anthropic("claude-sonnet-4-20250514"),
   system: "You are a helpful math assistant. Use the calculate tool for arithmetic.",
-  prompt: "What is 247 * 38 + 19?",
+  prompt: "What is 247 multiplied by 38?",
   tools: {
     calculate: tool({
-      description: "Evaluate a math expression and return the result",
+      description: "Perform a single arithmetic operation",
       parameters: z.object({
-        expression: z.string().describe("The math expression to evaluate"),
+        operation: z.enum(["add", "subtract", "multiply", "divide"]),
+        a: z.number(),
+        b: z.number(),
       }),
-      execute: async ({ expression }) => {
-        try {
-          return String(eval(expression));
-        } catch (e) {
-          return "Error: invalid expression";
-        }
+      execute: async ({ operation, a, b }) => {
+        const operations = {
+          add: a + b,
+          subtract: a - b,
+          multiply: a * b,
+          divide: b === 0 ? "Error: division by zero" : a / b,
+        };
+        return String(operations[operation]);
       },
     }),
   },
@@ -233,7 +240,7 @@ console.log(text);
 
 <p>When the agent encounters an arithmetic question, it will call the <code>calculate</code> tool rather than attempting mental math. This is the essence of tool-augmented generation.</p>
 
-<p><strong>Security note:</strong> The <code>eval()</code> function is used here for simplicity. <strong>Never use <code>eval()</code> with untrusted input in production</strong> — it can execute arbitrary code. For production math evaluation, use a safe library like <a href="https://pypi.org/project/simpleeval/">simpleeval</a> (Python) or <a href="https://www.npmjs.com/package/mathjs">mathjs</a> (JavaScript).</p>`,
+<p><strong>Design note:</strong> This example uses explicit, typed parameters instead of evaluating arbitrary user input. That is a much safer default for agent tools, especially in beginner documentation.</p>`,
       },
       {
         title: "Next Steps",
@@ -386,12 +393,15 @@ print(result.final_output)
 <pre><code>from agents import Agent, Runner, function_tool
 
 @function_tool
-def calculate(expression: str) -> str:
-    """Evaluate a math expression and return the result."""
-    try:
-        return str(eval(expression))
-    except Exception as e:
-        return f"Error: {e}"
+def calculate(operation: str, a: float, b: float) -> str:
+    """Perform a single arithmetic operation safely."""
+    operations = {
+        "add": a + b,
+        "subtract": a - b,
+        "multiply": a * b,
+        "divide": a / b if b != 0 else "Error: division by zero",
+    }
+    return str(operations.get(operation, "Error: unsupported operation"))
 
 agent = Agent(
     name="MathAgent",
@@ -399,13 +409,13 @@ agent = Agent(
     tools=[calculate],
 )
 
-result = Runner.run_sync(agent, "What is 247 * 38 + 19?")
+result = Runner.run_sync(agent, "What is 247 multiplied by 38?")
 print(result.final_output)
 </code></pre>
 
 <p>When the agent encounters an arithmetic question, it will call the <code>calculate</code> tool rather than attempting mental math. This is the essence of tool-augmented generation.</p>
 
-<p><strong>Security note:</strong> The <code>eval()</code> function is used here for simplicity. <strong>Never use <code>eval()</code> with untrusted input in production</strong> — it can execute arbitrary code. For production math evaluation, use a safe library like <a href="https://pypi.org/project/simpleeval/">simpleeval</a>.</p>`,
+<p><strong>Design note:</strong> Prefer typed tool arguments like <code>operation</code>, <code>a</code>, and <code>b</code> over passing raw expressions. It is safer, easier to validate, and simpler for beginners to reason about.</p>`,
       },
       {
         title: "Next Steps",
@@ -562,19 +572,23 @@ import { z } from "zod";
 const { text } = await generateText({
   model: anthropic("claude-sonnet-4-20250514"),
   system: "You are a helpful math assistant. Use the calculate tool for arithmetic.",
-  prompt: "What is 247 * 38 + 19?",
+  prompt: "What is 247 multiplied by 38?",
   tools: {
     calculate: tool({
-      description: "Evaluate a math expression and return the result",
+      description: "Perform a single arithmetic operation",
       parameters: z.object({
-        expression: z.string().describe("The math expression to evaluate"),
+        operation: z.enum(["add", "subtract", "multiply", "divide"]),
+        a: z.number(),
+        b: z.number(),
       }),
-      execute: async ({ expression }) => {
-        try {
-          return String(eval(expression));
-        } catch {
-          return "Error: invalid expression";
-        }
+      execute: async ({ operation, a, b }) => {
+        const operations = {
+          add: a + b,
+          subtract: a - b,
+          multiply: a * b,
+          divide: b === 0 ? "Error: division by zero" : a / b,
+        };
+        return String(operations[operation]);
       },
     }),
   },
@@ -586,7 +600,7 @@ console.log(text);
 
 <p>The <code>maxSteps: 5</code> parameter tells the SDK to loop up to 5 times, allowing the agent to call tools and observe results before producing a final answer. When the agent encounters an arithmetic question, it will call the <code>calculate</code> tool rather than attempting mental math.</p>
 
-<p><strong>Security note:</strong> The <code>eval()</code> function is used here for simplicity. <strong>Never use <code>eval()</code> with untrusted input in production</strong> — it can execute arbitrary code. For production math evaluation, use a safe library like <a href="https://www.npmjs.com/package/mathjs">mathjs</a>.</p>
+<p><strong>Design note:</strong> This example keeps the tool schema narrow and typed, which is a safer default than evaluating raw expressions from the model or the user.</p>
 
 <p><strong>Tip:</strong> The top-level <code>await</code> syntax requires running via <code>tsx</code> (which handles this automatically) or setting <code>"type": "module"</code> in your <code>package.json</code>.</p>`,
       },

@@ -4,9 +4,10 @@ import { SITE_CONFIG } from "@/lib/constants";
 import { FrameworkCard } from "@/components/content/FrameworkCard";
 import { ConceptCard } from "@/components/content/ConceptCard";
 import { PatternCard } from "@/components/content/PatternCard";
-import { getFeaturedFrameworks } from "@/data/frameworks";
+import { frameworks, getFeaturedFrameworks } from "@/data/frameworks";
 import { concepts } from "@/data/concepts";
 import { patterns } from "@/data/patterns";
+import { guideContents } from "@/data/guide-content";
 import { WebSiteJsonLd } from "@/components/seo/JsonLd";
 
 const learningPaths = [
@@ -53,10 +54,10 @@ const learningPaths = [
 ];
 
 const stats = [
-  { value: "22+", label: "Frameworks" },
-  { value: "7", label: "Core Concepts" },
-  { value: "6", label: "Design Patterns" },
-  { value: "10", label: "Guides" },
+  { value: `${frameworks.length}`, label: "Frameworks" },
+  { value: `${concepts.length}`, label: "Core Concepts" },
+  { value: `${patterns.length}`, label: "Design Patterns" },
+  { value: `${guideContents.length}`, label: "Guides" },
 ];
 
 export default function HomePage() {
@@ -309,7 +310,7 @@ export default function HomePage() {
 
         <div className="mt-8 text-center">
           <Link href="/guides" className="text-sm font-medium text-accent hover:underline">
-            View all 10 guides <ArrowRight size={14} className="inline" />
+            View all {guideContents.length} guides <ArrowRight size={14} className="inline" />
           </Link>
         </div>
       </section>

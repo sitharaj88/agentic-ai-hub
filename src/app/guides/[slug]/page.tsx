@@ -409,7 +409,7 @@ export default async function GuidePage({
 
           {/* Edit on GitHub */}
           <div className="not-prose mt-4 flex justify-end">
-            <EditOnGithub filePath={`src/app/guides/[slug]/page.tsx`} />
+            <EditOnGithub filePath="src/data/guide-content.ts" />
           </div>
         </article>
         </ProseCodeBlocks>

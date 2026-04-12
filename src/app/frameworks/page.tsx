@@ -27,6 +27,9 @@ export default function FrameworksPage() {
         <p className="mt-3 text-lg" style={{ color: "var(--text-secondary)" }}>
           Explore {frameworks.length}+ frameworks for building AI agents — from Big Tech SDKs to open-source tools and visual platforms.
         </p>
+        <p className="mt-2 text-sm" style={{ color: "var(--text-muted)" }}>
+          Framework metadata such as stars and notable users is an approximate snapshot and may drift as the ecosystem changes.
+        </p>
       </div>
 
       {/* Filter Bar */}

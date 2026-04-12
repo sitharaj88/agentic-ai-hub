@@ -51,6 +51,8 @@ export const searchIndex: SearchItem[] = [
 
   // Guides
   { title: "Getting Started with Agents", description: "Your first steps into agent development", href: "/guides/getting-started", type: "Guide" },
+  { title: "Getting Started with Agents (Python)", description: "Python-focused guide for your first agent", href: "/guides/getting-started-python", type: "Guide" },
+  { title: "Getting Started with Agents (TypeScript)", description: "TypeScript-focused guide for your first agent", href: "/guides/getting-started-typescript", type: "Guide" },
   { title: "Your First Agent in 5 Minutes", description: "Build a working agent quickly", href: "/guides/first-agent", type: "Guide" },
   { title: "Choosing Your Stack", description: "Pick the right framework for your needs", href: "/guides/choosing-your-stack", type: "Guide" },
   { title: "Multi-Agent Architecture", description: "Design multi-agent systems", href: "/guides/multi-agent-architecture", type: "Guide" },

@@ -306,7 +306,7 @@ export default async function FrameworkPage({
 
           {/* Edit on GitHub */}
           <div className="not-prose mt-4 flex justify-end">
-            <EditOnGithub filePath={`src/app/frameworks/[slug]/page.tsx`} />
+            <EditOnGithub filePath="src/data/frameworks.ts" />
           </div>
         </article>
 
